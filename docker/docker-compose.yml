@@ -1,0 +1,58 @@
+version: '3'
+services:
+    apache_rouzig:
+        build: apache
+        container_name: apache_rouzig
+        ports:
+            - 8080:80
+            - 8443:8443
+        volumes:
+            - ./config/vhosts:/etc/apache2/sites-enabled
+            - ../back:/www
+        depends_on:
+            - php_rouzig
+
+    php_rouzig:
+        build: php
+        container_name: php_rouzig
+        volumes:
+            - ../back:/www
+        links:
+            - mysql_rouzig
+
+    #Database container
+    mysql_rouzig:
+        image: mysql:8.0.15
+        container_name: mysql_rouzig
+        command: mysqld --default-authentication-plugin=mysql_native_password
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: rouzig
+            MYSQL_USER: mysql
+            MYSQL_PASSWORD: password
+
+
+    vuejs_rouzig:
+        build:
+            context: ./vuejs
+            dockerfile: Dockerfile
+            args:
+                - YOUR_APP_WEB_HTTP_PORT=8080
+        container_name: vuejs_rouzig
+        ports:
+            - "80:8080"
+            - "8000:8000"  # only needed if using vue-cli UI
+        volumes:
+            - ../front:/www
+        stdin_open: true
+        tty: true
+        environment:
+            # https://cli.vuejs.org/guide/mode-and-env.html#modes
+            # development is used by vue-cli-service serve
+            - NODE_ENV=development
+            # one way for hot reloading ... see above for details
+            - CHOKIDAR_USEPOLLING=true
+            - CHOKIDAR_INTERVAL=100
+            - YOUR_APP_WEB_HTTP_PORT=8080

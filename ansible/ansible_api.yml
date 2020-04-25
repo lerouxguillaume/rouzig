@@ -1,0 +1,27 @@
+- name: Build package
+  hosts: 127.0.0.1
+  connection: local
+  vars_prompt:
+    - name: "version"
+      prompt: "what is the version ?"
+      default: master
+  tasks:
+    - name : check out git repo
+      git: repo=git@github.com:lerouxguillaume/perso.git dest=/tmp/delivery_perso
+    - name: checkout
+      command: chdir=/tmp/delivery_perso git checkout {{ version }}
+    - name: composer install symfony
+      command: chdir=/tmp/delivery_perso/back composer install --no-dev
+    - name: tar back end
+      command: chdir=/tmp/delivery_perso/back tar -hpcvzf /tmp/api.tar.gz --exclude='.svn' --exclude='.git' --exclude='.env' .
+    - name: clean
+      command: chdir=/tmp rm -rf delivery_perso
+- name: Livraison
+  hosts: prod
+  tasks:
+  - name: Copy back tar on prod serveur
+    copy:
+      src: /tmp/api.tar.gz
+      dest: /var/www/api/sources/api.tar.gz
+  - name: untar back
+    command: chdir=/var/www/api/sources tar xzvf api.tar.gz -C ../services
