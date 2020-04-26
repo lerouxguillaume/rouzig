@@ -1,0 +1,18 @@
+{
+  "common": {
+    "french" : "Francais",
+    "breton" : "Breton"
+  },
+  "menu" : {
+    "create-word" : "Créer"
+  },
+  "header": {
+    "title": "Rouzig",
+    "sub-title": "Dictionnaire Francais-Breton"
+  },
+  "search": {
+    "search": "Chercher",
+    "results" : "{nbResults} résultat trouvé |  {nbResults} résultats trouvés",
+    "examples" : "Exemple | Exemples"
+  }
+}

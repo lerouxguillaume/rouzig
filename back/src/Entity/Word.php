@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -14,10 +16,16 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *     shortName="Word",
  * )
  * @ApiFilter(SearchFilter::class, properties={"text" : "ipartial"})
-
  */
-class Word
+class Word extends AbstractWord
 {
+    const STATUS_APPROVED = 'approved';
+    const STATUS_DELETED = 'deleted';
+    const STATUS_PENDING = 'pending';
+
+    const LANGUAGE_BR = 'br';
+    const LANGUAGE_FR = 'fr';
+
     use TimestampableEntity;
 
     /**
@@ -29,46 +37,26 @@ class Word
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
+     * @var Collection
+     * @ORM\ManyToMany(targetEntity="Translation", cascade={"Persist"}, orphanRemoval=true)
+     * @ORM\JoinTable(name="word_translations",
+     *      joinColumns={@ORM\JoinColumn(name="word_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="translation_id", referencedColumnName="id", unique=true)}
+     *      )
      */
-    private $text;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $language;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $translation;
-
-    /**
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $synonym;
+    private $translations;
 
     /**
      * @var int
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $version;
+    private $version = 1;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $status;
+    private $status = Word::STATUS_PENDING;
 
     /**
      * @var User
@@ -77,162 +65,69 @@ class Word
     private $author;
 
     /**
-     * @return int
+     * Word constructor.
      */
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
+
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Word
-     */
-    public function setId(int $id): Word
+    public function getTranslations(): array
     {
-        $this->id = $id;
+        return $this->translations->getValues();
+    }
+
+    public function setTranslations(array $translations): Word
+    {
+        $this->translations = new ArrayCollection($translations);
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getText(): string
+    public function addTranslation(Translation $translation): Word
     {
-        return $this->text;
-    }
-
-    /**
-     * @param string $text
-     * @return Word
-     */
-    public function setText(string $text): Word
-    {
-        $this->text = $text;
+        $this->translations->add($translation);
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLanguage(): string
+    public function removeTransaction(Translation $translation): Word
     {
-        return $this->language;
-    }
-
-    /**
-     * @param string $language
-     * @return Word
-     */
-    public function setLanguage(string $language): Word
-    {
-        $this->language = $language;
+        $this->translations->removeElement($translation);
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     * @return Word
-     */
-    public function setDescription(string $description): Word
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTranslation(): string
-    {
-        return $this->translation;
-    }
-
-    /**
-     * @param string $translation
-     * @return Word
-     */
-    public function setTranslation(string $translation): Word
-    {
-        $this->translation = $translation;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSynonym(): array
-    {
-        return $this->synonym;
-    }
-
-    /**
-     * @param array $synonym
-     * @return Word
-     */
-    public function setSynonym(array $synonym): Word
-    {
-        $this->synonym = $synonym;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
     public function getVersion(): int
     {
         return $this->version;
     }
 
-    /**
-     * @param int $version
-     * @return Word
-     */
     public function setVersion(int $version): Word
     {
         $this->version = $version;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * @param string $status
-     * @return Word
-     */
-    public function setStatus(string $status): Word
+    public function setStatus(?string $status): Word
     {
         $this->status = $status;
         return $this;
     }
 
-    /**
-     * @return User
-     */
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    /**
-     * @param User $author
-     * @return Word
-     */
-    public function setAuthor(User $author): Word
+    public function setAuthor(?User $author): Word
     {
         $this->author = $author;
         return $this;

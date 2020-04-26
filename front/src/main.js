@@ -7,6 +7,7 @@ import {TokenService} from "./services/storage.service";
 import store from './store'
 
 import './assets/custom.scss';
+import i18n from './i18n'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
@@ -24,5 +25,6 @@ ApiService.mount401Interceptor();
 new Vue({
   router,
   store,
-  render: h => h(App),
+  i18n,
+  render: h => h(App)
 }).$mount('#app');

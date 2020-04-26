@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueRouter from "vue-router";
 import {TokenService} from "../services/storage.service";
 import Login from "./pages/Security/Login";
+import WordManager from "./pages/WordManager";
 
 Vue.use(VueRouter);
 
@@ -15,12 +16,14 @@ const router =  new VueRouter({
             component: Home,
             meta: {
                 public: true,  // Allow access to even if not logged in
-                breadcumb: [
-                    {
-                        text: 'Home',
-                        active: true
-                    }
-                ]
+            }
+        },
+        {
+            path: '/word-manager',
+            name: 'wordManager',
+            component: WordManager,
+            meta: {
+                public: true,  // Allow access to even if not logged in
             }
         },
         {

@@ -1,0 +1,18 @@
+{
+  "common": {
+    "french" : "Galleg",
+    "breton" : "Brezhoneg"
+  },
+  "menu" : {
+    "create-word" : "krouiñ"
+  },
+  "header": {
+    "title": "Rouzig",
+    "sub-title": "Geriadur Brezhoneg-galleg"
+  },
+  "search": {
+    "search": "klask",
+    "results" : "{nbResults} disoc'h kavet",
+    "examples" : "Skouer | Skoueriou"
+  }
+}

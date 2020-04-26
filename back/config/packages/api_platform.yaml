@@ -5,3 +5,19 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    collection:
+        pagination:
+            items_per_page: 5
+    formats:
+        jsonld:
+            mime_types:
+                - application/ld+json
+        jsonhal:
+            mime_types:
+                - application/hal+json
+        jsonapi:
+            mime_types:
+                - application/vnd.api+json
+        json:
+            mime_types:
+                - application/json
