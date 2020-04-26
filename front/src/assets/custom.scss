@@ -1,4 +1,6 @@
 // custom.scss
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index.scss';
 
 // Define your variable overrides here
 $body-bg: whitesmoke;

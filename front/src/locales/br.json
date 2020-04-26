@@ -14,5 +14,15 @@
     "search": "klask",
     "results" : "{nbResults} disoc'h kavet",
     "examples" : "Skouer | Skoueriou"
+  },
+  "form" : {
+    "select" : "Dibabit ...",
+    "type" : "",
+    "name" : {
+      "name" : "Anv",
+      "placeholder" : "Skrivit an anv aze"
+    },
+    "description" : "",
+    "description.placeholder": ""
   }
 }

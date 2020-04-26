@@ -1,10 +1,10 @@
 import {Example} from "./Example";
 
-export function Translation(text) {
-    this.text = text;
-    this.language = '';
-    this.type = '';
-    this.description = '';
+export function Translation() {
+    this.text = null;
+    this.language = null;
+    this.type = null;
+    this.description = null;
     this.examples = [];
     this.load = function(object) {
         this.text = object.text;

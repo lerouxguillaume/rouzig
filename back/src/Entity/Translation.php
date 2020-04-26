@@ -21,7 +21,7 @@ class Translation extends AbstractWord
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="Example")
+     * @ORM\ManyToMany(targetEntity="Example", cascade={"PERSIST"}, orphanRemoval=true)
      * @ORM\JoinTable(name="translation_examples",
      *      joinColumns={@ORM\JoinColumn(name="translations_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="example_id", referencedColumnName="id", unique=true)}
@@ -46,6 +46,12 @@ class Translation extends AbstractWord
     public function getExamples(): array
     {
         return $this->examples->getValues();
+    }
+
+    public function setExamples(array $examples): Translation
+    {
+        $this->examples = new ArrayCollection($examples);
+        return $this;
     }
 
     public function addExample(Example $example): Translation

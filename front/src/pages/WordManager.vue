@@ -2,40 +2,34 @@
     <div class="word-manager-container">
         <div class="row">
             <div class="input" role="group">
-                <label for="text-input">Name:</label>
-                <input id="text-input" v-model="word.text" placeholder="Enter your name" @change="search">
+                <label for="text-input">{{ $t('form.word-name.label') }}:</label>
+                <b-input id="text-input" v-model="word.text" :placeholder="$t('form.word-name.placeholder')" @change="search" trim></b-input>
             </div>
             <div class="input">
-                <label for="language-input">Name:</label>
-                <b-form-select id="language-input" v-model="word.language" :options="languageOptions" trim></b-form-select>
-            </div>
-            <div class="input">
-                <label for="option-input">Name:</label>
+                <label for="option-input">{{ $t('form.type.label') }}</label>
                 <b-form-select  id="option-input" v-model="word.type" :options="typeOptions" trim></b-form-select>
             </div>
+            <div class="input">
+                <label for="language-input">{{ $t('form.word-language.label') }} : </label>
+                <b-form-select id="language-input" v-model="word.language" :options="languageOptions" trim></b-form-select>
+            </div>
         </div>
-        <div class="transactions-form-container">
-            <TanslationForm
-                    v-for="(translation, index) in word.translations"
-                    :key="index"
-                    :translation="translation"
-            ></TanslationForm>
-            <button type="button" @click="addTransaction"></button>
+        <TranslationsForm :translations="word.translations"></TranslationsForm>
+        <div class="submit-button-container">
+            <b-button variant="primary" type="submit" class="submit-button" @click="submit">{{ $t('form.submit') }}</b-button>
         </div>
-
-        <button type="submit" @click="submit"></button>
     </div>
 </template>
 
 <script>
     import ApiService from "../../services/api.service";
     import {Definition} from "../entities/Definition";
-    import TanslationForm from "../components/Form/TanslationForm";
-    import {Translation} from "../entities/Translation";
+    import TranslationsForm from "../components/TranslationsForm";
+    import {Languages, Types} from "../utils/enum";
 
     export default {
         name: "WordManager",
-        components: {TanslationForm},
+        components: {TranslationsForm},
         data() {
             return {
                 'word' : new Definition(),
@@ -43,19 +37,10 @@
         },
         computed : {
             languageOptions() {
-                return [
-                    { value: null, text: 'Please select an option' },
-                    { value: 'br', text: this.$t('common.breton') },
-                    { value: 'fr', text: this.$t('common.french') },
-                ]
+                return Languages();
             },
             typeOptions() {
-                return [
-                    { value: null, text: 'Please select an option' },
-                    { value: 'verb', text: this.$t('common.breton') },
-                    { value: 'noun', text: this.$t('common.french') },
-                    { value: 'adjective', text: this.$t('common.french') },
-                ]
+                return Types();
             }
         },
         methods: {
@@ -82,9 +67,6 @@
                         console.error(error);
                     })
             },
-            addTransaction() {
-                this.word.translations.push(new Translation())
-            },
             submit() {
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
@@ -107,14 +89,25 @@
     .word-manager-container {
         display: flex;
         flex-direction: column;
+        margin: 0 5%;
     }
     .row {
         display: flex;
         flex-grow: 1;
+        margin: 0;
     }
     .input {
-        justify-content: center;
         display: flex;
+        flex-direction: column;
         flex-grow: 1;
     }
+    .submit-button-container {
+        display: flex;
+        flex-grow: 1;
+        margin: 25px 0;
+     }
+    .submit-button {
+        width: 100%;
+    }
+
 </style>

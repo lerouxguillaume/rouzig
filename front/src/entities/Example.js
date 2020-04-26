@@ -1,8 +1,8 @@
-export function Example(text) {
-    this.fromLanguage = text;
-    this.fromText = '';
-    this.toLanguage = '';
-    this.toText = '';
+export function Example() {
+    this.fromLanguage = 'fr';
+    this.fromText = null;
+    this.toLanguage = 'br';
+    this.toText = null;
     this.load = function(object) {
         this.fromLanguage = object.fromLanguage;
         this.fromText = object.fromText;
