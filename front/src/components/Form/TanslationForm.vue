@@ -25,7 +25,7 @@
                         trim
                 ></b-form-textarea>
             </div>
-            <ExemplesForm :examples="translation.examples">
+            <ExemplesForm :examples="translation.examples" :language="language">
             </ExemplesForm>
             <div class="delete-button-container">
                 <b-button variant="success" type="button" class="add-exemple-button" @click="addExample">{{ $t('form.add-example') }}</b-button>
@@ -49,6 +49,14 @@
             onRemoveTranslation: {
                 type: Function,
                 required: true
+            },
+            language: {
+                type: String
+            }
+        },
+        watch: {
+            language: function (newVal) {
+                this.translation.language = Translation[newVal];
             }
         },
         computed : {
@@ -75,8 +83,5 @@
         margin-top: 20px;
         display: flex;
         justify-content: space-between;
-    }
-    .row {
-        margin: 5px;
     }
 </style>

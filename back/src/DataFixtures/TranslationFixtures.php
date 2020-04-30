@@ -11,6 +11,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class TranslationFixtures extends Fixture
 {
     public const TRANSLATION_DANSER_1_REFERENCE = 'translation.danser-1';
+    public const TRANSLATION_MANGER_1_REFERENCE = 'translation.manger-1';
 
     public function load(ObjectManager $manager)
     {
@@ -22,6 +23,15 @@ class TranslationFixtures extends Fixture
             ],
             $manager,
             self::TRANSLATION_DANSER_1_REFERENCE
+
+        );
+
+        $this->createTranslation(
+            'debriñ',
+            [
+            ],
+            $manager,
+            self::TRANSLATION_MANGER_1_REFERENCE
 
         );
 
@@ -38,7 +48,7 @@ class TranslationFixtures extends Fixture
             ->setType('type')
         ;
         foreach ($examples as $example) {
-            $translation->getExamples()->add($example);
+            $translation->addExample($example);
         }
 
         $manager->persist($translation);

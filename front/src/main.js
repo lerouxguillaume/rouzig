@@ -5,8 +5,7 @@ import router from './router.js'
 import ApiService from "./services/api.service";
 import {TokenService} from "./services/storage.service";
 import store from './store'
-
-import './assets/custom.scss';
+import './assets/scss/main.scss';
 import i18n from './i18n'
 
 Vue.config.productionTip = false

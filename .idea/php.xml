@@ -87,6 +87,7 @@
       <path value="$PROJECT_DIR$/back/vendor/symfony/security-csrf" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/security-core" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/workflow" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

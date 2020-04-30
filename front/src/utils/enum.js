@@ -15,3 +15,8 @@ export const Languages =  () => {
         {value: 'fr', text: i18n.t('common.french')},
     ]
 }
+
+export const Translation = {
+    'br': 'fr',
+    'fr': 'br'
+};

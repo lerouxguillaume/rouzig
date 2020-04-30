@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Translation;
 use App\Entity\Word;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,6 +15,14 @@ class WordsFixtures extends Fixture
             'danser',
             [
                 $this->getReference(TranslationFixtures::TRANSLATION_DANSER_1_REFERENCE),
+            ],
+            $manager
+        );
+
+        $this->createWord(
+            'manger',
+            [
+                $this->getReference(TranslationFixtures::TRANSLATION_MANGER_1_REFERENCE),
             ],
             $manager
         );
@@ -33,8 +42,9 @@ class WordsFixtures extends Fixture
             ->setUpdatedAt(new \DateTime())
         ;
 
+        /** @var Translation $translation */
         foreach ($translations as $translation) {
-            $word->getTranslations()->add($translation);
+            $word->addTranslation($translation);
         }
         $manager->persist($word);
 

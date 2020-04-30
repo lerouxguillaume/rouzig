@@ -15,7 +15,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ApiResource(
  *     shortName="Word",
  * )
- * @ApiFilter(SearchFilter::class, properties={"text" : "ipartial"})
+ * @ApiFilter(SearchFilter::class, properties={"text" : "partial"})
  */
 class Word extends AbstractWord
 {

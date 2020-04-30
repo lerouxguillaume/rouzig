@@ -32,6 +32,7 @@
 
 <script>
     import {Example} from "../../entities/Example";
+    import {Translation} from "../../utils/enum";
 
     export default {
         name: "ExampleForm",
@@ -43,11 +44,21 @@
             onRemoveExample: {
                 type: Function,
                 required: true
+            },
+            language: {
+                type: String
+            }
+        },
+        watch: {
+            language: function (newVal) {
+                this.example.fromLanguage = newVal;
+                this.example.toLanguage = Translation[newVal];
+                console.log(newVal)
             }
         },
         computed: {
             exampleId() {
-                return  Number(this.$vnode.key) +1;
+                return  Number(this.$vnode.key) + 1;
             }
         }
     }

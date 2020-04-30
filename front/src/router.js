@@ -5,6 +5,7 @@ import VueRouter from "vue-router";
 import {TokenService} from "../services/storage.service";
 import Login from "./pages/Security/Login";
 import WordManager from "./pages/WordManager";
+import WordsNotFound from "./pages/WordsNotFound";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,14 @@ const router =  new VueRouter({
             path: '/word-manager',
             name: 'wordManager',
             component: WordManager,
+            meta: {
+                public: true,  // Allow access to even if not logged in
+            }
+        },
+        {
+            path: '/words-not-founds',
+            name: 'wordsNotFound',
+            component: WordsNotFound,
             meta: {
                 public: true,  // Allow access to even if not logged in
             }

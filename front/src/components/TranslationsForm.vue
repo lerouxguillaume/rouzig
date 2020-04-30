@@ -5,6 +5,7 @@
                 :key="index"
                 :translation="translation"
                 :on-remove-translation="removeTranslation"
+                :language="language"
         ></TanslationForm>
         <b-button variant="success" type="button" class="add-translation-button" @click="addTransaction">{{ $t('form.add-translation') }}</b-button>
     </div>
@@ -21,6 +22,9 @@
             translations: {
                 type: Array,
                 required: true
+            },
+            language: {
+                type: String
             }
         },
         methods: {

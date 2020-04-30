@@ -1,5 +1,5 @@
 <template>
-    <div class="word-manager-container">
+    <div class="word-manager-container form">
         <div class="row">
             <div class="input" role="group">
                 <label for="text-input">{{ $t('form.word-name.label') }}:</label>
@@ -14,7 +14,7 @@
                 <b-form-select id="language-input" v-model="word.language" :options="languageOptions" trim></b-form-select>
             </div>
         </div>
-        <TranslationsForm :translations="word.translations"></TranslationsForm>
+        <TranslationsForm :translations="word.translations" :language="word.language"></TranslationsForm>
         <div class="submit-button-container">
             <b-button variant="primary" type="submit" class="submit-button" @click="submit">{{ $t('form.submit') }}</b-button>
         </div>
@@ -90,16 +90,6 @@
         display: flex;
         flex-direction: column;
         margin: 0 5%;
-    }
-    .row {
-        display: flex;
-        flex-grow: 1;
-        margin: 0;
-    }
-    .input {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
     }
     .submit-button-container {
         display: flex;

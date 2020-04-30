@@ -5,6 +5,7 @@
                 :key="index"
                 :example="example"
                 :on-remove-example="removeExample"
+                :language="language"
         ></ExampleForm>
     </div>
 </template>
@@ -19,6 +20,9 @@
             examples: {
                 type: Array,
                 required: true
+            },
+            language: {
+                type: String
             }
         },
         methods: {
