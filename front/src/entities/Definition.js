@@ -1,6 +1,7 @@
 import {Translation} from "./Translation";
 
 export function Definition() {
+    this.id = null;
     this.text = null;
     this.language = null;
     this.type = null;
@@ -11,6 +12,7 @@ export function Definition() {
     this.updatedAt = null;
     this.load = function(object) {
         let attributes = object.attributes;
+        this.id = attributes._id;
         this.text = attributes.text;
         this.language = attributes.language;
         this.type = attributes.type;
@@ -25,5 +27,14 @@ export function Definition() {
             newTranslation.load(translation);
             _this.translations.push(newTranslation);
         })
+    };
+    this.patch = function () {
+        return {
+            'id' : this.id,
+            'text' : this.text,
+            'language' : this.language,
+            'type' : this.type,
+            'translations' : this.translations,
+        }
     }
 }

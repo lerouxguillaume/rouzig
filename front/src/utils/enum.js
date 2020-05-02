@@ -20,3 +20,9 @@ export const Translation = {
     'br': 'fr',
     'fr': 'br'
 };
+
+export const Status = {
+    'approved' : 'approved',
+    'pending' : 'pending',
+    'deleted' : 'deleted'
+}

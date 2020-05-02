@@ -13,6 +13,7 @@ class WordsFixtures extends Fixture
     {
         $this->createWord(
             'danser',
+            Word::STATUS_APPROVED,
             [
                 $this->getReference(TranslationFixtures::TRANSLATION_DANSER_1_REFERENCE),
             ],
@@ -21,8 +22,18 @@ class WordsFixtures extends Fixture
 
         $this->createWord(
             'manger',
+            Word::STATUS_PENDING,
             [
                 $this->getReference(TranslationFixtures::TRANSLATION_MANGER_1_REFERENCE),
+            ],
+            $manager
+        );
+
+        $this->createWord(
+            'dormir',
+            Word::STATUS_PENDING,
+            [
+                $this->getReference(TranslationFixtures::TRANSLATION_DORMIR_1_REFERENCE),
             ],
             $manager
         );
@@ -30,13 +41,13 @@ class WordsFixtures extends Fixture
         $manager->flush();
     }
 
-    private function createWord($text, $translations, $manager)
+    private function createWord($text, $status, $translations, $manager)
     {
         $word = new Word();
         $word
             ->setText($text)
             ->setLanguage(Word::LANGUAGE_BR)
-            ->setStatus(Word::STATUS_PENDING)
+            ->setStatus($status)
             ->setVersion(1)
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime())

@@ -12,6 +12,7 @@ class TranslationFixtures extends Fixture
 {
     public const TRANSLATION_DANSER_1_REFERENCE = 'translation.danser-1';
     public const TRANSLATION_MANGER_1_REFERENCE = 'translation.manger-1';
+    public const TRANSLATION_DORMIR_1_REFERENCE = 'translation.dormir-1';
 
     public function load(ObjectManager $manager)
     {
@@ -29,9 +30,18 @@ class TranslationFixtures extends Fixture
         $this->createTranslation(
             'debriñ',
             [
+                $this->getReference(ExampleFixtures::EXAMPLE_MANGER_1_REFERENCE),
             ],
             $manager,
             self::TRANSLATION_MANGER_1_REFERENCE
+
+        );
+        $this->createTranslation(
+            'kouskiñ',
+            [
+            ],
+            $manager,
+            self::TRANSLATION_DORMIR_1_REFERENCE
 
         );
 

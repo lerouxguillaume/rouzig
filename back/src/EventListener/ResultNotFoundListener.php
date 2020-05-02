@@ -31,7 +31,7 @@ class ResultNotFoundListener
             return;
         }
         $request = $event->getRequest();
-        if ($request->attributes->get('_route') !== "api_words_get_collection") {
+        if ($request->attributes->get('_route') !== "api_words_GET_collection") {
             return;
         }
 

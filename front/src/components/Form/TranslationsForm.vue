@@ -12,8 +12,8 @@
 </template>
 
 <script>
-    import TanslationForm from "./Form/TanslationForm";
-    import {Translation} from "../entities/Translation";
+    import TanslationForm from "./TanslationForm";
+    import {Translation} from "../../entities/Translation";
 
     export default {
         name: "TranslationsForm",

@@ -24,11 +24,11 @@
 <script>
     import ApiService from "../../services/api.service";
     import {Definition} from "../entities/Definition";
-    import TranslationsForm from "../components/TranslationsForm";
+    import TranslationsForm from "../components/Form/TranslationsForm";
     import {Languages, Types} from "../utils/enum";
 
     export default {
-        name: "WordManager",
+        name: "AddTranslation",
         components: {TranslationsForm},
         data() {
             return {
@@ -42,6 +42,10 @@
             typeOptions() {
                 return Types();
             }
+        },
+        mounted() {
+            this.word.text = this.$route.params.word;
+            this.search();
         },
         methods: {
             search() {

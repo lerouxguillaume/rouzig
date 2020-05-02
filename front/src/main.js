@@ -7,7 +7,9 @@ import {TokenService} from "./services/storage.service";
 import store from './store'
 import './assets/scss/main.scss';
 import i18n from './i18n'
+import VueMoment from 'vue-moment'
 
+Vue.use(VueMoment);
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 

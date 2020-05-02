@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import {Definition} from "../entities/Definition";
+    import {Definition} from "../../entities/Definition";
 
     export default {
         name: "Definition",

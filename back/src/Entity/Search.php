@@ -14,13 +14,14 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ApiResource(
  *     shortName="Search",
  *     itemOperations={
- *         "get"={
+ *         "GET"={
  *             "controller"=NotFoundAction::class,
  *             "read"=false,
  *             "output"=false,
- *         },
+ *         }, "DELETE"
  *     },
- *     collectionOperations={"get"}
+ *     collectionOperations={"GET"},
+ *     attributes={"order"={"count": "DESC"}}
  * )
  * @ApiFilter(OrderFilter::class, properties={"count", "text"}, arguments={"orderParameterName"="order"})
  */

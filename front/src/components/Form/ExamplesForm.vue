@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import ExampleForm from "./Form/ExampleForm";
+    import ExampleForm from "./ExampleForm";
 
     export default {
         name: "ExemplesForm",

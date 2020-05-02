@@ -4,8 +4,9 @@ import Vue from 'vue'
 import VueRouter from "vue-router";
 import {TokenService} from "../services/storage.service";
 import Login from "./pages/Security/Login";
-import WordManager from "./pages/WordManager";
-import WordsNotFound from "./pages/WordsNotFound";
+import MenuPage from "./pages/MenuPage";
+import ReviewWord from "./pages/ReviewWord";
+import AddTranslation from "./pages/AddTranslation";
 
 Vue.use(VueRouter);
 
@@ -20,17 +21,25 @@ const router =  new VueRouter({
             }
         },
         {
-            path: '/word-manager',
-            name: 'wordManager',
-            component: WordManager,
+            path: '/add-translation/:word?',
+            name: 'AddTranslation',
+            component: AddTranslation,
             meta: {
                 public: true,  // Allow access to even if not logged in
             }
         },
         {
-            path: '/words-not-founds',
-            name: 'wordsNotFound',
-            component: WordsNotFound,
+            path: '/menu-page',
+            name: 'MenuPage',
+            component: MenuPage,
+            meta: {
+                public: true,  // Allow access to even if not logged in
+            }
+        },
+        {
+            path: '/review-word/:id',
+            name: 'ReviewWord',
+            component: ReviewWord,
             meta: {
                 public: true,  // Allow access to even if not logged in
             }

@@ -37,7 +37,7 @@
 
 <script>
     import {Translation} from "../../entities/Translation";
-    import ExemplesForm from "../ExamplesForm";
+    import ExemplesForm from "./ExamplesForm";
     import {Example} from "../../entities/Example";
     import {Languages, Types} from "../../utils/enum";
 
