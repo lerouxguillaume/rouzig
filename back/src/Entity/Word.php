@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -45,6 +46,7 @@ class Word extends AbstractWord
      *      joinColumns={@ORM\JoinColumn(name="word_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="translation_id", referencedColumnName="id", unique=true)}
      *      )
+     * @Assert\Valid()
      */
     private $translations;
 

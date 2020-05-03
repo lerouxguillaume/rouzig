@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Enum\ErrorCodes;
 
 /**
  * Class AbstractWord
@@ -15,13 +16,14 @@ abstract class AbstractWord
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::MISSING_WORD})
      */
     private $text;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::MISSING_LANGUAGE})
      */
     private $language;
 

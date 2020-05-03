@@ -8,6 +8,8 @@ api_platform:
     collection:
         pagination:
             items_per_page: 5
+    validator:
+        serialize_payload_fields: ['code']
     formats:
         jsonld:
             mime_types:

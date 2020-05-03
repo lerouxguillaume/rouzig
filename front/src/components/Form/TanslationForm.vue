@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="row">
-                <label :for="'description-textarea-' + this.translationId">{{ $t('form.description.name') }}</label>
+                <label :for="'description-textarea-' + this.translationId">{{ $t('form.description.label') }}</label>
                 <b-form-textarea
                         :id="'description-textarea-' + this.translationId"
                         v-model="translation.description"

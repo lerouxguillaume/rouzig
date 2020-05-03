@@ -1,43 +1,64 @@
 <template>
     <div class="word-manager-container form">
-        <b-overlay :show="busy" rounded="sm" no-wrap></b-overlay>
-        <div class="row">
-            <div class="input" role="group">
-                <label for="text-input">{{ $t('form.word-name.label') }}:</label>
-                <b-input id="text-input" v-model="word.text" :placeholder="$t('form.word-name.placeholder')" @change="search" trim></b-input>
+        <b-form>
+            <b-overlay :show="busy" rounded="sm" no-wrap></b-overlay>
+            <div class="row">
+                <TextInput
+                        id="text-input"
+                        :label="$t('form.word-name.label')"
+                        v-model="word.text"
+                        :placeholder="$t('form.word-name.placeholder')"
+                        :error="word.textError"
+                >
+                </TextInput>
+                <SelectInput
+                        id="option-input"
+                        :label="$t('form.word-type.label')"
+                        v-model="word.type"
+                        :error="word.typeError"
+                        :options="typeOptions"
+                ></SelectInput>
+                <SelectInput
+                        id="option-input"
+                        :label="$t('form.word-language.label')"
+                        v-model="word.language"
+                        :error="word.languageError"
+                        :options="languageOptions"
+                ></SelectInput>
             </div>
-            <div class="input">
-                <label for="option-input">{{ $t('form.word-type.label') }}</label>
-                <b-form-select  id="option-input" v-model="word.type" :options="typeOptions" trim></b-form-select>
+            <TranslationsForm :translations="word.translations" :language="word.language"></TranslationsForm>
+            <div class="submit-button-container">
+                <b-button variant="primary" type="submit" class="submit-button" @click="submit">{{ $t('form.submit') }}</b-button>
             </div>
-            <div class="input">
-                <label for="language-input">{{ $t('form.word-language.label') }} : </label>
-                <b-form-select id="language-input" v-model="word.language" :options="languageOptions" trim></b-form-select>
-            </div>
-        </div>
-        <TranslationsForm :translations="word.translations" :language="word.language"></TranslationsForm>
-        <div class="submit-button-container">
-            <b-button variant="primary" type="submit" class="submit-button" @click="submit">{{ $t('form.submit') }}</b-button>
-        </div>
+        </b-form>
     </div>
 </template>
 
 <script>
     import ApiService from "../../services/api.service";
-    import {Definition} from "../entities/Definition";
+    import {Definition, DefinitionError} from "../entities/Definition";
     import TranslationsForm from "../components/Form/TranslationsForm";
     import {Languages, Types} from "../utils/enum";
+    import TextInput from "../components/Form/TextInput";
+    import SelectInput from "../components/Form/SelectInput";
 
     export default {
         name: "AddTranslation",
-        components: {TranslationsForm},
+        components: {SelectInput, TextInput, TranslationsForm},
         data() {
             return {
                 'word' : new Definition(),
+                'errors' : new DefinitionError(),
                 'busy': false
             }
         },
         computed : {
+            text() {
+                return this.word.text;
+            },
+            invalidFeedback() {
+                return 'Hello'
+            },
             languageOptions() {
                 return Languages();
             },
@@ -87,6 +108,7 @@
                         this.$router.push({ name:'MenuPage' })
                     })
                     .catch((error) => {
+
                         this.busy = false;
                         console.error(error);
                     })
@@ -106,7 +128,7 @@
         display: flex;
         flex-grow: 1;
         margin: 25px 0;
-     }
+    }
     .submit-button {
         width: 100%;
     }

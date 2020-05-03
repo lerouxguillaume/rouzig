@@ -1,16 +1,55 @@
 import {Translation} from "./Translation";
 
-export function Definition() {
-    this.id = null;
-    this.text = null;
-    this.language = null;
-    this.type = null;
-    this.translations = [];
-    this.version = null;
-    this.status = null;
-    this.createdAt = null;
-    this.updatedAt = null;
-    this.load = function(object) {
+export class Definition {
+    constructor() {
+        this.id = null;
+        this._text = null;
+        this.textError = null;
+        Object.defineProperty(this, 'text', {
+            get () {
+                return this._text;
+            },
+            set (value) {
+                this._text = value
+                if (this.textError != null) {
+                    this.textError = null
+                }
+            }
+        });
+        this._type = null;
+        this.typeError = null;
+        Object.defineProperty(this, 'type', {
+            get () {
+                return this._type;
+            },
+            set (value) {
+                this._type = value
+                if (this.typeError != null) {
+                    this.typeError = null
+                }
+            }
+        });
+        this._langueage = null;
+        this.languageError = null;
+        Object.defineProperty(this, 'language', {
+            get () {
+                return this._langueage;
+            },
+            set (value) {
+                this._langueage = value
+                if (this.languageError != null) {
+                    this.languageError = null
+                }
+            }
+        });
+        this.translations = [];
+        this.version = null;
+        this.status = null;
+        this.createdAt = null;
+        this.updatedAt = null;
+    }
+
+    load = function(object) {
         let attributes = object.attributes;
         this.id = attributes._id;
         this.text = attributes.text;
@@ -28,7 +67,8 @@ export function Definition() {
             _this.translations.push(newTranslation);
         })
     };
-    this.patch = function () {
+
+    patch = function () {
         return {
             'id' : this.id,
             'text' : this.text,
@@ -36,5 +76,16 @@ export function Definition() {
             'type' : this.type,
             'translations' : this.translations,
         }
+    }
+}
+
+
+export function DefinitionError() {
+    this.text = "test";
+    this.language = null;
+    this.type = null;
+    this.translations = [];
+    this.loadErrors = (errors) => {
+        console.log(errors);
     }
 }
