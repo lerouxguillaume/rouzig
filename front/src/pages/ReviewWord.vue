@@ -6,7 +6,7 @@
                 <b-input id="text-input" v-model="translation.text" :placeholder="$t('form.word-name.placeholder')" :disabled="true" trim></b-input>
             </div>
             <div class="input">
-                <label for="option-input">{{ $t('form.type.label') }}</label>
+                <label for="option-input">{{ $t('form.word-type.label') }}</label>
                 <b-form-select  id="option-input" v-model="translation.type" :options="typeOptions" trim></b-form-select>
             </div>
             <div class="input">
@@ -114,6 +114,7 @@
     .word-manager-container {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         margin: 0 5%;
     }
     .submit-button-container {

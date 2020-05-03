@@ -1,6 +1,8 @@
 <template>
     <div class="menu-container">
-        <router-link :to="{name: 'MenuPage'}">{{ $t('menu.label') }}</router-link>
+        <LinkButton :to="{name: 'MenuPage'}" variant="primary">
+            {{ $t('common.menu') }}
+        </LinkButton>
         <div class="locale-changer">
             <b-dropdown>
                 <template v-slot:button-content="" v-bind:selectedLanguage="selectedLanguage">
@@ -14,35 +16,31 @@
 </template>
 
 <script>
+    import LinkButton from "../Utils/LinkButton";
     export default {
         name: 'NavigationMenu',
-        data () {
-            return {
-                langs: {
+        components: {LinkButton},
+        computed: {
+            langs() {
+                return {
                     'br': {
                         'image': require('../../assets/images/flag-br.png'),
-                        'label': 'Breton'
+                        'label': this.$i18n.t('common.language.breton')
                     },
                     'fr': {
                         'image': require('../../assets/images/flag-fr.png'),
-                        'label': 'Francais'
+                        'label': this.$i18n.t('common.language.french')
                     }
                 }
-            }
-        },
-        computed: {
+            },
             selectedLanguage() {
                 return this.langs[this.$i18n.locale]
             }
         },
         methods: {
             selectLang: function (lang) {
-
                 console.log(lang)
                 this.$i18n.locale = lang
-                console.log(this.$moment.locale())
-                this.$moment.locale('fr')
-                console.log(this.$moment.locale())
             },
         }
     }

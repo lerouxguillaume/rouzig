@@ -1,17 +1,18 @@
 <template>
-    <div>
-        <b-card
-                header-bg-variant="primary"
-                border-variant="primary"
-                :header="$t('common.traduction') + ' ' + this.translationId "
-        >
+    <b-card
+
+            header-bg-variant="primary"
+            border-variant="primary"
+            :header="$t('common.translation') + ' ' + this.translationId "
+    >
+        <div class="translation-container">
             <div class="row">
                 <div class="input" role="group">
                     <label for="'form-translation-text-' +  this.translationId">{{ $t('form.translation-name.label') }}:</label>
                     <b-input :id="'form-translation-text-' +  this.translationId" v-model="translation.text" :placeholder="$t('form.translation-name.placeholder')" trim></b-input>
                 </div>
                 <div class="input">
-                    <label for="'form-translation-option-' +  this.translationId">{{ $t('form.type.label') }}:</label>
+                    <label for="'form-translation-option-' +  this.translationId">{{ $t('form.word-type.label') }}:</label>
                     <b-form-select  :id="'form-translation-option-' +  this.translationId" v-model="translation.type" :options="typeOptions" trim></b-form-select>
                 </div>
             </div>
@@ -31,21 +32,21 @@
                 <b-button variant="success" type="button" class="add-exemple-button" @click="addExample">{{ $t('form.add-example') }}</b-button>
                 <b-button type="button" variant="danger" class="delete-translation-button" @click="onRemoveTranslation(translation)">{{ $t('form.delete-translation') }}</b-button>
             </div>
-        </b-card>
-    </div>
+        </div>
+    </b-card>
 </template>
 
 <script>
-    import {Translation} from "../../entities/Translation";
+    import {Translation as TranslationEntity} from "../../entities/Translation";
     import ExemplesForm from "./ExamplesForm";
     import {Example} from "../../entities/Example";
-    import {Languages, Types} from "../../utils/enum";
+    import {Languages, Translation, Types} from "../../utils/enum";
 
     export default {
         name: "TanslationForm",
         components: {ExemplesForm},
         props: {
-            translation: Translation,
+            translation: TranslationEntity,
             onRemoveTranslation: {
                 type: Function,
                 required: true
@@ -56,7 +57,9 @@
         },
         watch: {
             language: function (newVal) {
+                console.log(Translation[newVal])
                 this.translation.language = Translation[newVal];
+                console.log(this.translation)
             }
         },
         computed : {
@@ -79,6 +82,10 @@
 </script>
 
 <style scoped>
+    .translation-container {
+        flex-direction: column;
+        flex-grow: 1;
+    }
     .delete-button-container {
         margin-top: 20px;
         display: flex;

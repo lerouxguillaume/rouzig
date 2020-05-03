@@ -1,10 +1,17 @@
 {
   "common": {
-    "french" : "Francais",
-    "breton" : "Breton"
-  },
-  "menu" : {
-    "create-word" : "Créer"
+    "language" : {
+      "french" : "Francais",
+      "breton" : "Breton"
+    },
+    "create" : "Créer",
+    "add-translation": "Ajouter une traduction",
+    "delete" : "Supprimer",
+    "menu" : "Menu",
+    "review": "Revoir",
+    "translation": "Traduction",
+    "example": "exemple",
+    "create-translation": "Crééer une traduction"
   },
   "header": {
     "title": "Rouzig",
@@ -14,5 +21,63 @@
     "search": "Chercher",
     "results" : "{nbResults} résultat trouvé |  {nbResults} résultats trouvés",
     "examples" : "Exemple | Exemples"
+  },
+  "table" : {
+    "text-label" : "Mot",
+    "count-label" : "Cherché N fois",
+    "lastSearch-label" : "Dernière recherche",
+    "status-label" : "Statut",
+    "updatedAt-label" : "Dernière modification",
+    "action-label" : "Actions",
+    "missing-word": {
+      "title": "Mot cherchés sans résultat"
+    },
+    "review-word": {
+      "title": "Traductions proposées",
+      "empty": "Aucune traduction proposé, voulez vous en proposer une?"
+    }
+  },
+  "form": {
+    "select": "Choisisez",
+    "word-name" : {
+      "label" : "Mot",
+      "placeholder": "Mot à traduire..."
+    },
+    "word-type" : {
+      "label" : "Type",
+      "select": {
+        "verb": "Verbe",
+        "noun": "Nom"
+      }
+    },
+    "word-language" : {
+      "label" : "Langue"
+    },
+    "translation-name": {
+      "label": "Traduction",
+      "placeholder": "Traduction proposé"
+    },
+    "description": {
+      "label" : "Description",
+      "placeholder": "Ajoutez une descripton"
+    },
+    "example-from": {
+        "label": "Exemple",
+        "placeholder": "Exemple dans la langue d'origine"
+    },
+    "example-to": {
+        "label": "Traduction",
+        "placeholder": "Traduction de l'exemple"
+    },
+    "add-example": "Ajouter un exemple",
+    "delete-example": "Enlever l'exemple",
+    "add-translation": "Ajouter une traduction",
+    "delete-translation": "Enlever la traduction",
+    "submit" : "Valider"
+  },
+  "review": {
+    "delete": "Supprimer",
+    "update": "Modifier",
+    "valid": "Valider"
   }
 }

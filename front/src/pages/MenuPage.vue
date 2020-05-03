@@ -1,20 +1,21 @@
 <template>
-    <div class="menu-page-container form">
-        <WordsNotFound></WordsNotFound>
-        <b-button variant="success">
-            <router-link :to="{name: 'AddTranslation'}">{{ $t('menu.create-word') }}</router-link>
-        </b-button>
+    <div class="menu-page-container">
+        <LinkButton :to="{name: 'AddTranslation'}" class="button-create-translation-container" block>
+            {{ $t('common.create-translation') }}
+        </LinkButton>
         <WordsSubmittedManager></WordsSubmittedManager>
+        <MissingWords></MissingWords>
     </div>
 </template>
 
 <script>
-    import WordsNotFound from "../components/WordsNotFound";
     import WordsSubmittedManager from "../components/WordsSubmittedManager";
+    import MissingWords from "../components/MissingWords";
+    import LinkButton from "../components/Utils/LinkButton";
 
     export default {
         name: "MenuPage",
-        components: {WordsNotFound, WordsSubmittedManager},
+        components: {LinkButton, MissingWords, WordsSubmittedManager},
         data() {
             return {
             }
@@ -23,18 +24,15 @@
 </script>
 
 <style scoped>
-    .word-manager-container {
-        display: flex;
+    .menu-page-container {
         flex-direction: column;
-        margin: 0 5%;
-    }
-    .submit-button-container {
-        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-grow: 1;
-        margin: 25px 0;
-     }
-    .submit-button {
-        width: 100%;
     }
-
+    .button-create-translation-container {
+        justify-content: center;
+        flex-grow: 1;
+        margin: 16px 0;
+    }
 </style>

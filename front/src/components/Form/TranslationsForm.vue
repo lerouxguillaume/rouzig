@@ -7,13 +7,14 @@
                 :on-remove-translation="removeTranslation"
                 :language="language"
         ></TanslationForm>
-        <b-button variant="success" type="button" class="add-translation-button" @click="addTransaction">{{ $t('form.add-translation') }}</b-button>
+        <b-button variant="success" type="button" class="add-translation-button" @click="addTranslation">{{ $t('form.add-translation') }}</b-button>
     </div>
 </template>
 
 <script>
     import TanslationForm from "./TanslationForm";
-    import {Translation} from "../../entities/Translation";
+    import {Translation as TranslationEntity} from "../../entities/Translation";
+    import {Translation} from "../../utils/enum";
 
     export default {
         name: "TranslationsForm",
@@ -28,8 +29,8 @@
             }
         },
         methods: {
-            addTransaction() {
-                this.translations.push(new Translation())
+            addTranslation() {
+                this.translations.push(new TranslationEntity(Translation[this.language]))
             },
             removeTranslation(element) {
                 let index = this.translations.indexOf(element);

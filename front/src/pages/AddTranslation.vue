@@ -1,12 +1,13 @@
 <template>
     <div class="word-manager-container form">
+        <b-overlay :show="busy" rounded="sm" no-wrap></b-overlay>
         <div class="row">
             <div class="input" role="group">
                 <label for="text-input">{{ $t('form.word-name.label') }}:</label>
                 <b-input id="text-input" v-model="word.text" :placeholder="$t('form.word-name.placeholder')" @change="search" trim></b-input>
             </div>
             <div class="input">
-                <label for="option-input">{{ $t('form.type.label') }}</label>
+                <label for="option-input">{{ $t('form.word-type.label') }}</label>
                 <b-form-select  id="option-input" v-model="word.type" :options="typeOptions" trim></b-form-select>
             </div>
             <div class="input">
@@ -33,6 +34,7 @@
         data() {
             return {
                 'word' : new Definition(),
+                'busy': false
             }
         },
         computed : {
@@ -44,44 +46,48 @@
             }
         },
         mounted() {
-            this.word.text = this.$route.params.word;
-            this.search();
+            if (typeof this.$route.params.word !== 'undefined') {
+                this.word.text = this.$route.params.word;
+                this.search();
+            }
         },
         methods: {
             search() {
-                let params = {
-                    'headers' : {
-                        'Accept' : 'application/vnd.api+json'
-                    },
-                    'params' : {
-                        'text': this.word.text
-                    }
-                };
-
-                ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
-                    .then((response) => {
-                        let data = response.data.data.shift();
-                        if (typeof data !== 'undefined') {
-                            let newDefinition = new Definition();
-                            newDefinition.load(data);
-                            this.word = newDefinition;
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    })
+                // let params = {
+                //     'headers' : {
+                //         'Accept' : 'application/vnd.api+json'
+                //     },
+                //     'params' : {
+                //         'text': this.word.text
+                //     }
+                // };
+                //
+                // ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
+                //     .then((response) => {
+                //         let data = response.data.data.shift();
+                //         if (typeof data !== 'undefined') {
+                //             let newDefinition = new Definition();
+                //             newDefinition.load(data);
+                //             this.word = newDefinition;
+                //         }
+                //     })
+                //     .catch(function (error) {
+                //         console.error(error);
+                //     })
             },
             submit() {
+                this.busy = true;
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
                 ApiService.post(process.env.VUE_APP_API_URL + 'words', JSON.stringify(this.word, (key, value) => {
                     if (value !== null) return value
                 }) ,options)
-                    .then((response) => {
-                        console.log(response);
+                    .then(() => {
+                        this.$router.push({ name:'MenuPage' })
                     })
-                    .catch(function (error) {
+                    .catch((error) => {
+                        this.busy = false;
                         console.error(error);
                     })
             }
@@ -93,6 +99,7 @@
     .word-manager-container {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         margin: 0 5%;
     }
     .submit-button-container {
@@ -103,5 +110,4 @@
     .submit-button {
         width: 100%;
     }
-
 </style>

@@ -38,5 +38,9 @@
 </script>
 
 <style scoped>
-
+    .examples-form-container {
+        flex-grow: 1;
+        flex-direction: column;
+        margin: 5px -5px;
+    }
 </style>

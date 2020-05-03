@@ -1,8 +1,8 @@
 import {Example} from "./Example";
 
-export function Translation() {
+export function Translation(language) {
     this.text = null;
-    this.language = null;
+    this.language = language;
     this.type = null;
     this.description = null;
     this.examples = [];

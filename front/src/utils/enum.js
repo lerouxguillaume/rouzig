@@ -3,16 +3,16 @@ import i18n from './../i18n'
 export const Types =  () => {
     return [
         {value: null, text: i18n.t('form.select')},
-        { value: 'verb', text: i18n.t('common.verb') },
-        { value: 'noun', text: i18n.t('common.noun') },
+        { value: 'verb', text: i18n.t('form.word-type.select.verb') },
+        { value: 'noun', text: i18n.t('form.word-type.select.noun') },
     ]
 }
 
 export const Languages =  () => {
     return [
         {value: null, text: i18n.t('form.select')},
-        {value: 'br', text: i18n.t('common.breton')},
-        {value: 'fr', text: i18n.t('common.french')},
+        {value: 'br', text: i18n.t('common.language.breton')},
+        {value: 'fr', text: i18n.t('common.language.french')},
     ]
 }
 

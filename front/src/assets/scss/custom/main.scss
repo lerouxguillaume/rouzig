@@ -1,5 +1,23 @@
-
 @import "form";
 
 // Define your variable overrides here
 $body-bg: whitesmoke;
+$primary: #FF8811;
+
+$danger: #CA5310;
+$success: #99C24D;
+$info: #55DDE0;
+
+$dark: #383D3B;
+
+div {
+  display: flex;
+}
+.card {
+  flex-grow: 1;
+  margin: 5px 0;
+}
+
+.align-content-end {
+  justify-content: flex-end;
+}

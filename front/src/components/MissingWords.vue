@@ -1,9 +1,9 @@
 <template>
     <div class="word-not-found table">
-        <b-card no-body class="mb-1">
+        <b-card no-body class="card-container">
             <b-card-header header-tag="header" class="p-1" role="tab">
                 <b-button block href="#" v-b-toggle.accordion-1 variant="primary">
-                    <h3 class="text-center">{{ $t('table.review-word.title') }}</h3>
+                    <h3 class="text-center">{{ $t('table.missing-word.title') }}</h3>
                 </b-button>
             </b-card-header>
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
@@ -13,21 +13,13 @@
                             :items="items"
                             :total-rows="totalRows"
                             :current-page="currentPage"
-                            :show-empty="true"
                     >
                         <template v-slot:action="data">
                             <div class="align-content-end">
-                                <LinkButton classes="text-center" :to="{name: 'ReviewWord', params: {id : data.item.id}}">
-                                    {{ $t('common.review') }}
+                                <LinkButton :to="{name: 'AddTranslation', params: {word : data.item.text}}">
+                                    {{ $t('common.add-translation') }}
                                 </LinkButton>
-                            </div>
-                        </template>
-                        <template v-slot:empty>
-                            <div class="center">
-                                <p>{{ $t('table.review-word.empty') }}</p>
-                                <LinkButton :to="{name: 'AddTranslation'}">
-                                    {{ $t('common.create') }}
-                                </LinkButton>
+                                <b-button variant="danger" @click="deleteWord(data.item)">{{ $t('common.delete') }}</b-button>
                             </div>
                         </template>
                     </DataTable>
@@ -39,15 +31,14 @@
 
 <script>
     import ApiService from "../../services/api.service";
-    import {Status} from "../utils/enum";
-    import {Definition} from "../entities/Definition";
     import {RelativeDate} from "../utils/formatter";
     import LinkButton from "./Utils/LinkButton";
     import DataTable from "./Utils/DataTable";
 
     export default {
-        name: "WordsSubmittedManager",
-        components: {LinkButton, DataTable},
+        name: "MissingWords",
+        // eslint-disable-next-line vue/no-unused-components
+        components: {DataTable, LinkButton},
         data() {
             return {
                 rowPerPage : 5,
@@ -56,20 +47,20 @@
                 items: this.itemsProvider
             }
         },
-        computed : {
-            fields () {
+        computed: {
+            fields() {
                 return [
                     {
                         key: 'text',
                         label: this.$i18n.t('table.text-label')
                     },
                     {
-                        key: 'status',
-                        label: this.$i18n.t('table.status-label')
+                        key: 'count',
+                        label: this.$i18n.t('table.count-label')
                     },
                     {
-                        key: 'updatedAt',
-                        label: this.$i18n.t('table.updatedAt-label'),
+                        key: 'lastSearch',
+                        label: this.$i18n.t('table.lastSearch-label'),
                         formatter: RelativeDate
                     },
                     {
@@ -87,12 +78,11 @@
                         'Accept' : 'application/vnd.api+json'
                     },
                     'params' : {
-                        'page': ctx.currentPage,
-                        'status': Status.pending
+                        'page': ctx.currentPage
                     }
                 };
 
-                ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
+                ApiService.get(process.env.VUE_APP_API_URL + 'searches', params)
                     .then((response) => {
                         let items = [];
                         let meta = response.data.meta;
@@ -101,48 +91,49 @@
                         this.rowPerPage = meta.itemsPerPage;
                         data.forEach((datum) => {
                             if (typeof datum !== 'undefined') {
-                                let newDefinition = new Definition();
-                                newDefinition.load(datum);
-                                items.push(newDefinition)
+                                let attributes = datum.attributes;
+                                items.push({
+                                    'id': attributes._id,
+                                    'text': attributes.text,
+                                    'count': attributes.count,
+                                    'lastSearch': attributes.updatedAt
+                                })
                             }
                         })
                         callback(items)
                     })
                     .catch(function (error) {
                         console.error(error);
+                        this.busy = false;
                         callback([]);
                     })
             },
-            submit() {
+            deleteWord(word) {
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
-                ApiService.post(process.env.VUE_APP_API_URL + 'words', JSON.stringify(this.word, (key, value) => {
-                    if (value !== null) return value
-                }) ,options)
-                    .then((response) => {
-                        console.log(response);
+                this.busy = true;
+                ApiService.delete(process.env.VUE_APP_API_URL + 'searches/'+ word.id ,options)
+                    .then(() => {
+                        this.$refs.table_word_not_found.refresh()
                     })
                     .catch(function (error) {
                         console.error(error);
                     })
-            }
+
+            },
         }
     }
 </script>
 
 <style scoped>
     .word-not-found {
-        justify-content: center;
         flex-grow: 1;
     }
-    .mb-1 {
+    .card-container {
         flex-grow: 1;
     }
-    .center {
+    .card-body {
         flex-grow: 1;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
 </style>

@@ -1,33 +1,35 @@
 <template>
-    <div>
-        <b-card
-                header-bg-variant="secondary"
-                border-variant="secondary"
-                :header="$t('common.example') + ' ' +  this.exampleId "
-        >
+    <b-card
+            header-bg-variant="secondary"
+            border-variant="secondary"
+            :header="$t('common.example') + ' ' +  this.exampleId "
+    >
+        <div class="example-container">
             <div class="row">
-                    <label :for="'text-input-from-'+ this.exampleId">{{ $t('form.example-from.label') }}:</label>
-                    <b-form-textarea
-                            :id="'text-input-from-'+ this.exampleId"
-                            v-model="example.fromText"
-                            :placeholder="$t('form.example-from.placeholder')"
-                            rows="3"
-                            trim
-                    ></b-form-textarea>
-                </div>
-                <div class="row">
-                    <label :for="'text-to-from-'+ this.exampleId">{{ $t('form.example-to.label') }}:</label>
-                    <b-form-textarea
-                            :id="'text-to-from-'+ this.exampleId"
-                            v-model="example.toText"
-                            :placeholder="$t('form.example-to.placeholder')"
-                            rows="3"
-                            trim
-                    ></b-form-textarea>
-                </div>
-            <b-button type="button" variant="danger" @click="onRemoveExample(example)">{{ $t('form.delete-example') }}</b-button>
-        </b-card>
-    </div>
+                <label :for="'text-input-from-'+ this.exampleId">{{ $t('form.example-from.label') }}:</label>
+                <b-form-textarea
+                        :id="'text-input-from-'+ this.exampleId"
+                        v-model="example.fromText"
+                        :placeholder="$t('form.example-from.placeholder')"
+                        rows="3"
+                        trim
+                ></b-form-textarea>
+            </div>
+            <div class="row">
+                <label :for="'text-to-from-'+ this.exampleId">{{ $t('form.example-to.label') }}:</label>
+                <b-form-textarea
+                        :id="'text-to-from-'+ this.exampleId"
+                        v-model="example.toText"
+                        :placeholder="$t('form.example-to.placeholder')"
+                        rows="3"
+                        trim
+                ></b-form-textarea>
+            </div>
+            <div class="row">
+                <b-button type="button" variant="danger" @click="onRemoveExample(example)" block>{{ $t('form.delete-example') }}</b-button>
+            </div>
+        </div>
+    </b-card>
 </template>
 
 <script>
@@ -65,7 +67,8 @@
 </script>
 
 <style scoped>
-    .row {
-        margin: 5px;
+    .example-container {
+        flex-direction: column;
+        flex-grow: 1;
     }
 </style>

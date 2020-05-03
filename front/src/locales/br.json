@@ -1,28 +1,83 @@
 {
   "common": {
-    "french" : "Galleg",
-    "breton" : "Brezhoneg"
-  },
-  "menu" : {
-    "create-word" : "krouiñ"
+    "language": {
+      "french" : "Galleg",
+      "breton" : "Brezhoneg"
+    },
+    "create" : "Krouiñ",
+    "add-translation": "Ouzhpennañ un troidigezh",
+    "delete" : "Dilemel",
+    "menu" : "Lañser",
+    "review": "Arnodenniñ",
+    "translation": "Troidigezh",
+    "example": "Skouer",
+    "create-translation": "Krouiñ un troidigezh"
   },
   "header": {
     "title": "Rouzig",
-    "sub-title": "Geriadur Brezhoneg-galleg"
+    "sub-title": "Geriadur Brezhoneg-Galleg"
   },
   "search": {
     "search": "klask",
     "results" : "{nbResults} disoc'h kavet",
     "examples" : "Skouer | Skoueriou"
   },
-  "form" : {
-    "select" : "Dibabit ...",
-    "type" : "",
-    "name" : {
-      "name" : "Anv",
-      "placeholder" : "Skrivit an anv aze"
+  "table" : {
+    "text-label" : "Ger",
+    "count-label" : "Klasket N gwech",
+    "lastSearch-label" : "Klask diwezhañ",
+    "status-label" : "Statud",
+    "updatedAt-label" : "Kemmedadur diwezhañ",
+    "action-label" : "Oberoù",
+    "missing-word": {
+      "title": "Gerioù klasket hep disoc'h"
     },
-    "description" : "",
-    "description.placeholder": ""
+    "review-word": {
+      "title": "Troidigezhioù kinniget",
+      "empty": "Kinig ebet, c'hoant ho peus ouzhpennañ unan"
+    }
+  },
+  "form": {
+    "select" : "Dibabit ...",
+    "word-name" : {
+      "label" : "Ger",
+      "placeholder": "Ger da zreiñ"
+    },
+    "word-type" : {
+      "label" : "Seurt",
+      "select": {
+        "verb": "Verb",
+        "noun": "Anv"
+      }
+    },
+    "word-language" : {
+      "label" : "Yezh"
+    },
+    "translation-name": {
+      "label": "Troidigezh",
+      "placeholder": "Troidigezh kinniget"
+    },
+    "description": {
+      "label" : "Deskirvadur",
+      "placeholder": "Ouzhpenit un deskirvadur"
+    },
+    "example-from": {
+      "label": "Skouer",
+      "placeholder": "Skouer er yezh orin"
+    },
+    "example-to": {
+      "label": "Troidigezh",
+      "placeholder": "Troidigezh ae skouer"
+    },
+    "add-example": "Ouzhpenañ ur skouer",
+    "delete-example": "Dilemel ar skouer",
+    "add-translation": "Ouzhpenañ un troidigezh",
+    "delete-translation": "Dilemel an troidigezh",
+    "submit" : "Validañ"
+  },
+  "review": {
+    "delete": "Dilemel",
+    "update": "Cheñch",
+    "valid": "Gwiriekaat"
   }
 }
