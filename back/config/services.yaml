@@ -36,3 +36,10 @@ services:
     App\EventListener\ResultNotFoundListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelView, priority: 3 }
+
+    App\Security\UserResolveListener:
+        arguments:
+            - '@App\Repository\UserRepository'
+            - '@security.password_encoder'
+        tags:
+            - { name: kernel.event_listener, event: trikoder.oauth2.user_resolve, method: onUserResolve }

@@ -26,5 +26,6 @@
   }
   .page-container {
     margin: 0 5%;
+    justify-content: center;
   }
 </style>

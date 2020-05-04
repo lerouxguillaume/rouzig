@@ -1,8 +1,9 @@
 <template>
-    <div class="input" role="group">
+    <div :class="'input '+ className" role="group">
         <label :for="id">{{label}}:</label>
         <b-input
                 :id="id"
+                :type="type"
                 v-model="content"
                 :placeholder="placeholder"
                 trim
@@ -31,11 +32,18 @@
                 required: true,
                 type: String
             },
+            type: {
+                type: String,
+                default: 'text'
+            },
             placeholder: {
                 type: String
             },
             error: {
                 type: String,
+            },
+            className: {
+                type: String
             }
         },
         data () {
@@ -53,5 +61,7 @@
 </script>
 
 <style scoped>
-
+    .input {
+        flex-direction: column;
+    }
 </style>

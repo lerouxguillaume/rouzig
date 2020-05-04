@@ -3,7 +3,7 @@ import { TokenService } from './storage.service'
 
 const clientId = process.env.VUE_APP_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
-const tokenEndPoint = '/token';
+const tokenEndPoint = process.env.VUE_APP_API_TOKEN_ENDPOINT;
 class AuthenticationError extends Error {
     constructor(errorCode, message) {
         super();

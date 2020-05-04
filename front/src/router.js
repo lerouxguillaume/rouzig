@@ -3,10 +3,10 @@ import NotFound from "./pages/NotFound";
 import Vue from 'vue'
 import VueRouter from "vue-router";
 import {TokenService} from "../services/storage.service";
-import Login from "./pages/Security/Login";
 import MenuPage from "./pages/MenuPage";
 import ReviewWord from "./pages/ReviewWord";
 import AddTranslation from "./pages/AddTranslation";
+import Register from "./pages/Register";
 
 Vue.use(VueRouter);
 
@@ -45,12 +45,11 @@ const router =  new VueRouter({
             }
         },
         {
-            path: '/login',
-            name: 'login',
-            component: Login,
+            path: '/register',
+            name: 'Register',
+            component: Register,
             meta: {
                 public: true,  // Allow access to even if not logged in
-                onlyWhenLoggedOut: true
             }
         },
         {
@@ -62,19 +61,10 @@ const router =  new VueRouter({
 
 router.beforeEach((to, from, next) => {
     const isPublic = to.matched.some(record => record.meta.public)
-    const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
     const loggedIn = !!TokenService.getToken();
 
     if (!isPublic && !loggedIn) {
-        return next({
-            path:'/login',
-            query: {redirect: to.fullPath}  // Store the full path to redirect the user to after login
-        });
-    }
-
-    // Do not allow user to visit login page or register page if they are logged in
-    if (loggedIn && onlyWhenLoggedOut) {
-        return next('/')
+        return; //@FIXME : open login modal
     }
 
     next();

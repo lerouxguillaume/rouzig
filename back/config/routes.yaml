@@ -2,3 +2,6 @@ controllers:
   resource: '../src/Controller/'
   type: annotation
   prefix: 'api'
+
+oauth2:
+  resource: '@TrikoderOAuth2Bundle/Resources/config/routes.xml'

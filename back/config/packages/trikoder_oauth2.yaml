@@ -1,0 +1,10 @@
+trikoder_oauth2:
+    authorization_server:
+        private_key: '%env(string:OAUTH2_PRIVATE_KEY_PATH)%'
+        encryption_key: '%env(string:OAUTH2_ENCRYPTION_KEY)%'   # (Optional) Change this
+        enable_password_grant: true
+    resource_server:
+        public_key: '%env(string:OAUTH2_PUBLIC_KEY_PATH)%'
+    persistence:          # Required
+        doctrine:
+            entity_manager: default

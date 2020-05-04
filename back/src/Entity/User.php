@@ -3,63 +3,163 @@
 
 namespace App\Entity;
 
-use DateTime;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ApiResource(
+ *     shortName="User",
+ *     collectionOperations={"POST"},
+ *     itemOperations={"GET", "PATCH", "DELETE"},
+ * )
  */
-class User
+class User implements UserInterface, \Serializable
 {
-    use TimestampableEntity;
-
     /**
      * @var int
-     * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=254, unique=true)
+     */
+    private $email;
+
+    /**
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    protected $enabled;
+    private $isActive;
 
     /**
-     * Random string sent to the user email address in order to verify it.
-     *
-     * @var string|null
-     * @ORM\Column(type="string", length=255)
+     * @return mixed
      */
-    protected $confirmationToken;
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
-     * @var DateTime
-     * @ORM\Column(type="datetime")
+     * @return string
      */
-    protected $passwordRequestedAt;
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
 
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function setUsername(string $username): User
+    {
+        $this->username = $username;
+        return $this;
+    }
 
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
+    /**
+     * @param string $password
+     * @return User
+     */
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return User
+     */
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     * @return User
+     */
+    public function setIsActive(bool $isActive): User
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            ) = unserialize($serialized, array('allowed_classes' => false));
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
 }
