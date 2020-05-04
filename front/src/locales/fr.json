@@ -44,11 +44,10 @@
       "placeholder": "Mot à traduire..."
     },
     "word-type" : {
-      "label" : "Type",
-      "select": {
-        "verb": "Verbe",
-        "noun": "Nom"
-      }
+      "label" : "Type"
+    },
+    "translation-type" : {
+      "label" : "Type"
     },
     "word-language" : {
       "label" : "Langue"
@@ -57,17 +56,17 @@
       "label": "Traduction",
       "placeholder": "Traduction proposé"
     },
-    "description": {
+    "translation-description": {
       "label" : "Description",
       "placeholder": "Ajoutez une descripton"
     },
     "example-from": {
-        "label": "Exemple",
-        "placeholder": "Exemple dans la langue d'origine"
+      "label": "Exemple",
+      "placeholder": "Exemple dans la langue d'origine"
     },
     "example-to": {
-        "label": "Traduction",
-        "placeholder": "Traduction de l'exemple"
+      "label": "Traduction",
+      "placeholder": "Traduction de l'exemple"
     },
     "add-example": "Ajouter un exemple",
     "delete-example": "Enlever l'exemple",
@@ -79,5 +78,14 @@
     "delete": "Supprimer",
     "update": "Modifier",
     "valid": "Valider"
+  },
+  "word": {
+    "type": {
+      "verb": "Verbe",
+      "noun": "Nom"
+    }
+  },
+  "error" : {
+    "empty_value" : "Merci de saisir une valeur"
   }
 }

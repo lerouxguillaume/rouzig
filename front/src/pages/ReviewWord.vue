@@ -48,9 +48,7 @@
                 .then((response) => {
                     let data = response.data.data;
                     if (typeof data !== 'undefined') {
-                        let newDefinition = new Definition();
-                        newDefinition.load(data);
-                        this.translation = newDefinition;
+                        this.translation.load(data);
                     }
                 })
                 .catch(function (error) {
@@ -99,11 +97,15 @@
                     headers: { 'Content-Type': 'application/json' },
                 };
                 ApiService.post(process.env.VUE_APP_API_URL + 'words/validate/'+this.$route.params.id ,options)
-                    .then((response) => {
-                        console.log(response);
+                    .then(() => {
+                        this.$router.push({ name:'MenuPage' })
                     })
-                    .catch(function (error) {
-                        console.error(error);
+                    .catch((error) => {
+                        let response = error.response;
+                        if (response.status === 400) {
+                            this.word.loadErrors(response.data)
+                        }
+                        this.busy = false;
                     })
             }
         }

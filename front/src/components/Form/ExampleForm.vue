@@ -6,24 +6,22 @@
     >
         <div class="example-container">
             <div class="row">
-                <label :for="'text-input-from-'+ this.exampleId">{{ $t('form.example-from.label') }}:</label>
-                <b-form-textarea
-                        :id="'text-input-from-'+ this.exampleId"
+                <TextAreaInput
+                        :id="'input-from-textarea-' + this.exampleId"
+                        :label="$t('form.example-from.label')"
                         v-model="example.fromText"
                         :placeholder="$t('form.example-from.placeholder')"
-                        rows="3"
-                        trim
-                ></b-form-textarea>
+                        :error="example.fromTextError"
+                ></TextAreaInput>
             </div>
             <div class="row">
-                <label :for="'text-to-from-'+ this.exampleId">{{ $t('form.example-to.label') }}:</label>
-                <b-form-textarea
-                        :id="'text-to-from-'+ this.exampleId"
+                <TextAreaInput
+                        :id="'input-to-textarea-' + this.exampleId"
+                        :label="$t('form.example-to.label')"
                         v-model="example.toText"
                         :placeholder="$t('form.example-to.placeholder')"
-                        rows="3"
-                        trim
-                ></b-form-textarea>
+                        :error="example.toTextError"
+                ></TextAreaInput>
             </div>
             <div class="row">
                 <b-button type="button" variant="danger" @click="onRemoveExample(example)" block>{{ $t('form.delete-example') }}</b-button>
@@ -35,9 +33,11 @@
 <script>
     import {Example} from "../../entities/Example";
     import {Translation} from "../../utils/enum";
+    import TextAreaInput from "./TextAreaInput";
 
     export default {
         name: "ExampleForm",
+        components: {TextAreaInput},
         props : {
             example: {
                 type: Example,

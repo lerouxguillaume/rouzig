@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -26,6 +27,7 @@ class Translation extends AbstractWord
      *      joinColumns={@ORM\JoinColumn(name="translations_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="example_id", referencedColumnName="id", unique=true)}
      *      )
+     * @Assert\Valid()
      */
     private $examples;
 

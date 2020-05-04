@@ -1,24 +1,24 @@
 <template>
     <div class="translations-form-container">
-        <TanslationForm
+        <TranslationForm
                 v-for="(translation, index) in translations"
                 :key="index"
                 :translation="translation"
                 :on-remove-translation="removeTranslation"
                 :language="language"
-        ></TanslationForm>
+        ></TranslationForm>
         <b-button variant="success" type="button" class="add-translation-button" @click="addTranslation">{{ $t('form.add-translation') }}</b-button>
     </div>
 </template>
 
 <script>
-    import TanslationForm from "./TanslationForm";
+    import TranslationForm from "./TranslationForm";
     import {Translation as TranslationEntity} from "../../entities/Translation";
     import {Translation} from "../../utils/enum";
 
     export default {
         name: "TranslationsForm",
-        components: {TanslationForm},
+        components: {TranslationForm},
         props: {
             translations: {
                 type: Array,

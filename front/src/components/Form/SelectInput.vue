@@ -11,7 +11,7 @@
         >
         </b-select>
         <b-form-invalid-feedback>
-            {{ error }}
+            {{ error ? $t('error.'+error) : ''}}
         </b-form-invalid-feedback>
     </div>
 </template>

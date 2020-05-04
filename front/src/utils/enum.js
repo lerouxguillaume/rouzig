@@ -3,8 +3,8 @@ import i18n from './../i18n'
 export const Types =  () => {
     return [
         {value: null, text: i18n.t('form.select')},
-        { value: 'verb', text: i18n.t('form.word-type.select.verb') },
-        { value: 'noun', text: i18n.t('form.word-type.select.noun') },
+        { value: 'verb', text: i18n.t('word.type.verb') },
+        { value: 'noun', text: i18n.t('word.type.noun') },
     ]
 }
 

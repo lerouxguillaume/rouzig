@@ -7,24 +7,29 @@
     >
         <div class="translation-container">
             <div class="row">
-                <div class="input" role="group">
-                    <label for="'form-translation-text-' +  this.translationId">{{ $t('form.translation-name.label') }}:</label>
-                    <b-input :id="'form-translation-text-' +  this.translationId" v-model="translation.text" :placeholder="$t('form.translation-name.placeholder')" trim></b-input>
-                </div>
-                <div class="input">
-                    <label for="'form-translation-option-' +  this.translationId">{{ $t('form.word-type.label') }}:</label>
-                    <b-form-select  :id="'form-translation-option-' +  this.translationId" v-model="translation.type" :options="typeOptions" trim></b-form-select>
-                </div>
+                <TextInput
+                        id="translation-input"
+                        :label="$t('form.translation-name.label')"
+                        v-model="translation.text"
+                        :placeholder="$t('form.translation-name.placeholder')"
+                        :error="translation.textError"
+                ></TextInput>
+                <SelectInput
+                        :id="'translation-type-' +  this.translationId"
+                        :label="$t('form.translation-type.label')"
+                        v-model="translation.type"
+                        :error="translation.typeError"
+                        :options="typeOptions"
+                ></SelectInput>
             </div>
             <div class="row">
-                <label :for="'description-textarea-' + this.translationId">{{ $t('form.description.label') }}</label>
-                <b-form-textarea
+                <TextAreaInput
                         :id="'description-textarea-' + this.translationId"
+                        :label="$t('form.translation-description.label')"
                         v-model="translation.description"
-                        :placeholder="$t('form.description.placeholder')"
-                        rows="3"
-                        trim
-                ></b-form-textarea>
+                        :placeholder="$t('form.translation-description.placeholder')"
+                        :error="translation.descriptionError"
+                ></TextAreaInput>
             </div>
             <ExemplesForm :examples="translation.examples" :language="language">
             </ExemplesForm>
@@ -41,10 +46,13 @@
     import ExemplesForm from "./ExamplesForm";
     import {Example} from "../../entities/Example";
     import {Languages, Translation, Types} from "../../utils/enum";
+    import TextInput from "./TextInput";
+    import SelectInput from "./SelectInput";
+    import TextAreaInput from "./TextAreaInput";
 
     export default {
         name: "TanslationForm",
-        components: {ExemplesForm},
+        components: {TextAreaInput, SelectInput, TextInput, ExemplesForm},
         props: {
             translation: TranslationEntity,
             onRemoveTranslation: {
@@ -57,9 +65,7 @@
         },
         watch: {
             language: function (newVal) {
-                console.log(Translation[newVal])
                 this.translation.language = Translation[newVal];
-                console.log(this.translation)
             }
         },
         computed : {

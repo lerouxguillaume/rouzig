@@ -16,14 +16,14 @@ abstract class AbstractWord
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::MISSING_WORD})
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $text;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::MISSING_LANGUAGE})
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $language;
 

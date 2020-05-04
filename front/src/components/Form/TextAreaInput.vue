@@ -1,7 +1,7 @@
 <template>
     <div class="input" role="group">
         <label :for="id">{{label}}:</label>
-        <b-input
+        <b-textarea
                 :id="id"
                 v-model="content"
                 :placeholder="placeholder"
@@ -9,7 +9,7 @@
                 :state="error != null ? false : null"
                 @input="handleInput"
         >
-        </b-input>
+        </b-textarea>
         <b-form-invalid-feedback>
             {{ error ? $t('error.'+error) : ''}}
         </b-form-invalid-feedback>
@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        name: "TextInput",
+        name: "TextAreaInput",
         props: {
             id: {
                 required: true,

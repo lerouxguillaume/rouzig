@@ -36,11 +36,12 @@
 
 <script>
     import ApiService from "../../services/api.service";
-    import {Definition, DefinitionError} from "../entities/Definition";
+    import {Definition} from "../entities/Definition";
     import TranslationsForm from "../components/Form/TranslationsForm";
     import {Languages, Types} from "../utils/enum";
     import TextInput from "../components/Form/TextInput";
     import SelectInput from "../components/Form/SelectInput";
+    import {Translation} from "../entities/Translation";
 
     export default {
         name: "AddTranslation",
@@ -48,16 +49,12 @@
         data() {
             return {
                 'word' : new Definition(),
-                'errors' : new DefinitionError(),
                 'busy': false
             }
         },
         computed : {
             text() {
                 return this.word.text;
-            },
-            invalidFeedback() {
-                return 'Hello'
             },
             languageOptions() {
                 return Languages();
@@ -67,50 +64,26 @@
             }
         },
         mounted() {
-            if (typeof this.$route.params.word !== 'undefined') {
-                this.word.text = this.$route.params.word;
-                this.search();
-            }
+            this.word.translations.push(new Translation())
         },
         methods: {
-            search() {
-                // let params = {
-                //     'headers' : {
-                //         'Accept' : 'application/vnd.api+json'
-                //     },
-                //     'params' : {
-                //         'text': this.word.text
-                //     }
-                // };
-                //
-                // ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
-                //     .then((response) => {
-                //         let data = response.data.data.shift();
-                //         if (typeof data !== 'undefined') {
-                //             let newDefinition = new Definition();
-                //             newDefinition.load(data);
-                //             this.word = newDefinition;
-                //         }
-                //     })
-                //     .catch(function (error) {
-                //         console.error(error);
-                //     })
-            },
             submit() {
                 this.busy = true;
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
-                ApiService.post(process.env.VUE_APP_API_URL + 'words', JSON.stringify(this.word, (key, value) => {
+                ApiService.post(process.env.VUE_APP_API_URL + 'words', JSON.stringify(this.word.post(), (key, value) => {
                     if (value !== null) return value
                 }) ,options)
                     .then(() => {
                         this.$router.push({ name:'MenuPage' })
                     })
                     .catch((error) => {
-
+                        let response = error.response;
+                        if (response.status === 400) {
+                            this.word.loadErrors(response.data)
+                        }
                         this.busy = false;
-                        console.error(error);
                     })
             }
         }

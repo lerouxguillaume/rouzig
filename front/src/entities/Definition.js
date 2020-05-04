@@ -1,4 +1,5 @@
 import {Translation} from "./Translation";
+import {parse} from "../utils/common";
 
 export class Definition {
     constructor() {
@@ -67,25 +68,56 @@ export class Definition {
             _this.translations.push(newTranslation);
         })
     };
-
+    loadErrors = function (errors) {
+        let violations = errors.violations;
+        let _this = this;
+        violations.forEach(function (violation) {
+            let parsedPropertyPath = parse(violation.propertyPath);
+            let currentProperty = parsedPropertyPath[0]
+            switch (currentProperty) {
+                case 'text' :
+                    _this.textError = violation.payload.code;
+                    break;
+                case 'type' :
+                    _this.typeError = violation.payload.code;
+                    break;
+                case 'language' :
+                    _this.languageError = violation.payload.code;
+                    break;
+                case 'translations':
+                    // eslint-disable-next-line no-case-declarations
+                    let translationId = parsedPropertyPath[1];
+                    parsedPropertyPath.splice(0,2);
+                    _this.translations[translationId].loadError(parsedPropertyPath, violation.payload.code)
+                    break;
+                default:
+                    console.error('unrecognized property : '+ currentProperty);
+            }
+        })
+    }
+    post = function () {
+        let translations = [];
+        this.translations.forEach(function (translation) {
+            translations.push(translation.post())
+        })
+        return {
+            'text' : this.text,
+            'type' : this.type,
+            'language' : this.language,
+            'translations' : translations,
+        }
+    }
     patch = function () {
+        let translations = [];
+        this.translations.forEach(function (translation) {
+            translations.push(translation.patch())
+        })
         return {
             'id' : this.id,
             'text' : this.text,
             'language' : this.language,
             'type' : this.type,
-            'translations' : this.translations,
+            'translations' : translations,
         }
-    }
-}
-
-
-export function DefinitionError() {
-    this.text = "test";
-    this.language = null;
-    this.type = null;
-    this.translations = [];
-    this.loadErrors = (errors) => {
-        console.log(errors);
     }
 }

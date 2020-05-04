@@ -44,11 +44,10 @@
       "placeholder": "Ger da zreiñ"
     },
     "word-type" : {
-      "label" : "Seurt",
-      "select": {
-        "verb": "Verb",
-        "noun": "Anv"
-      }
+      "label" : "Seurt"
+    },
+    "translation-type" : {
+      "label" : "Seurt"
     },
     "word-language" : {
       "label" : "Yezh"
@@ -57,7 +56,7 @@
       "label": "Troidigezh",
       "placeholder": "Troidigezh kinniget"
     },
-    "description": {
+    "translation-description": {
       "label" : "Deskirvadur",
       "placeholder": "Ouzhpenit un deskirvadur"
     },
@@ -67,7 +66,7 @@
     },
     "example-to": {
       "label": "Troidigezh",
-      "placeholder": "Troidigezh ae skouer"
+      "placeholder": "Troidigezh ar skouer"
     },
     "add-example": "Ouzhpenañ ur skouer",
     "delete-example": "Dilemel ar skouer",
@@ -79,5 +78,14 @@
     "delete": "Dilemel",
     "update": "Cheñch",
     "valid": "Gwiriekaat"
+  },
+  "word": {
+    "type": {
+      "verb": "Verb",
+      "noun": "Anv"
+    }
+  },
+  "error" : {
+    "empty_value" : "Trugarez de lakaat un dalvoud"
   }
 }
