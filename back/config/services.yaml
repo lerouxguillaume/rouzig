@@ -37,6 +37,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelView, priority: 3 }
 
+    App\EventListener\UserEventListener:
+        tags:
+            - { name: kernel.event_listener, event: user.register, method: onUserRegister, priority: 1 }
+
     App\Security\UserResolveListener:
         arguments:
             - '@App\Repository\UserRepository'
