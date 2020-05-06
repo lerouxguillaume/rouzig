@@ -9,6 +9,8 @@ use Twig\Environment;
 
 class MailService
 {
+    const MAIL_SENDER = 'guillaume.couloigner@gmail.com';
+
     /** @var \Swift_Mailer */
     private $mailer;
 
@@ -26,14 +28,31 @@ class MailService
         $this->renderer = $renderer;
     }
 
-    public function sendEmailValidation(User $user)
+    public function sendEmailValidation(User $user, string $redirectUrl): int
     {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('guillaume.couloigner@gmail.com')
-            ->setTo('guillaume@leroux.email')
-            ->setBody($this->renderer->render('email/email_validation.html.twig', ['user' =>$user]), 'text/html')
+        $message = (new \Swift_Message('Degemer mat !!!'))
+            ->setFrom(self::MAIL_SENDER)
+            ->setTo($user->getEmail())
+            ->setBody($this->renderer->render(
+                'email/email_validation.html.twig',
+                ['user' =>$user, 'redirectUrl' => $redirectUrl]),
+                'text/html'
+            )
         ;
-        $this->mailer->send($message);
+        return $this->mailer->send($message);
+    }
 
+    public function sendEmailResetPassword(User $user, string $redirectUrl): int
+    {
+        $message = (new \Swift_Message('Disonjet ho peux ho ger kuz'))
+            ->setFrom(self::MAIL_SENDER)
+            ->setTo($user->getEmail())
+            ->setBody($this->renderer->render(
+                'email/email_reset_password.html.twig',
+                ['user' =>$user, 'redirectUrl' => $redirectUrl]),
+                'text/html'
+            )
+        ;
+        return $this->mailer->send($message);
     }
 }

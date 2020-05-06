@@ -5,7 +5,7 @@
                 border-variant="primary"
                 header="Register"
         >
-            <div class="register-form-container">
+            <div v-if="!registerSuccess" class="register-form-container">
                 <div class="row">
                     <TextInput
                             class-name="col-6"
@@ -44,20 +44,22 @@
                     <b-button variant="success" type="submit" @click="handleSubmit" block>Submit</b-button>
                 </div>
             </div>
+            <div v-else class="alert-success">Autentifcation success</div>
         </b-card>
     </div>
 </template>
 
 <script>
 
-    import TextInput from "../components/Form/TextInput";
-    import ApiService from "../../services/api.service";
+    import TextInput from "../../components/Form/TextInput";
+    import ApiService from "../../../services/api.service";
     export default {
         name: "Register",
         components: {TextInput},
         props : ["nextUrl"],
         data(){
             return {
+                registerSuccess : false,
                 username : "test",
                 email : "test@email",
                 password : "test",
@@ -79,7 +81,7 @@
                         password: this.password
                     }, options)
                         .then(() => {
-                            this.$router.push({ name:'MenuPage' })
+                            this.registerSuccess = true
                         })
                         .catch((error) => {
                             let response = error.response;

@@ -1,3 +1,8 @@
+export const ValidateEmail =  function (mail)
+{
+    return (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail));
+}
+
 export const parse = function(str){
     if(typeof str !== 'string'){
         throw new TypeError('ObjectPath.parse must be passed a string');

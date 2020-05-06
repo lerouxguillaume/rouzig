@@ -4,7 +4,7 @@
              header-bg-variant="primary"
     >
         <b-overlay :show="submitted" rounded="sm" no-wrap></b-overlay>
-        <div class="login-container">
+        <div class="login-container flex-column flex-grow-1">
             <div class="row">
                 <label>Username : </label>
                 <b-input id="login" type="text" placeholder="Login" v-model="email"/>
@@ -13,10 +13,13 @@
                 <label>Password : </label>
                 <b-input id="password" type="password" placeholder="Password" v-model="password"/>
             </div>
-            <div class="row justify-center">
-                <p>Forgot password ?</p>
+            <div class="row flex-column">
+                <p>
+                    <RouterLink v-on:click.native="closeModal" :to="{name: 'ResetPassword'}">Forgot password</RouterLink>
+                </p>
+                <br>
                 <p>No account ?
-                    <RouterLink :to="{name: 'Register'}">Sign up</RouterLink>
+                    <RouterLink v-on:click.native="closeModal" :to="{name: 'Register'}">Sign up</RouterLink>
                 </p>
             </div>
         </div>
@@ -24,7 +27,7 @@
             <b-button type="submit" variant="primary">Identification</b-button>
         </template>
         <template v-slot:modal-footer>
-            <div class="grow justify-center">
+            <div class="flex-grow-1 justify-center">
                 <b-button type="submit" variant="primary" @click="handleSubmit">Submit</b-button>
             </div>
         </template>
@@ -93,9 +96,7 @@
 
 <style scoped>
     .login-container {
-        flex-direction: column;
         justify-content: center;
-        flex-grow: 1;
         margin: 0 5%;
     }
     .row {
@@ -103,8 +104,5 @@
     }
     .justify-center {
         justify-content: center;
-    }
-    .grow {
-        flex-grow: 1;
     }
 </style>

@@ -5,6 +5,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -17,6 +19,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
+    use SoftDeleteableEntity;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -45,9 +49,15 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var bool
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $isActive;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $token;
 
     /**
      * @return mixed
@@ -126,6 +136,24 @@ class User implements UserInterface, \Serializable
     public function setIsActive(bool $isActive): User
     {
         $this->isActive = $isActive;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     * @return User
+     */
+    public function setToken(?string $token): User
+    {
+        $this->token = $token;
         return $this;
     }
 

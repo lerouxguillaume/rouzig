@@ -6,7 +6,10 @@ import {TokenService} from "../services/storage.service";
 import MenuPage from "./pages/MenuPage";
 import ReviewWord from "./pages/ReviewWord";
 import AddTranslation from "./pages/AddTranslation";
-import Register from "./pages/Register";
+import Register from "./pages/Security/Register";
+import Activate from "./pages/Security/Activate";
+import ResetPassword from "./pages/Security/ResetPassword";
+import NewPassword from "./pages/Security/NewPassword";
 
 Vue.use(VueRouter);
 
@@ -48,6 +51,30 @@ const router =  new VueRouter({
             path: '/register',
             name: 'Register',
             component: Register,
+            meta: {
+                public: true,  // Allow access to even if not logged in
+            }
+        },
+        {
+            path: '/activate',
+            name: 'Activate',
+            component: Activate,
+            meta: {
+                public: true,  // Allow access to even if not logged in
+            }
+        },
+        {
+            path: '/reset-password',
+            name: 'ResetPassword',
+            component: ResetPassword,
+            meta: {
+                public: true,  // Allow access to even if not logged in
+            }
+        },
+        {
+            path: '/new-password',
+            name: 'NewPassword',
+            component: NewPassword,
             meta: {
                 public: true,  // Allow access to even if not logged in
             }

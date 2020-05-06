@@ -51,7 +51,14 @@
                 content: this.value
             }
         },
-
+        watch: {
+            value: {
+                immediate: true,
+                handler(val) {
+                    this.content = val;
+                }
+            }
+        },
         methods: {
             handleInput () {
                 this.$emit('input', this.content)
