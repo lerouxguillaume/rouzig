@@ -6,12 +6,12 @@
                 v-model="content"
                 :placeholder="placeholder"
                 trim
-                :state="error != null ? false : null"
+                :state="this.errorMessage.length > 0 ? false : null"
                 @input="handleInput"
         >
         </b-textarea>
         <b-form-invalid-feedback>
-            {{ error ? $t('error.'+error) : ''}}
+            {{ errorMessage }}
         </b-form-invalid-feedback>
     </div>
 </template>
@@ -43,7 +43,19 @@
                 content: this.value
             }
         },
-
+        watch: {
+            value: {
+                immediate: true,
+                handler(val) {
+                    this.content = val;
+                }
+            }
+        },
+        computed: {
+            errorMessage() {
+                return (typeof this.error === 'string' && this.error.length > 0) ?  this.error : '';
+            }
+        },
         methods: {
             handleInput () {
                 this.$emit('input', this.content)

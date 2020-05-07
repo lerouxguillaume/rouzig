@@ -1,4 +1,5 @@
 import {Example} from "./Example";
+import {formatErrorCode} from "../utils/formatter";
 
 export class Translation {
     constructor(language) {
@@ -73,16 +74,16 @@ export class Translation {
         let currentProperty = path[0]
         switch (currentProperty) {
             case 'text' :
-                this.textError = code;
+                this.textError = formatErrorCode(code);
                 break;
             case 'type' :
-                this.typeError = code;
+                this.typeError = formatErrorCode(code);
                 break;
             case 'language' :
-                this.languageError = code;
+                this.languageError = formatErrorCode(code);
                 break;
             case 'description' :
-                this.description = code;
+                this.description = formatErrorCode(code);
                 break;
             case 'examples':
                 // eslint-disable-next-line no-case-declarations

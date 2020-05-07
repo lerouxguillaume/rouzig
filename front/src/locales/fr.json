@@ -11,7 +11,8 @@
     "review": "Revoir",
     "translation": "Traduction",
     "example": "exemple",
-    "create-translation": "Crééer une traduction"
+    "create-translation": "Crééer une traduction",
+    "login": "Connexion"
   },
   "header": {
     "title": "Rouzig",
@@ -85,7 +86,77 @@
       "noun": "Nom"
     }
   },
+  "login": {
+    "header" : "Connexion",
+    "username": {
+      "label" : "Identifiant",
+      "placeholder" : "Rouzig"
+    },
+    "password": {
+      "label" : "Mot de passe"
+    },
+    "text": {
+      "no_account": "Pas inscrit ? "
+    },
+    "link": {
+      "register": "S'inscrire",
+      "forgot_password": "Mot de passe oublié"
+    },
+    "invalid": "Combinaison identifiant/mot de passe invalide"
+  },
+  "register": {
+    "header": "Inscription",
+    "form": {
+      "success": "Votre compte a été créée, afin de l'activer veuillez cliquer sur le lien recu dans le mail recu à l'adresse indiqué",
+      "username": {
+        "label" : "Pseudo",
+        "placeholder" : "Rouzig"
+      },
+      "email": {
+        "label" : "Email",
+        "placeholder" : "rouzig@rouzig.bzh"
+      },
+      "password" : {
+        "label" : "Mot de passe"
+      },
+      "password_confirm" : {
+        "label" : "Confirmez votre mot de passe"
+      }
+    },
+    "activate": {
+      "header": "Activation de votre compte",
+      "success": "Votre compte à bien été validé, vous pouvez à présent vous identifier",
+      "error": "Une erreur est survenue lors de l'activation : {error}"
+    }
+  },
+  "reset_password": {
+    "header": "Réinitialiser votre mot de passe",
+    "form": {
+      "email": {
+        "label" : "Email",
+        "placeholder" : "rouzig@rouzig.bzh"
+      }
+    },
+    "success": "Un email à bien été envoyé à l'adresse indiqué afin de réinitialiser votre mot de passe",
+    "error": "Une erreur est survenue lors de l'envoi du mail de réinitialisation : {error}"
+  },
+  "new_password": {
+    "header": "Saisissez votre nouveau mot de passe",
+    "form": {
+      "success": "Votre mot de passe a été modifié avec success",
+      "password" : {
+        "label" : "Mot de passe"
+      },
+      "password_confirm" : {
+        "label" : "Confirmez votre mot de passe"
+      }
+    }
+  },
   "error" : {
-    "empty_value" : "Merci de saisir une valeur"
+    "input" : {
+      "empty_value" : "Merci de saisir une valeur",
+      "email" : "Email invalide",
+      "password_not_matching": "Les mots de passes ne sont identiques"
+    }
   }
 }

@@ -3,7 +3,7 @@
         <b-card
                 header-bg-variant="primary"
                 border-variant="primary"
-                header="ResetPassword"
+                :header="$t('reset_password.header')"
         >
             <div class="flex-column flex-grow-1">
                 <div :show="message.length > 0">
@@ -11,13 +11,14 @@
                 </div>
                 <TextInput
                         id="resset-password"
-                        label="Email"
+                        :label="$t('reset_password.form.email.label')"
+                        :placeholder="$t('reset_password.form.email.placeholder')"
                         v-model="email"
-                        :error="emailError"
+                        :error="emailError === null ? null : $t(emailError)"
                 >
                 </TextInput>
                 <div class="submit-container">
-                    <b-button variant="success" type="submit" @click="handleSubmit" block>Submit</b-button>
+                    <b-button variant="success" type="submit" @click="handleSubmit" block>{{ $t('form.submit') }}</b-button>
                 </div>
             </div>
         </b-card>
@@ -46,7 +47,7 @@
         methods: {
             handleSubmit() {
                 if (!ValidateEmail(this.email)) {
-                    this.emailError = 'Invalid mail format';
+                    this.emailError = 'error.input.email';
                 } else {
                     let options = {
                         headers: { 'Content-Type': 'application/json' },
@@ -55,11 +56,11 @@
                         email : this.email,
                     }, options)
                         .then(() => {
-                            this.message = 'Un email viens de vous d\'etre envoyé a l\'adresse email saisie';
+                            this.message = this.$t('reset_password.success');
                         })
                         .catch((error) => {
                             console.error(error)
-                            this.message = 'Une erreur est surevenue : ' + error.response.message;
+                            this.message = this.$t('reset_password.error', error.response.message);
                         })
                 }
             }

@@ -1,5 +1,6 @@
 import {Translation} from "./Translation";
 import {parse} from "../utils/common";
+import {formatErrorCode} from "../utils/formatter";
 
 export class Definition {
     constructor() {
@@ -76,13 +77,13 @@ export class Definition {
             let currentProperty = parsedPropertyPath[0]
             switch (currentProperty) {
                 case 'text' :
-                    _this.textError = violation.payload.code;
+                    _this.textError = formatErrorCode(violation.payload.code);
                     break;
                 case 'type' :
-                    _this.typeError = violation.payload.code;
+                    _this.typeError = formatErrorCode(violation.payload.code);
                     break;
                 case 'language' :
-                    _this.languageError = violation.payload.code;
+                    _this.languageError = formatErrorCode(violation.payload.code);
                     break;
                 case 'translations':
                     // eslint-disable-next-line no-case-declarations

@@ -1,6 +1,6 @@
 export const ValidateEmail =  function (mail)
 {
-    return (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(mail));
+    return (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(mail));
 }
 
 export const parse = function(str){

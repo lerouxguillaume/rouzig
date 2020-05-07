@@ -3,7 +3,7 @@
         <b-card
                 header-bg-variant="primary"
                 border-variant="primary"
-                header="Register"
+                :header="$t('register.activate.header')"
         >
             {{ message }}
         </b-card>
@@ -33,11 +33,11 @@
                     token : token,
                 }, options)
                     .then(() => {
-                        this.message = 'Email validé vous pouvez à présent vous connecter'
+                        this.message = this.$t('register.activate.success');
                     })
                     .catch((error) => {
                         console.error(error)
-                        this.message = 'Une erreur est surevenue : ' + error.response.message;
+                        this.message = this.$t('register.activate.error', {"error" : error.response.message});
                     })
             } else {
                 alert('no token');

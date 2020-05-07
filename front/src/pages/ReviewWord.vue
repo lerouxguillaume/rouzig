@@ -3,15 +3,32 @@
         <div class="row">
             <div class="input" role="group">
                 <label for="text-input">{{ $t('form.word-name.label') }}:</label>
-                <b-input id="text-input" v-model="translation.text" :placeholder="$t('form.word-name.placeholder')" :disabled="true" trim></b-input>
+                <b-input
+                        id="text-input"
+                        v-model="translation.text"
+                        :placeholder="$t('form.word-name.placeholder')"
+                        :disabled="true"
+                        :error="$t(translation.textError)"
+                ></b-input>
             </div>
             <div class="input">
                 <label for="option-input">{{ $t('form.word-type.label') }}</label>
-                <b-form-select  id="option-input" v-model="translation.type" :options="typeOptions" trim></b-form-select>
+                <b-form-select
+                        id="option-input"
+                        v-model="translation.type"
+                        :options="typeOptions"
+                        :error="$t(translation.typeError)"
+                >
+                </b-form-select>
             </div>
             <div class="input">
                 <label for="language-input">{{ $t('form.word-language.label') }} : </label>
-                <b-form-select id="language-input" v-model="translation.language" :options="languageOptions" trim></b-form-select>
+                <b-form-select
+                        id="language-input"
+                        v-model="translation.language"
+                        :options="languageOptions"
+                        :error="$t(translation.languageError)"
+                ></b-form-select>
             </div>
         </div>
         <TranslationsForm :translations="translation.translations" :language="translation.language"></TranslationsForm>

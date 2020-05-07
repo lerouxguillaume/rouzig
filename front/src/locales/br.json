@@ -11,7 +11,9 @@
     "review": "Arnodenniñ",
     "translation": "Troidigezh",
     "example": "Skouer",
-    "create-translation": "Krouiñ un troidigezh"
+    "create-translation": "Krouiñ un troidigezh",
+    "login": "Gevreañ",
+    "logout": "Digevreañ"
   },
   "header": {
     "title": "Rouzig",
@@ -85,7 +87,78 @@
       "noun": "Anv"
     }
   },
+  "login": {
+    "header" : "Anaout",
+    "username": {
+      "label" : "Anaouder",
+      "placeholder" : "Rouzig"
+    },
+    "password": {
+      "label" : "Ger tremen"
+    },
+    "text": {
+      "no_account": "N'oc'h ket enskrivet c'hoaz?"
+    },
+    "link": {
+      "register": "Enskrivañ",
+      "forgot_password": "Disonjet ho peus ho ger tremen ?"
+    },
+    "invalid": "Anaout direizh"
+  },
+  "register": {
+    "header": "Enskrivañ",
+    "form": {
+      "success": "Votre compte a été créée, afin de l'activer veuillez cliquer sur le lien recu dans le mail recu à l'adresse indiqué",
+      "success": "Ho kont a zo bet krouet, evit aktivañ annezhañ; trugarez de klikañ war al liamm er postel kaset d'ar chomlec'h merket",
+      "username": {
+        "label" : "Anaouder",
+        "placeholder" : "Rouzig"
+      },
+      "email": {
+        "label" : "Postel",
+        "placeholder" : "rouzig@rouzig.bzh"
+      },
+      "password" : {
+        "label" : "Ger tremen"
+      },
+      "password_confirm" : {
+        "label" : "Kadarnait ho ger tremen"
+      }
+    },
+    "activate": {
+      "header": "Gweredekaadur ho gont",
+      "success": "Ho gont zo bet gweredekaet, tu zo deoc'h implij annezhañ",
+      "error": "Ur gudenn a zo c'hoarvezet e-pad ar weredekaadur : {error}"
+    }
+  },
+  "reset_password": {
+    "header": "Adderaouekaat ho ger tremen",
+    "form": {
+      "email": {
+        "label" : "Postel",
+        "placeholder" : "rouzig@rouzig.bzh"
+      }
+    },
+    "success": "Ur postel a zo bet kaset d'ar chomlecʼh ho peus merket evit adderaouekaat ho get tremen",
+    "error": "Ur gudenn a zo c'hoarvezet e-pad kasadur ar postel : {error}"
+  },
+  "new_password": {
+    "header": "Skrivit ho ger tremen nevez",
+    "form": {
+      "success": "Ho ger tremen a zo bet cheñchet gant bennvad",
+      "password" : {
+        "label" : "Ger tremen"
+      },
+      "password_confirm" : {
+        "label" : "Kadarnait ho ger tremen"
+      }
+    }
+  },
   "error" : {
-    "empty_value" : "Trugarez de lakaat un dalvoud"
+    "input" : {
+      "empty_value" : "Trugarez de lakaat un dalvoud",
+      "email" : "Postel diwiriek",
+      "password_not_matching": "Ar geriou tremen a zo disheñvel"
+    }
   }
 }

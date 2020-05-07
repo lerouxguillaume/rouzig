@@ -11,7 +11,7 @@
                         :label="$t('form.example-from.label')"
                         v-model="example.fromText"
                         :placeholder="$t('form.example-from.placeholder')"
-                        :error="example.fromTextError"
+                        :error="$t(example.fromTextError)"
                 ></TextAreaInput>
             </div>
             <div class="row">
@@ -20,7 +20,7 @@
                         :label="$t('form.example-to.label')"
                         v-model="example.toText"
                         :placeholder="$t('form.example-to.placeholder')"
-                        :error="example.toTextError"
+                        :error="$t(example.toTextError)"
                 ></TextAreaInput>
             </div>
             <div class="row">

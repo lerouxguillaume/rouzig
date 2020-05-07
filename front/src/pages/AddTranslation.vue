@@ -8,22 +8,22 @@
                         :label="$t('form.word-name.label')"
                         v-model="word.text"
                         :placeholder="$t('form.word-name.placeholder')"
-                        :error="word.textError"
+                        :error="$t(word.textError)"
                 >
                 </TextInput>
                 <SelectInput
                         id="option-input"
                         :label="$t('form.word-type.label')"
                         v-model="word.type"
-                        :error="word.typeError"
                         :options="typeOptions"
+                        :error="$t(word.typeError)"
                 ></SelectInput>
                 <SelectInput
                         id="option-input"
                         :label="$t('form.word-language.label')"
                         v-model="word.language"
-                        :error="word.languageError"
                         :options="languageOptions"
+                        :error="$t(word.languageError)"
                 ></SelectInput>
             </div>
             <TranslationsForm :translations="word.translations" :language="word.language"></TranslationsForm>

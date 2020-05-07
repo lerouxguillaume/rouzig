@@ -3,25 +3,29 @@
         <b-card
                 header-bg-variant="primary"
                 border-variant="primary"
-                header="NewPassword"
+                :header="$t('new_password.header')"
         >
-            <div class="flex-column flex-grow-1">
+            <div v-if="registerSuccess">
+                {{$t('new_password.form.success')}}
+            </div>
+            <div v-else class="flex-column flex-grow-1">
                     <TextInput
                             id="reset-password"
-                            label="Password"
+                            :label="$t('new_password.form.password.label')"
                             v-model="password"
                             type="password"
+                            :error="passwordError.length > 0 ? $t(passwordError) : null"
                     >
                     </TextInput>
                     <TextInput
                             id="reset-confirm-password"
-                            label="Confirm password"
+                            :label="$t('new_password.form.password_confirm.label')"
                             v-model="passwordConfirm"
                             type="password"
                     >
                     </TextInput>
                 <div class="submit-container">
-                    <b-button variant="success" type="submit" @click="handleSubmit" block>Submit</b-button>
+                    <b-button variant="success" type="submit" @click="handleSubmit" block>{{ $t('form.submit') }}</b-button>
                 </div>
             </div>
         </b-card>
@@ -42,12 +46,10 @@
             return {
                 password: '',
                 passwordConfirm : '',
-                token: this.$route.query.token
-
+                passwordError : '',
+                token: this.$route.query.token,
+                registerSuccess: false
             }
-        },
-        mounted() {
-            console.log(this.password)
         },
         methods: {
             handleSubmit(e) {
@@ -72,6 +74,7 @@
                             }
                         })
                 } else {
+                    this.passwordError = 'error.input.password_not_matching';
                     this.password = '';
                     this.passwordConfirm = '';
                 }

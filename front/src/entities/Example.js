@@ -1,3 +1,5 @@
+import {formatErrorCode} from "../utils/formatter";
+
 export class Example {
     constructor() {
         this.fromLanguage = null;
@@ -41,12 +43,12 @@ export class Example {
             case 'fromLanguage' :
                 break;
             case 'fromText' :
-                this.fromTextError = code;
+                this.fromTextError = formatErrorCode(code);
                 break;
             case 'toLanguage' :
                 break;
             case 'toText' :
-                this.toTextError = code;
+                this.toTextError = formatErrorCode(code);
                 break;
             default:
                 console.error('unrecognized property : '+ currentProperty);

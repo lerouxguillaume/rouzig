@@ -2,7 +2,7 @@
     <div class="header-container">
         <NavigationMenu></NavigationMenu>
         <div class="title-container">
-            <router-link :to="{name: 'homepage'}"><h1>{{ $t('header.title') }}</h1></router-link>
+            <router-link class="flex-shrink-1" :to="{name: 'homepage'}"><img :src="logo"></router-link>
             <h2>{{ $t('header.sub-title') }}</h2>
         </div>
     </div>
@@ -13,6 +13,11 @@
     export default {
         name: "Header",
         components: {NavigationMenu},
+        data: () => {
+            return {
+                logo: require('../../assets/logo.png')
+            }
+        }
     }
 </script>
 

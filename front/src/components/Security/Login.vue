@@ -5,30 +5,33 @@
     >
         <b-overlay :show="submitted" rounded="sm" no-wrap></b-overlay>
         <div class="login-container flex-column flex-grow-1">
-            <div class="row">
-                <label>Username : </label>
-                <b-input id="login" type="text" placeholder="Login" v-model="email"/>
+            <div v-show="loginError">
+                {{ $t(loginError) }}
             </div>
             <div class="row">
-                <label>Password : </label>
-                <b-input id="password" type="password" placeholder="Password" v-model="password"/>
+                <label>{{ $t('login.username.label') }} : </label>
+                <b-input id="login" type="text" :placeholder="$t('login.username.placeholder')" v-model="email"/>
+            </div>
+            <div class="row">
+                <label>{{ $t('login.password.label') }} : </label>
+                <b-input id="password" type="password" v-model="password"/>
             </div>
             <div class="row flex-column">
                 <p>
-                    <RouterLink v-on:click.native="closeModal" :to="{name: 'ResetPassword'}">Forgot password</RouterLink>
+                    <RouterLink v-on:click.native="closeModal" :to="{name: 'ResetPassword'}">{{ $t('login.link.forgot_password') }}</RouterLink>
                 </p>
                 <br>
-                <p>No account ?
-                    <RouterLink v-on:click.native="closeModal" :to="{name: 'Register'}">Sign up</RouterLink>
+                <p>{{ $t('login.text.no_account') }}
+                    <RouterLink v-on:click.native="closeModal" :to="{name: 'Register'}">{{ $t('login.link.register') }}</RouterLink>
                 </p>
             </div>
         </div>
         <template v-slot:modal-header>
-            <b-button type="submit" variant="primary">Identification</b-button>
+            <b-button type="submit" variant="primary">{{ $t('login.header') }}</b-button>
         </template>
         <template v-slot:modal-footer>
             <div class="flex-grow-1 justify-center">
-                <b-button type="submit" variant="primary" @click="handleSubmit">Submit</b-button>
+                <b-button type="submit" variant="primary" @click="handleSubmit">{{ $t('form.submit') }}</b-button>
             </div>
         </template>
     </b-modal>
@@ -51,6 +54,7 @@
             return {
                 email: "",
                 password: "",
+                loginError: null,
                 submitted : false
             };
         },
@@ -80,7 +84,7 @@
                             if (success) {
                                 this.closeModal()
                             }  else {
-                                //TODO: login error
+                                this.loginError = 'login.invalid'
                             }
                             this.submitted = false;
                         })

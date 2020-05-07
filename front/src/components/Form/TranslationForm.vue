@@ -12,14 +12,14 @@
                         :label="$t('form.translation-name.label')"
                         v-model="translation.text"
                         :placeholder="$t('form.translation-name.placeholder')"
-                        :error="translation.textError"
+                        :error="$t(translation.textError)"
                 ></TextInput>
                 <SelectInput
                         :id="'translation-type-' +  this.translationId"
                         :label="$t('form.translation-type.label')"
                         v-model="translation.type"
-                        :error="translation.typeError"
                         :options="typeOptions"
+                        :error="$t(translation.typeError)"
                 ></SelectInput>
             </div>
             <div class="row">
@@ -28,7 +28,7 @@
                         :label="$t('form.translation-description.label')"
                         v-model="translation.description"
                         :placeholder="$t('form.translation-description.placeholder')"
-                        :error="translation.descriptionError"
+                        :error="$t(translation.descriptionError)"
                 ></TextAreaInput>
             </div>
             <ExemplesForm :examples="translation.examples" :language="language">
