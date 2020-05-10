@@ -3,7 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Translation;
-use App\Entity\Word;
+use App\Entity\Word\Noun;
+use App\Entity\Word\Verb;
+use App\Entity\WordObject;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -13,7 +15,7 @@ class WordsFixtures extends Fixture
     {
         $this->createWord(
             'danser',
-            Word::STATUS_APPROVED,
+            WordObject::STATUS_APPROVED,
             [
                 $this->getReference(TranslationFixtures::TRANSLATION_DANSER_1_REFERENCE),
             ],
@@ -22,7 +24,7 @@ class WordsFixtures extends Fixture
 
         $this->createWord(
             'manger',
-            Word::STATUS_PENDING,
+            WordObject::STATUS_PENDING,
             [
                 $this->getReference(TranslationFixtures::TRANSLATION_MANGER_1_REFERENCE),
             ],
@@ -31,22 +33,23 @@ class WordsFixtures extends Fixture
 
         $this->createWord(
             'dormir',
-            Word::STATUS_PENDING,
+            WordObject::STATUS_PENDING,
             [
                 $this->getReference(TranslationFixtures::TRANSLATION_DORMIR_1_REFERENCE),
             ],
-            $manager
+            $manager,
+            Noun::class
         );
 
         $manager->flush();
     }
 
-    private function createWord($text, $status, $translations, $manager)
+    private function createWord($text, $status, $translations, $manager, $className = Verb::class)
     {
-        $word = new Word();
+        $word = new $className();
         $word
             ->setText($text)
-            ->setLanguage(Word::LANGUAGE_BR)
+            ->setLanguage(WordObject::LANGUAGE_BR)
             ->setStatus($status)
             ->setVersion(1)
             ->setCreatedAt(new \DateTime())

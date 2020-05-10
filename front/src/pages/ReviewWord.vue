@@ -2,22 +2,22 @@
     <div class="word-manager-container form">
         <div class="row">
             <div class="input" role="group">
-                <label for="text-input">{{ $t('form.word-name.label') }}:</label>
+                <label for="word-input">{{ $t('form.word-name.label') }}:</label>
                 <b-input
-                        id="text-input"
-                        v-model="translation.text"
+                        id="word-input"
+                        v-model="translation.word"
                         :placeholder="$t('form.word-name.placeholder')"
                         :disabled="true"
-                        :error="$t(translation.textError)"
+                        :error="$t(translation.wordError)"
                 ></b-input>
             </div>
             <div class="input">
                 <label for="option-input">{{ $t('form.word-type.label') }}</label>
                 <b-form-select
                         id="option-input"
-                        v-model="translation.type"
+                        v-model="translation.wordType"
                         :options="typeOptions"
-                        :error="$t(translation.typeError)"
+                        :error="$t(translation.wordTypeError)"
                 >
                 </b-form-select>
             </div>
@@ -44,7 +44,7 @@
     import ApiService from "../../services/api.service";
     import {Definition} from "../entities/Definition";
     import TranslationsForm from "../components/Form/TranslationsForm";
-    import {Languages, Types} from "../utils/enum";
+    import {Languages, WordTypes} from "../utils/enum";
 
     export default {
         name: "ReviewWord",
@@ -77,7 +77,7 @@
                 return Languages();
             },
             typeOptions() {
-                return Types();
+                return WordTypes();
             }
         },
         methods: {

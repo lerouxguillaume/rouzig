@@ -2,9 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Example;
 use App\Entity\Translation;
-use App\Entity\Word;
+use App\Entity\WordObject;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -54,8 +53,7 @@ class TranslationFixtures extends Fixture
         $translation
             ->setText($word)
             ->setDescription('description')
-            ->setLanguage(Word::LANGUAGE_FR)
-            ->setType('type')
+            ->setLanguage(WordObject::LANGUAGE_FR)
         ;
         foreach ($examples as $example) {
             $translation->addExample($example);

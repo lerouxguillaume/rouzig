@@ -8,19 +8,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Enum\ErrorCodes;
+use App\Dto\WordDto;
 
 /**
  * @ORM\Entity()
- * @ApiResource(
- *     shortName="Word",
- *     collectionOperations={"GET", "POST"},
- *     itemOperations={"GET", "PATCH", "DELETE"},
- * )
- * @ApiFilter(SearchFilter::class, properties={"text" : "partial", "status" : "partial"})
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "verb" = "App\Entity\Word\Verb",
+ *     "noun" = "App\Entity\Word\Noun",
+ *     "adjective" = "App\Entity\Word\Adjective",
+ *     "adverb" = "App\Entity\Word\Adverb",
+ *     "conjuction" = "App\Entity\Word\Conjunction",
+ *     "pronoun" = "App\Entity\Word\Pronoun",
+ *     "preposition" = "App\Entity\Word\Preposition"
+ * })
  */
-class Word extends AbstractWord
+abstract class WordObject
 {
     const STATUS_APPROVED = 'approved';
     const STATUS_DELETED = 'deleted';
@@ -30,6 +38,7 @@ class Word extends AbstractWord
     const LANGUAGE_FR = 'fr';
 
     use TimestampableEntity;
+    use SoftDeleteableEntity;
 
     /**
      * @var int
@@ -60,7 +69,7 @@ class Word extends AbstractWord
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $status = Word::STATUS_PENDING;
+    private $status = WordObject::STATUS_PENDING;
 
     /**
      * @var User
@@ -69,7 +78,27 @@ class Word extends AbstractWord
     private $author;
 
     /**
-     * Word constructor.
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     */
+    private $text;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     */
+    private $language;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * WordObject constructor.
      */
     public function __construct()
     {
@@ -81,24 +110,30 @@ class Word extends AbstractWord
         return $this->id;
     }
 
+    public function setId(int $id): WordObject
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getTranslations(): array
     {
         return $this->translations->getValues();
     }
 
-    public function setTranslations(array $translations): Word
+    public function setTranslations(array $translations): WordObject
     {
         $this->translations = new ArrayCollection($translations);
         return $this;
     }
 
-    public function addTranslation(Translation $translation): Word
+    public function addTranslation(Translation $translation): WordObject
     {
         $this->translations->add($translation);
         return $this;
     }
 
-    public function removeTransaction(Translation $translation): Word
+    public function removeTransaction(Translation $translation): WordObject
     {
         $this->translations->removeElement($translation);
         return $this;
@@ -109,7 +144,7 @@ class Word extends AbstractWord
         return $this->version;
     }
 
-    public function setVersion(int $version): Word
+    public function setVersion(int $version): WordObject
     {
         $this->version = $version;
         return $this;
@@ -120,7 +155,7 @@ class Word extends AbstractWord
         return $this->status;
     }
 
-    public function setStatus(?string $status): Word
+    public function setStatus(?string $status): WordObject
     {
         $this->status = $status;
         return $this;
@@ -131,9 +166,42 @@ class Word extends AbstractWord
         return $this->author;
     }
 
-    public function setAuthor(?User $author): Word
+    public function setAuthor(?User $author): WordObject
     {
         $this->author = $author;
+        return $this;
+    }
+
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): WordObject
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(string $language): WordObject
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): WordObject
+    {
+        $this->description = $description;
         return $this;
     }
 }

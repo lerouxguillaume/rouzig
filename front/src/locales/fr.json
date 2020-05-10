@@ -158,5 +158,52 @@
       "email" : "Email invalide",
       "password_not_matching": "Les mots de passes ne sont identiques"
     }
+  },
+  "title": {
+    "homepage": {
+      "title": "Dictionnaire Breton-Francais",
+      "name": "Ar rouzig, dictionnaire breton-francais",
+      "content": "Ar rouzig, le dictionnaire breton-francais collaboratif"
+    },
+    "add_translation": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "menu": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "review": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "register": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "activate_account": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "reset_password": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "new_password": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "page_not_found": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    }
   }
 }

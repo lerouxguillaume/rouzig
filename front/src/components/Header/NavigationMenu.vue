@@ -57,7 +57,6 @@
                 'logout'
             ]),
             selectLang: function (lang) {
-                console.log(lang)
                 this.$i18n.locale = lang
             },
 

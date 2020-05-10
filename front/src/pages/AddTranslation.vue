@@ -6,9 +6,9 @@
                 <TextInput
                         id="text-input"
                         :label="$t('form.word-name.label')"
-                        v-model="word.text"
+                        v-model="word.word"
                         :placeholder="$t('form.word-name.placeholder')"
-                        :error="$t(word.textError)"
+                        :error="$t(word.wordError)"
                 >
                 </TextInput>
                 <SelectInput
@@ -54,7 +54,7 @@
         },
         computed : {
             text() {
-                return this.word.text;
+                return this.word.word;
             },
             languageOptions() {
                 return Languages();

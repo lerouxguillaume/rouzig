@@ -20,6 +20,9 @@
             return {
             }
         },
+        mounted() {
+            console.log(this.$router.params)
+        }
     }
 </script>
 

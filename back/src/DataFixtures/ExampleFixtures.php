@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Example;
 use App\Entity\Word;
+use App\Entity\WordObject;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -45,8 +46,8 @@ class ExampleFixtures extends Fixture
     {
         $example = new Example();
         $example
-            ->setFromLanguage(Word::LANGUAGE_FR)
-            ->setToLanguage(Word::LANGUAGE_BR)
+            ->setFromLanguage(WordObject::LANGUAGE_FR)
+            ->setToLanguage(WordObject::LANGUAGE_BR)
             ->setFromText($from)
             ->setToText($to)
         ;

@@ -10,16 +10,16 @@
                 <TextInput
                         id="translation-input"
                         :label="$t('form.translation-name.label')"
-                        v-model="translation.text"
+                        v-model="translation.word"
                         :placeholder="$t('form.translation-name.placeholder')"
-                        :error="$t(translation.textError)"
+                        :error="$t(translation.wordError)"
                 ></TextInput>
                 <SelectInput
                         :id="'translation-type-' +  this.translationId"
                         :label="$t('form.translation-type.label')"
-                        v-model="translation.type"
+                        v-model="translation.wordType"
                         :options="typeOptions"
-                        :error="$t(translation.typeError)"
+                        :error="$t(translation.wordTypeError)"
                 ></SelectInput>
             </div>
             <div class="row">
@@ -45,10 +45,10 @@
     import {Translation as TranslationEntity} from "../../entities/Translation";
     import ExemplesForm from "./ExamplesForm";
     import {Example} from "../../entities/Example";
-    import {Languages, Translation, Types} from "../../utils/enum";
     import TextInput from "./TextInput";
     import SelectInput from "./SelectInput";
     import TextAreaInput from "./TextAreaInput";
+    import {Languages, Translation, WordTypes} from "../../utils/enum";
 
     export default {
         name: "TanslationForm",
@@ -76,7 +76,7 @@
                 return Languages();
             },
             typeOptions() {
-                return Types();
+                return WordTypes();
             }
         },
         methods: {

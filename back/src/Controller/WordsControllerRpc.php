@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Word;
+use App\Dto\WordDto;
+use App\Entity\WordObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,12 +36,12 @@ class WordsControllerRpc extends AbstractController
      */
     public function validateAction(int $wordId)
     {
-        /** @var Word $word */
-        if (empty($word = $this->em->getRepository(Word::class)->find($wordId))) {
+        /** @var WordObject $word */
+        if (empty($word = $this->em->getRepository(WordObject::class)->find($wordId))) {
             throw new NotFoundHttpException();
         }
 
-        $word->setStatus(Word::STATUS_APPROVED);
+        $word->setStatus(WordObject::STATUS_APPROVED);
 
         $this->em->persist($word);
         $this->em->flush();

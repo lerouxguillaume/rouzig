@@ -5,29 +5,29 @@ import {formatErrorCode} from "../utils/formatter";
 export class Definition {
     constructor() {
         this.id = null;
-        this._text = null;
-        this.textError = null;
-        Object.defineProperty(this, 'text', {
+        this._word = null;
+        this.wordError = null;
+        Object.defineProperty(this, 'word', {
             get () {
-                return this._text;
+                return this._word;
             },
             set (value) {
-                this._text = value
-                if (this.textError != null) {
-                    this.textError = null
+                this._word = value
+                if (this.wordError != null) {
+                    this.wordError = null
                 }
             }
         });
-        this._type = null;
-        this.typeError = null;
-        Object.defineProperty(this, 'type', {
+        this._wordType = null;
+        this.wordTypeError = null;
+        Object.defineProperty(this, 'wordType', {
             get () {
-                return this._type;
+                return this._wordType;
             },
             set (value) {
-                this._type = value
-                if (this.typeError != null) {
-                    this.typeError = null
+                this._wordType = value
+                if (this.wordTypeError != null) {
+                    this.wordTypeError = null
                 }
             }
         });
@@ -54,9 +54,9 @@ export class Definition {
     load = function(object) {
         let attributes = object.attributes;
         this.id = attributes._id;
-        this.text = attributes.text;
+        this.word = attributes.word;
         this.language = attributes.language;
-        this.type = attributes.type;
+        this.wordType = attributes.wordType;
         this.version = attributes.version;
         this.status = attributes.status;
         this.createdAt = attributes.createdAt;
@@ -76,11 +76,11 @@ export class Definition {
             let parsedPropertyPath = parse(violation.propertyPath);
             let currentProperty = parsedPropertyPath[0]
             switch (currentProperty) {
-                case 'text' :
-                    _this.textError = formatErrorCode(violation.payload.code);
+                case 'word' :
+                    _this.wordError = formatErrorCode(violation.payload.code);
                     break;
-                case 'type' :
-                    _this.typeError = formatErrorCode(violation.payload.code);
+                case 'wordType' :
+                    _this.wordTypeError = formatErrorCode(violation.payload.code);
                     break;
                 case 'language' :
                     _this.languageError = formatErrorCode(violation.payload.code);
@@ -102,8 +102,8 @@ export class Definition {
             translations.push(translation.post())
         })
         return {
-            'text' : this.text,
-            'type' : this.type,
+            'word' : this.word,
+            'wordType' : this.wordType,
             'language' : this.language,
             'translations' : translations,
         }
@@ -115,9 +115,9 @@ export class Definition {
         })
         return {
             'id' : this.id,
-            'text' : this.text,
+            'word' : this.word,
             'language' : this.language,
-            'type' : this.type,
+            'wordType' : this.wordType,
             'translations' : translations,
         }
     }

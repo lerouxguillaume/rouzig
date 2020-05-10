@@ -160,5 +160,52 @@
       "email" : "Postel diwiriek",
       "password_not_matching": "Ar geriou tremen a zo disheñvel"
     }
+  },
+  "title": {
+    "homepage": {
+      "title": "Geriadur Brezhoneg-Galleg",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "add_translation": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "menu": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "review": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "register": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "activate_account": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "reset_password": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "new_password": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    },
+    "page_not_found": {
+      "title": "TODO",
+      "name": "TODO",
+      "content": "TODO"
+    }
   }
 }

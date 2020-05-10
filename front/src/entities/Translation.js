@@ -3,29 +3,29 @@ import {formatErrorCode} from "../utils/formatter";
 
 export class Translation {
     constructor(language) {
-        this._text = null;
-        this.textError = null;
-        Object.defineProperty(this, 'text', {
+        this._word = null;
+        this.wordError = null;
+        Object.defineProperty(this, 'word', {
             get() {
-                return this._text;
+                return this._word;
             },
             set(value) {
-                this._text = value
-                if (this.textError != null) {
-                    this.textError = null
+                this._word = value
+                if (this.wordError != null) {
+                    this.wordError = null
                 }
             }
         });
-        this._type = null;
-        this.typeError = null;
-        Object.defineProperty(this, 'type', {
+        this._wordType = null;
+        this.wordTypeError = null;
+        Object.defineProperty(this, 'wordType', {
             get() {
-                return this._type;
+                return this._wordType;
             },
             set(value) {
-                this._type = value
-                if (this.typeError != null) {
-                    this.typeError = null
+                this._wordType = value
+                if (this.wordTypeError != null) {
+                    this.wordTypeError = null
                 }
             }
         });
@@ -58,9 +58,9 @@ export class Translation {
         this.examples = [];
     }
     load = function(object) {
-        this.text = object.text;
+        this.word = object.word;
         this.language = object.language;
-        this.type = object.type;
+        this.wordType = object.wordType;
         this.description = object.description;
 
         let _this = this;
@@ -73,11 +73,11 @@ export class Translation {
     loadError = function (path, code) {
         let currentProperty = path[0]
         switch (currentProperty) {
-            case 'text' :
-                this.textError = formatErrorCode(code);
+            case 'word' :
+                this.wordError = formatErrorCode(code);
                 break;
-            case 'type' :
-                this.typeError = formatErrorCode(code);
+            case 'wordType' :
+                this.wordTypeError = formatErrorCode(code);
                 break;
             case 'language' :
                 this.languageError = formatErrorCode(code);
@@ -101,8 +101,8 @@ export class Translation {
             examples.push(example.post())
         })
         return {
-            'text' : this.text,
-            'type' : this.type,
+            'word' : this.word,
+            'wordType' : this.wordType,
             'language' : this.language,
             'description' : this.description,
             'examples': examples
@@ -114,8 +114,8 @@ export class Translation {
             examples.push(example.patch())
         })
         return {
-            'text' : this.text,
-            'type' : this.type,
+            'word' : this.word,
+            'wordType' : this.wordType,
             'language' : this.language,
             'description' : this.description,
             'examples': examples

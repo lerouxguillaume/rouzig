@@ -35,10 +35,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\EventListener\ResultNotFoundListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelView, priority: 3 }
-
     App\Security\UserResolveListener:
         arguments:
             - '@App\Repository\UserRepository'

@@ -1,10 +1,16 @@
 import i18n from './../i18n'
 
-export const Types =  () => {
+export const WordTypes =  () => {
     return [
         {value: null, text: i18n.t('form.select')},
-        { value: 'verb', text: i18n.t('word.type.verb') },
+        { value: 'adjective', text: i18n.t('word.type.adjective') },
+        { value: 'adverb', text: i18n.t('word.type.adverb') },
+        { value: 'conjunction', text: i18n.t('word.type.conjunction') },
         { value: 'noun', text: i18n.t('word.type.noun') },
+        { value: 'preposition', text: i18n.t('word.type.preposition') },
+        { value: 'pronoun', text: i18n.t('word.type.pronoun') },
+        { value: 'verb', text: i18n.t('word.type.verb') },
+        { value: 'other', text: i18n.t('word.type.other') },
     ]
 }
 
