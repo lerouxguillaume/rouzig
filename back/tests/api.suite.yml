@@ -1,0 +1,17 @@
+actor: ApiTester
+modules:
+  enabled:
+    - Symfony:
+        app_path: src
+        environment: test
+        debug: true
+    - REST:
+        url: http://apache-rouzig/api/
+        depends: PhpBrowser
+        part: Json
+    - Doctrine2:
+        depends: Symfony
+        cleanup: true
+    - DataFactory:
+        depends: Doctrine2
+    - \App\Tests\Helper\Api

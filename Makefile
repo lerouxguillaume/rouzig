@@ -14,7 +14,7 @@ bash-symfony:
 	docker exec -it -u dev php_rouzig bash
 
 bash-apache:
-	docker exec -it apache_rouzig bash
+	docker exec -it apache-rouzig bash
 
 bash-root:
 	docker exec -it php_rouzig bash
