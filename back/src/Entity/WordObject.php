@@ -50,7 +50,7 @@ abstract class WordObject
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="Translation", cascade={"Persist"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Translation", cascade={"ALL"}, orphanRemoval=true)
      * @ORM\JoinTable(name="word_translations",
      *      joinColumns={@ORM\JoinColumn(name="word_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="translation_id", referencedColumnName="id", unique=true)}
@@ -105,12 +105,12 @@ abstract class WordObject
         $this->translations = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): WordObject
+    public function setId(?int $id): WordObject
     {
         $this->id = $id;
         return $this;

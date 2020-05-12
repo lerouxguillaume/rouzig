@@ -9,5 +9,6 @@ actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+        - Codeception\Extension\Logger
 params:
     - .env

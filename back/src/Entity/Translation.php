@@ -23,7 +23,7 @@ class Translation
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="Example", cascade={"PERSIST"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Example", cascade={"ALL"}, orphanRemoval=true)
      * @ORM\JoinTable(name="translation_examples",
      *      joinColumns={@ORM\JoinColumn(name="translations_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="example_id", referencedColumnName="id", unique=true)}

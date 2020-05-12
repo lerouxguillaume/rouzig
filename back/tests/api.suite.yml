@@ -9,9 +9,9 @@ modules:
         url: http://apache-rouzig/api/
         depends: PhpBrowser
         part: Json
-    - Doctrine2:
-        depends: Symfony
-        cleanup: true
     - DataFactory:
         depends: Doctrine2
+    - Doctrine2:
+        depends: Symfony
+        cleanup: false
     - \App\Tests\Helper\Api

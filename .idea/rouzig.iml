@@ -58,6 +58,7 @@
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/league/factory-muffin" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/league/factory-muffin-faker" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/league/oauth2-server" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/nelmio/cors-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/nyholm/psr7" />
@@ -123,6 +124,8 @@
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/http-kernel" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/mime" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/monolog-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/monolog-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/orm-pack" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/polyfill-intl-idn" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/polyfill-mbstring" />

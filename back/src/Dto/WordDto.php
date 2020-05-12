@@ -29,19 +29,25 @@ class WordDto
 
     /**
      * @var string
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $word;
 
     /**
      * @var string
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $description;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     */
     private $language;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     */
     private $wordType;
 
     /** @var UserOutput */

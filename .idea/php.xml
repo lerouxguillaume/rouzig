@@ -153,6 +153,9 @@
       <path value="$PROJECT_DIR$/back/vendor/league/factory-muffin-faker" />
       <path value="$PROJECT_DIR$/back/vendor/fzaninotto/faker" />
       <path value="$PROJECT_DIR$/back/vendor/codeception/module-datafactory" />
+      <path value="$PROJECT_DIR$/back/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/monolog-bundle" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/monolog-bridge" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">
