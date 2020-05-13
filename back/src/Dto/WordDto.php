@@ -5,6 +5,7 @@ namespace App\Dto;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Enum\ErrorCodes;
 
@@ -13,6 +14,7 @@ use App\Enum\ErrorCodes;
  * @package App\Dto
  *
  * @ApiResource(
+ *          denormalizationContext={AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT=true},
  *          shortName="Word",
  *          collectionOperations={"GET", "POST"},
  *          itemOperations={"GET", "PATCH", "DELETE"},

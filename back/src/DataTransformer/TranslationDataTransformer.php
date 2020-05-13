@@ -22,18 +22,18 @@ class TranslationDataTransformer
         $this->exampleDataTransformer = $exampleDataTransformer;
     }
 
-    public function transform($object, string $to)
+    public function transform($object, string $to, $context = [])
     {
         if ($object instanceof Translation && $to === TranslationDto::class) {
-            return $this->entityToDto($object);
+            return $this->entityToDto($object, $context);
         } elseif ($object instanceof TranslationDto && $to === Translation::class) {
-            return $this->dtoToEntity($object);
+            return $this->dtoToEntity($object, $context);
         } else {
             throw new \LogicException('Transformation not supported');
         }
     }
 
-    private function entityToDto(Translation $translation): TranslationDto
+    private function entityToDto(Translation $translation, $context = []): TranslationDto
     {
         $output = new TranslationDto();
         $output
@@ -51,7 +51,7 @@ class TranslationDataTransformer
         return $output;
     }
 
-    private function dtoToEntity(TranslationDto $translation): Translation
+    private function dtoToEntity(TranslationDto $translation, $context = []): Translation
     {
         $output = new Translation();
         $output
@@ -63,7 +63,7 @@ class TranslationDataTransformer
 
         /** @var ExampleDto $example */
         foreach ($translation->getExamples() as $example) {
-            $output->addExample($this->exampleDataTransformer->transform($example, Example::class));
+            $output->addExample($this->exampleDataTransformer->transform($example, Example::class, array_merge($context, ['toLanguage' => $output->getLanguage()])));
         }
 
         return $output;

@@ -50,11 +50,7 @@ abstract class WordObject
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="Translation", cascade={"ALL"}, orphanRemoval=true)
-     * @ORM\JoinTable(name="word_translations",
-     *      joinColumns={@ORM\JoinColumn(name="word_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="translation_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Translation", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
     private $translations;
@@ -121,9 +117,23 @@ abstract class WordObject
         return $this->translations->getValues();
     }
 
+    public function getTranslationById(int $id): ?Translation
+    {
+        /** @var Translation $translation */
+        foreach ($this->translations as $translation) {
+            if ($translation->getId() === $id) {
+                return $translation;
+            }
+        }
+        return null;
+    }
+
     public function setTranslations(array $translations): WordObject
     {
-        $this->translations = new ArrayCollection($translations);
+        $this->translations->clear();
+        foreach ($translations as $translation) {
+            $this->addTranslation($translation);
+        }
         return $this;
     }
 
@@ -133,7 +143,7 @@ abstract class WordObject
         return $this;
     }
 
-    public function removeTransaction(Translation $translation): WordObject
+    public function removeTranslation(Translation $translation): WordObject
     {
         $this->translations->removeElement($translation);
         return $this;

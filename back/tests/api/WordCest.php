@@ -2,6 +2,7 @@
 
 namespace App\Tests\api;
 
+use App\Entity\Example;
 use App\Entity\Translation;
 use App\Entity\Word\Verb;
 use App\Entity\WordObject;
@@ -75,7 +76,7 @@ class WordCest
         $word->setText($this->getFaker()->unique()->word);
 
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
-        $I->haveHttpHeader('Content-Type', 'application/vnd.api+json');
+        $I->haveHttpHeader('Content-Type', 'application/merge-patch+json');
         $I->sendPATCH('/words/'.$word->getId(), $this->wordToJson($word));
         $I->seeResponseCodeIs(200); // 200
         $I->seeResponseIsJson();
@@ -85,26 +86,64 @@ class WordCest
 
         $I->seeInRepository(Verb::class, ['id'=>$word->getId(), 'text' => $word->getText()]);
 
+        /** @var Translation $translation */
+        $translation = current($word->getTranslations());
+        $translation->setText($this->getFaker()->unique()->word);
+        /** @var Example $example */
+        $example = current($translation->getExamples());
+        $example->setToText($this->getFaker()->unique()->text);
+
+        $I->haveHttpHeader('Content-Type', 'application/merge-patch+json');
+        $I->sendPATCH('/words/'.$word->getId(), $this->wordToJson($word));
+        $I->seeResponseCodeIs(200); // 200
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'word' => $word->getText()
+        ]);
+        $I->seeResponseContainsJson([
+            'translations' => [
+                'word' => $translation->getText()
+            ]
+        ]);
+        $I->seeResponseContainsJson([
+            'examples' => [
+                'toText' => $example->getToText()
+            ]
+        ]);
+
     }
 
-    private function wordToJson(WordObject $wordObject): array
+    private function wordToJson(WordObject $wordObject): string
     {
         $translations = [];
         /** @var Translation $translation */
         foreach ($wordObject->getTranslations() as $translation) {
+
+            $examples = [];
+            /** @var Example $example */
+            foreach ($translation->getExamples() as $example) {
+                $examples[] = [
+                    'id' => $example->getId(),
+                    'toText' => $example->getToText(),
+                    'fromText' => $example->getFromText(),
+                ];
+            }
+
             $translations[] = [
+                'id' => $translation->getId(),
                 'word' => $translation->getText(),
                 'language' => $translation->getLanguage(),
-                'description' => $translation->getDescription()
+                'description' => $translation->getDescription(),
+                'examples'=> $examples
             ];
         }
 
-        return [
+        return json_encode([
             'word' => $wordObject->getText(),
             'language' => $wordObject->getLanguage(),
             'wordType' => 'verb',
             'translations' => $translations
-        ];
+        ]);
     }
 
     private function getFaker(): Generator

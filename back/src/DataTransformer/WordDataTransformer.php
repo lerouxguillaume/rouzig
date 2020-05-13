@@ -77,7 +77,7 @@ class WordDataTransformer
 
         /** @var TranslationDto $translation */
         foreach ($word->getTranslations() as $translation) {
-            $output->addTranslation($this->translationDataTransformer->transform($translation, Translation::class));
+            $output->addTranslation($this->translationDataTransformer->transform($translation, Translation::class, ['fromLanguage' => $word->getLanguage()]));
         }
 
         return $output;

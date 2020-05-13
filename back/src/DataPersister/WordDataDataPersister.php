@@ -50,13 +50,15 @@ class WordDataDataPersister implements ContextAwareDataPersisterInterface
     {
          $wordObject = $this->wordDataTransformer->transform($data, WordObject::class);
 
-        if (!empty($id = $this->request->get('id'))) {
+         $operation = $context['item_operation_name'] ?? $context['collection_operation_name'] ?? null;
+
+        if ($operation === 'PATCH' && !empty($id = $this->request->get('id'))) {
             $this->wordService->update($id, $wordObject);
         } else {
             $this->wordService->save($wordObject);
         }
 
-        return $data;
+        return $this->wordDataTransformer->transform($wordObject, WordDto::class);
     }
 
 

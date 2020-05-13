@@ -45,10 +45,14 @@ class WordProvider extends Base
         return $this->translation();
     }
 
-    public function Verb() : Verb
+    public function Verb($random =false, $nbTranslation = 1) : Verb
     {
+        if ($random) {
+            $nbTranslation = rand(0,3);
+        }
+
         $translations = [];
-        for ($i = 0; $i < rand(0,3); $i++)
+        for ($i = 0; $i < $nbTranslation; $i++)
         {
             $translations[] = $this->translationProvider->translation();
         }

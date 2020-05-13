@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Enum\ErrorCodes;
 
 /**
  * @ORM\Entity()
@@ -22,35 +20,31 @@ class Example
     /**
      * @var string
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $fromLanguage;
 
     /**
      * @var string
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $fromText;
 
     /**
      * @var string
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $toLanguage;
 
     /**
      * @var string
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $toText;
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -59,7 +53,7 @@ class Example
      * @param int $id
      * @return Example
      */
-    public function setId(int $id): Example
+    public function setId(?int $id): Example
     {
         $this->id = $id;
         return $this;

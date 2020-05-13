@@ -1,17 +1,16 @@
 <?php
 
-
 namespace App\Dto;
 
-
-use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Entity\Example;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Enum\ErrorCodes;
 
 class TranslationDto
 {
     /**
-     * @var int
-     * @ApiProperty(identifier=true)
+     * @var string
+     * @Assert\Type(type="integer", payload={"code"=ErrorCodes::INVALID_TYPE})
      */
     private $id;
 

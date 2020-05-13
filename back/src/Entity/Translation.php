@@ -23,11 +23,7 @@ class Translation
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="Example", cascade={"ALL"}, orphanRemoval=true)
-     * @ORM\JoinTable(name="translation_examples",
-     *      joinColumns={@ORM\JoinColumn(name="translations_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="example_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Example", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
     private $examples;
@@ -60,7 +56,7 @@ class Translation
         $this->examples = new ArrayCollection();
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -76,9 +72,25 @@ class Translation
         return $this->examples->getValues();
     }
 
+    public function getExampleById(int $id): ?Example
+    {
+        /** @var Example $example */
+        foreach ($this->getExamples() as $example) {
+            if ($example->getId() === $id) {
+                return $example;
+            }
+        }
+        return null;
+    }
+
     public function setExamples(array $examples): Translation
     {
-        $this->examples = new ArrayCollection($examples);
+        $this->examples->clear();
+
+        foreach ($examples as $example) {
+            $this->addExample($example);
+        }
+
         return $this;
     }
 
@@ -88,7 +100,7 @@ class Translation
         return $this;
     }
 
-    public function removeTransaction(Example $example): Translation
+    public function removeExample(Example $example): Translation
     {
         $this->examples->removeElement($example);
         return $this;

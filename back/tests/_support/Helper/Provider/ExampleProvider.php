@@ -29,7 +29,7 @@ class ExampleProvider extends Base
 
     public function fromText(): string
     {
-        return $this->generator->randomElement(WordStatus::getArray());
+        return $this->generator->text;
     }
 
     public function Example(): Example

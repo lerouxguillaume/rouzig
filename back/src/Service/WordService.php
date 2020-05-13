@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Example;
+use App\Entity\Translation;
 use App\Entity\WordObject;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -25,7 +27,7 @@ class WordService implements WordServiceInterface
         $this->entityManager->flush();
     }
 
-    public function update(int $id, WordObject $wordObject)
+    public function update(int $id, WordObject $wordObject) : WordObject
     {
         /** @var WordObject $oldWordObject */
         $oldWordObject = $this->entityManager->getRepository(WordObject::class)->find($id);
@@ -35,11 +37,60 @@ class WordService implements WordServiceInterface
             ->setDescription($wordObject->getDescription())
             ->setLanguage($wordObject->getLanguage())
             ->setAuthor($wordObject->getAuthor())
-            ->setTranslations($wordObject->getTranslations())
         ;
+
+        $updatedTranslations = [];
+
+        /** @var Translation $translation */
+        foreach ($wordObject->getTranslations() as $translation) {
+            if ($translation->getId() &&
+                ($oldTranslation = $oldWordObject->getTranslationById($translation->getId()))
+            ) {
+                $translation = $this->updateTranslation($translation, $oldTranslation);
+            }
+            $updatedTranslations[] = $translation;
+        }
+
+        $oldWordObject->setTranslations($updatedTranslations);
+
         $this->entityManager->persist($oldWordObject);
         $this->entityManager->flush();
 
+        return $oldWordObject;
+    }
+
+    private function updateTranslation(Translation $newTranslation, Translation $oldTranslation) : Translation
+    {
+        $oldTranslation
+            ->setText($newTranslation->getText())
+            ->setLanguage($newTranslation->getLanguage())
+            ->setDescription($newTranslation->getDescription())
+        ;
+
+        $updatedExamples = [];
+
+        /** @var Example $example */
+        foreach ($newTranslation->getExamples() as $example) {
+            if ($example->getId() &&
+                ($oldExample = $oldTranslation->getExampleById($example->getId()))
+            ) {
+                $example = $this->updateExample($example, $oldExample);
+            }
+            $updatedExamples[] = $example;
+        }
+        $oldTranslation->setExamples($updatedExamples);
+
+        return $oldTranslation;
+    }
+
+    private function updateExample(Example $newExample, Example $oldExample) : Example
+    {
+        $oldExample
+            ->setToText($newExample->getToText())
+            ->setFromText($newExample->getFromText())
+        ;
+
+        return $oldExample;
     }
 
     public function delete(WordObject $wordObject)
