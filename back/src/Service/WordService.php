@@ -6,19 +6,26 @@ use App\Entity\Example;
 use App\Entity\Translation;
 use App\Entity\WordObject;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\Workflow;
 
 class WordService implements WordServiceInterface
 {
     /** @var EntityManagerInterface */
     private $entityManager;
 
+    /** @var Registry */
+    private $workflows;
+
     /**
      * WordService constructor.
      * @param EntityManagerInterface $entityManager
+     * @param Registry $workflows
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, Registry $workflows)
     {
         $this->entityManager = $entityManager;
+        $this->workflows = $workflows;
     }
 
     public function save(WordObject $wordObject)
@@ -31,6 +38,9 @@ class WordService implements WordServiceInterface
     {
         /** @var WordObject $oldWordObject */
         $oldWordObject = $this->entityManager->getRepository(WordObject::class)->find($id);
+
+
+        $this->workflows->get($oldWordObject, 'words')->apply($oldWordObject, 'update');
 
         $oldWordObject
             ->setText($wordObject->getText())
@@ -57,6 +67,34 @@ class WordService implements WordServiceInterface
         $this->entityManager->flush();
 
         return $oldWordObject;
+    }
+
+    public function delete(WordObject $wordObject)
+    {
+        $word = $this->entityManager->getRepository(WordObject::class)->find($wordObject->getId());
+
+        $this->workflows->get($word, 'words')->apply($word, 'delete');
+
+        $word
+            ->setDeletedAt(new \DateTime())
+        ;
+        $this->entityManager->persist($word);
+        $this->entityManager->flush();
+    }
+
+    public function findById(int $id): ?WordObject
+    {
+        return $this->entityManager->find(WordObject::class, $id);
+    }
+
+    public function findByStatus(string $status): array
+    {
+        return $this->entityManager->getRepository(WordObject::class)->findByStatus($status);
+    }
+
+    public function search(string $search): array
+    {
+        return $this->entityManager->getRepository(WordObject::class)->findByText($search);
     }
 
     private function updateTranslation(Translation $newTranslation, Translation $oldTranslation) : Translation
@@ -91,27 +129,5 @@ class WordService implements WordServiceInterface
         ;
 
         return $oldExample;
-    }
-
-    public function delete(WordObject $wordObject)
-    {
-        $wordObject->setDeletedAt(new \DateTime());
-        $this->entityManager->persist($wordObject);
-        $this->entityManager->flush();
-    }
-
-    public function findById(int $id): ?WordObject
-    {
-        return $this->entityManager->find(WordObject::class, $id);
-    }
-
-    public function findByStatus(string $status): array
-    {
-        return $this->entityManager->getRepository(WordObject::class)->findByStatus($status);
-    }
-
-    public function search(string $search): array
-    {
-        return $this->entityManager->getRepository(WordObject::class)->findByText($search);
     }
 }

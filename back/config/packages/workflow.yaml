@@ -1,2 +1,32 @@
 framework:
-    workflows: null
+    workflows:
+        words:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\WordObject
+            initial_marking: pending
+            places:
+                - pending
+                - review
+                - accepted
+                - deleted
+            transitions:
+                update:
+                    from: [pending, review]
+                    to: pending
+                wait_for_review:
+                    from: pending
+                    to: review
+                request_change:
+                    from: review
+                    to: pending
+                accept:
+                    from: review
+                    to: accepted
+                delete:
+                    from: [pending, review, accepted]
+                    to: deleted
+

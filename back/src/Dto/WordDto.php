@@ -55,7 +55,9 @@ class WordDto
     /** @var UserOutput */
     private $author;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $status;
 
     /** @var DateTime */

@@ -61,7 +61,6 @@ class WordProvider extends Base
         $verb
             ->setText($this->wordText())
             ->setLanguage($this->language())
-            ->setStatus($this->status())
             ->setTranslations($translations)
         ;
 

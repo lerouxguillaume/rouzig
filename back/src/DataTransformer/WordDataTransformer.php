@@ -72,7 +72,6 @@ class WordDataTransformer
             ->setText($word->getWord())
             ->setDescription($word->getDescription())
             ->setLanguage($word->getLanguage())
-            ->setStatus($word->getStatus())
         ;
 
         /** @var TranslationDto $translation */

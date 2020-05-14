@@ -64,7 +64,9 @@ class WordDataDataPersister implements ContextAwareDataPersisterInterface
 
     public function remove($data, array $context = [])
     {
-        $this->wordService->delete($data);
+        $wordObject = $this->wordDataTransformer->transform($data, WordObject::class);
+
+        $this->wordService->delete($wordObject);
 
         return $data;
     }

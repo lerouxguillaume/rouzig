@@ -110,8 +110,22 @@ class WordCest
                 'toText' => $example->getToText()
             ]
         ]);
-
     }
+
+    public function deleteWord(ApiTester $I)
+    {
+        /** @var WordObject $word */
+        $word = $this->getFaker()->verb();
+
+        $I->haveInRepository($word);
+
+        $I->sendDELETE('/words/' . $word->getId());
+        $I->seeResponseCodeIs(204); // 204
+
+        $I->refreshEntities($word);
+
+        $I->assertTrue($word->isDeleted());
+        }
 
     private function wordToJson(WordObject $wordObject): string
     {
