@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Search;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SearchService
@@ -25,9 +26,14 @@ class SearchService
         $this->entityManager->flush();
     }
 
-    public function findAll(): array
+    public function findByCriteria(Criteria $criteria): array
     {
-        return $this->entityManager->getRepository(Search::class)->findBy([], ['count' => 'DESC']);
+        return $this->entityManager->getRepository(Search::class)->findByCriteria($criteria);
+    }
+
+    public function countByCriteria(Criteria $criteria): int
+    {
+        return $this->entityManager->getRepository(Search::class)->countByCriteria($criteria);
     }
 
     public function find(string $id): ?Search

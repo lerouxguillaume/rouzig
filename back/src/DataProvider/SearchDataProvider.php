@@ -7,9 +7,9 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DataTransformer\SearchDataTransformer;
 use App\Dto\SearchDto;
-use App\Dto\WordDto;
+use App\Repository\Paginator;
 use App\Service\SearchService;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 
 class SearchDataProvider implements CollectionDataProviderInterface, RestrictedDataProviderInterface, ItemDataProviderInterface
 {
@@ -33,20 +33,36 @@ class SearchDataProvider implements CollectionDataProviderInterface, RestrictedD
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
-        $queryResult= $this->searchService->findAll();
+        $criteria = new Criteria();
 
-        $result = [];
+        $itemsPerPage = $context['filters']['itemPerpage'] ?? 2;
+        $page = ($context['filters']['page'] ?? 1) - 1; // Starting with page 1
+
+        $firstResult = $page > 0 ? $itemsPerPage * $page : 0;
+
+        $criteria
+            ->setFirstResult($firstResult)
+            ->setMaxResults($itemsPerPage)
+            ->orderBy(['count' => Criteria::DESC])
+        ;
+
+        $items = $this->searchService->findByCriteria($criteria);
+        $count= $this->searchService->countByCriteria($criteria);
+
+        return new Paginator($this->getResults($items), $firstResult, $itemsPerPage, $count);
+    }
+
+    private function getResults($queryResult): \Generator
+    {
         foreach ($queryResult as $word) {
-            $result[] = $this->searchDataTransformer->transform($word, SearchDto::class);
+            yield $this->searchDataTransformer->transform($word, SearchDto::class);
         }
-
-        return new ArrayCollection($result);
     }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
         $item = $this->searchService->find($id);
-        return empty($item) ? null : $this->searchDataTransformer->transform($item, WordDto::class);
+        return empty($item) ? null : $this->searchDataTransformer->transform($item, SearchDto::class);
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
