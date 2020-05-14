@@ -2,42 +2,21 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity()
- * @ApiResource(
- *     shortName="Search",
- *     itemOperations={
- *         "GET"={
- *             "controller"=NotFoundAction::class,
- *             "read"=false,
- *             "output"=false,
- *         }, "DELETE"
- *     },
- *     collectionOperations={"GET"},
- *     attributes={"order"={"count": "DESC"}}
- * )
- * @ApiFilter(OrderFilter::class, properties={"count", "text"}, arguments={"orderParameterName"="order"})
+ *
+ * Class Search
+ * @package App\Entity
  */
 class Search
 {
     use TimestampableEntity;
 
     /**
-     * @var int
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=false)
      */
@@ -51,31 +30,16 @@ class Search
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=8, nullable=true)
      */
     private $fromLanguage;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=8, nullable=true)
      */
     private $toLanguage;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
 
     /**
      * @param string $text
@@ -85,6 +49,14 @@ class Search
     {
         $this->text = $text;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): ?string
+    {
+        return $this->text;
     }
 
     /**

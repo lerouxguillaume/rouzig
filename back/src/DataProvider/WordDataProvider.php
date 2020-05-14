@@ -8,17 +8,19 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DataTransformer\WordDataTransformer;
 use App\Dto\WordDto;
 use App\Entity\Search;
-use App\Entity\WordObject;
+use App\Service\SearchService;
 use App\Service\WordServiceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class WordDataProvider implements CollectionDataProviderInterface, ItemDataProviderInterface, RestrictedDataProviderInterface
 {
     /** @var WordServiceInterface */
     private $wordService;
+
+    /** @var SearchService */
+    private $searchService;
 
     /** @var WordDataTransformer */
     private $wordDataTransformer;
@@ -27,18 +29,22 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
     private $managerRegistry;
 
     /**
-     * @param EntityManagerInterface $managerRegistry
+     * WordDataProvider constructor.
      * @param WordServiceInterface $wordService
+     * @param SearchService $searchService
      * @param WordDataTransformer $wordDataTransformer
+     * @param EntityManagerInterface $managerRegistry
      */
     public function __construct(
-        EntityManagerInterface $managerRegistry,
         WordServiceInterface $wordService,
-        WordDataTransformer $wordDataTransformer
+        SearchService $searchService,
+        WordDataTransformer $wordDataTransformer,
+        EntityManagerInterface $managerRegistry
     ) {
-        $this->managerRegistry = $managerRegistry;
         $this->wordService = $wordService;
+        $this->searchService = $searchService;
         $this->wordDataTransformer = $wordDataTransformer;
+        $this->managerRegistry = $managerRegistry;
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
@@ -57,13 +63,15 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
         }
 
         if (empty($queryResult) && isset($filters['search'])) {
-            $search = new Search();
-            $search
-                ->setText($filters['search'])
-            ;
+            if (!($search = $this->searchService->find($filters['search']))) {
+                $search = new Search();
+                $search
+                    ->setText($filters['search'])
+                ;
+            }
+
             $search->countAdd();
-            $this->managerRegistry->persist($search);
-            $this->managerRegistry->flush();
+            $this->searchService->save($search);
         }
         $result = [];
         foreach ($queryResult as $word) {
