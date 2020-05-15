@@ -6,15 +6,23 @@ use App\Entity\Example;
 use App\Entity\Translation;
 use App\Entity\Word\Verb;
 use App\Entity\WordObject;
+use App\Tests\ApiTester;
 use App\Tests\Helper\Provider\ExampleProvider;
 use App\Tests\Helper\Provider\TranslationProvider;
+use App\Tests\Helper\Provider\UserProvider;
 use App\Tests\Helper\Provider\WordProvider;
 use Faker\Factory;
 use Faker\Generator;
-use App\Tests\ApiTester;
 
 class WordCest
 {
+    private $passwordEncoder;
+
+    public function _before(ApiTester $I)
+    {
+        $this->passwordEncoder = $I->grabService('security.password_encoder');
+    }
+
     public function searchWord(ApiTester $I)
     {
         /** @var WordObject $word */
@@ -23,7 +31,7 @@ class WordCest
         $I->haveInRepository($word);
 
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
-        $I->sendGet('/words', [
+        $I->sendGet('/api/words', [
             'search' => $word->getText()
         ]);
         $I->seeResponseCodeIs(200); // 200
@@ -32,12 +40,12 @@ class WordCest
             'word' => $word->getText()
         ]);
 
-        $wordNotExistent = $this->getFaker()->unique()->word;
+        $wordNotExistent = 'AZERTYUIOP';
 
         $I->dontSeeInRepository(Verb::class, ['text' => $wordNotExistent]);
 
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
-        $I->sendGet('/words', [
+        $I->sendGet('/api/words', [
             'search' => $wordNotExistent
         ]);
         $I->seeResponseCodeIs(200); // 200
@@ -54,16 +62,16 @@ class WordCest
         /** @var WordObject $word */
         $word = $this->getFaker()->verb();
 
-        $I->dontSeeInRepository(Verb::class, ['text' => $word->getText()]);
-
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
         $I->haveHttpHeader('Content-Type', 'application/ld+json');
-        $I->sendPOST('/words', $this->wordToJson($word));
+        $I->sendPOST('/api/words', $this->wordToJson($word));
         $I->seeResponseCodeIs(201); // 200
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
             'word' => $word->getText()
         ]);
+        $objectId = $I->grabDataFromResponseByJsonPath('$.._id')[0];
+        $I->seeInRepository(Verb::class, ['id'=>$objectId, 'text' => $word->getText()]);
     }
 
     public function patchWord(ApiTester $I)
@@ -77,7 +85,7 @@ class WordCest
 
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
         $I->haveHttpHeader('Content-Type', 'application/merge-patch+json');
-        $I->sendPATCH('/words/'.$word->getId(), $this->wordToJson($word));
+        $I->sendPATCH('/api/words/'.$word->getId(), $this->wordToJson($word));
         $I->seeResponseCodeIs(200); // 200
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -92,9 +100,8 @@ class WordCest
         /** @var Example $example */
         $example = current($translation->getExamples());
         $example->setToText($this->getFaker()->unique()->text);
-
         $I->haveHttpHeader('Content-Type', 'application/merge-patch+json');
-        $I->sendPATCH('/words/'.$word->getId(), $this->wordToJson($word));
+        $I->sendPATCH('/api/words/'.$word->getId(), $this->wordToJson($word));
         $I->seeResponseCodeIs(200); // 200
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
@@ -119,7 +126,7 @@ class WordCest
 
         $I->haveInRepository($word);
 
-        $I->sendDELETE('/words/' . $word->getId());
+        $I->sendDELETE('/api/words/' . $word->getId());
         $I->seeResponseCodeIs(204); // 204
 
         $I->refreshEntities($word);
@@ -163,6 +170,7 @@ class WordCest
     private function getFaker(): Generator
     {
         $faker = Factory::create();
+        $faker->addProvider(new UserProvider($faker, $this->passwordEncoder));
         $faker->addProvider(new WordProvider(
                 $faker,
                 new TranslationProvider($faker, new ExampleProvider($faker))

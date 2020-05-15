@@ -3,22 +3,13 @@
 
 namespace App\DataTransformer;
 
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\Dto\TranslationDto;
 use App\Dto\WordDto;
 use App\Entity\Translation;
-use App\Entity\Word\Adjective;
-use App\Entity\Word\Adverb;
-use App\Entity\Word\Conjunction;
-use App\Entity\Word\Noun;
-use App\Entity\Word\Preposition;
-use App\Entity\Word\Pronoun;
-use App\Entity\Word\Verb;
 use App\Entity\WordObject;
-use App\Enum\WordTypeEnum;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use App\Factory\WordFactory;
 
-class WordDataTransformer
+class WordDataTransformer implements DataTransformerInterface
 {
     /** @var TranslationDataTransformer */
     private $translationDataTransformer;
@@ -32,97 +23,51 @@ class WordDataTransformer
         $this->translationDataTransformer = $translationDataTransformer;
     }
 
-    public function transform($object, string $to)
+    public function populateDto($wordObject): WordDto
     {
-        if ($object instanceof WordObject && $to === WordDto::class) {
-            return $this->entityToDto($object);
-        } elseif ($object instanceof WordDto && $to === WordObject::class) {
-            return $this->dtoToEntity($object);
-        } else {
-            throw new \LogicException('Transformation not supported');
-        }
-    }
+        $wordDto = new WordDto();
 
-    private function entityToDto(WordObject $word): WordDto
-    {
-        $output = new WordDto();
-        $output
-            ->setId($word->getId())
-            ->setWord($word->getText())
-            ->setDescription($word->getDescription())
-            ->setUpdatedAt($word->getUpdatedAt())
-            ->setLanguage($word->getLanguage())
-            ->setStatus($word->getStatus())
-            ->setWordType($this->getWordType($word))
+        $wordDto
+            ->setId($wordObject->getId())
+            ->setWord($wordObject->getText())
+            ->setDescription($wordObject->getDescription())
+            ->setUpdatedAt($wordObject->getUpdatedAt())
+            ->setLanguage($wordObject->getLanguage())
+            ->setStatus($wordObject->getStatus())
+            ->setWordType($wordObject->getType())
         ;
 
         /** @var Translation $translation */
-        foreach ($word->getTranslations() as $translation) {
-            $output->addTranslation($this->translationDataTransformer->transform($translation, TranslationDto::class));
+        foreach ($wordObject->getTranslations() as $translation) {
+            $wordDto->addTranslation($this->translationDataTransformer->populateDto($translation));
         }
 
-        return $output;
+        return $wordDto;
     }
 
-    private function dtoToEntity(WordDto $word): WordObject
+    public function populateEntity($wordDto, $wordObject = null, $context = []): WordObject
     {
-        $output = $this->getWordObject($word->getWordType());
-        $output
-            ->setId($word->getId())
-            ->setText($word->getWord())
-            ->setDescription($word->getDescription())
-            ->setLanguage($word->getLanguage())
+        if (empty($wordObject)) {
+            $wordObject = WordFactory::create($wordDto->getWordType());
+        }
+
+        $wordObject
+            ->setId($wordDto->getId())
+            ->setText($wordDto->getWord())
+            ->setDescription($wordDto->getDescription())
+            ->setLanguage($wordDto->getLanguage())
         ;
 
-        /** @var TranslationDto $translation */
-        foreach ($word->getTranslations() as $translation) {
-            $output->addTranslation($this->translationDataTransformer->transform($translation, Translation::class, ['fromLanguage' => $word->getLanguage()]));
+        $updatedTranslations = [];
+
+        /** @var TranslationDto $translationDto */
+        foreach ($wordDto->getTranslations() as $translationDto) {
+            $translation = ($translationDto->getId() ? $wordObject->getTranslationById($translationDto->getId()) : null);
+            $updatedTranslations[] = $this->translationDataTransformer->populateEntity($translationDto, $translation, ['fromLanguage' => $wordObject->getLanguage()]);
         }
 
-        return $output;
-    }
+        $wordObject->setTranslations($updatedTranslations);
 
-    private function getWordObject(string $type) : WordObject
-    {
-        switch ($type) {
-            case WordTypeEnum::ADJECTIVE:
-                return new Adjective();
-            case WordTypeEnum::ADVERB:
-                return new Adverb();
-            case WordTypeEnum::CONJUNCTION:
-                return new Conjunction();
-            case WordTypeEnum::NOUN:
-                return new Noun();
-            case WordTypeEnum::PRONOUN:
-                return new Pronoun();
-            case WordTypeEnum::PREPOSITION:
-                return new Preposition();
-            case WordTypeEnum::VERB:
-                return new Verb();
-        }
-
-        throw new \Exception('Other type not handled yet');
-    }
-
-    private function getWordType(WordObject $object) : string
-    {
-        switch (get_class($object)) {
-            case Adjective::class:
-                return WordTypeEnum::ADJECTIVE;
-            case Adverb::class:
-                return WordTypeEnum::ADVERB;
-            case Conjunction::class:
-                return WordTypeEnum::CONJUNCTION;
-            case Noun::class:
-                return WordTypeEnum::NOUN;
-            case Pronoun::class:
-                return WordTypeEnum::PRONOUN;
-            case Preposition::class:
-                return WordTypeEnum::PREPOSITION;
-            case Verb::class:
-                return WordTypeEnum::VERB;
-        }
-
-        return WordTypeEnum::OTHER;
+        return $wordObject;
     }
 }

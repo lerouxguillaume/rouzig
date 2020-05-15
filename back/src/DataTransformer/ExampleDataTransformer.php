@@ -2,48 +2,49 @@
 
 namespace App\DataTransformer;
 
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use App\Dto\ExampleDto;
 use App\Entity\Example;
 
-class ExampleDataTransformer
+class ExampleDataTransformer implements DataTransformerInterface
 {
-
-    public function transform($object, string $to, $context = [])
-    {
-        if ($object instanceof Example && $to === ExampleDto::class) {
-            return $this->entityToDto($object, $context);
-        } elseif ($object instanceof ExampleDto && $to === Example::class) {
-            return $this->dtoToEntity($object, $context);
-        } else {
-            throw new \LogicException('Transformation not supported');
-        }
-    }
 
     private function entityToDto(Example $example, $context = []): ExampleDto
     {
-        $output = new ExampleDto();
-        $output
-            ->setId($example->getId())
-            ->setToText($example->getToText())
-            ->setFromText($example->getFromText())
-        ;
 
-        return $output;
     }
 
     private function dtoToEntity(ExampleDto $example, $context = []): Example
     {
-        $output = new Example();
 
-        $output
+    }
+
+    public function populateDto($example)
+    {
+        $exampleDto = new ExampleDto();
+        $exampleDto
             ->setId($example->getId())
-            ->setFromText($example->getFromText())
             ->setToText($example->getToText())
+            ->setFromText($example->getFromText())
+        ;
+
+        return $exampleDto;
+    }
+
+    public function populateEntity($exampleDto, $example = null, $context = [])
+    {
+
+        if (empty($example)) {
+            $example = new Example();
+        }
+
+        $example
+            ->setId($exampleDto->getId())
+            ->setFromText($exampleDto->getFromText())
+            ->setToText($exampleDto->getToText())
             ->setFromLanguage($context['fromLanguage'] ?? null)
             ->setToLanguage($context['toLanguage'] ?? null)
         ;
 
-        return $output;
+        return $example;
     }
 }

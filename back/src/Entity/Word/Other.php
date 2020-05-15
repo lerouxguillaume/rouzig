@@ -7,15 +7,15 @@ use App\Enum\WordTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Conjunction
+ * Class Noun
  * @package App\Entity\Word
  *
  * @ORM\Entity()
  */
-final class Conjunction extends WordObject
+final class Other extends WordObject
 {
     public function getType(): string
     {
-        return WordTypeEnum::CONJUNCTION;
+        return WordTypeEnum::OTHER;
     }
 }

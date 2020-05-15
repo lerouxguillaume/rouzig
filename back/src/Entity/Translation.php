@@ -24,21 +24,18 @@ class Translation
     /**
      * @var Collection
      * @ORM\ManyToMany(targetEntity="Example", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Assert\Valid()
      */
     private $examples;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $text;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      */
     private $language;
 

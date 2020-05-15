@@ -3,6 +3,7 @@
 namespace App\Entity\Word;
 
 use App\Entity\WordObject;
+use App\Enum\WordTypeEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,5 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 final class Adverb extends WordObject
 {
-
+    public function getType(): string
+    {
+        return WordTypeEnum::ADVERB;
+    }
 }

@@ -8,7 +8,7 @@ use App\Dto\TranslationDto;
 use App\Entity\Example;
 use App\Entity\Translation;
 
-class TranslationDataTransformer
+class TranslationDataTransformer implements DataTransformerInterface
 {
     /** @var ExampleDataTransformer */
     private $exampleDataTransformer;
@@ -22,21 +22,19 @@ class TranslationDataTransformer
         $this->exampleDataTransformer = $exampleDataTransformer;
     }
 
-    public function transform($object, string $to, $context = [])
+    private function dtoToEntity(TranslationDto $translation, $context = []): Translation
     {
-        if ($object instanceof Translation && $to === TranslationDto::class) {
-            return $this->entityToDto($object, $context);
-        } elseif ($object instanceof TranslationDto && $to === Translation::class) {
-            return $this->dtoToEntity($object, $context);
-        } else {
-            throw new \LogicException('Transformation not supported');
-        }
+
     }
 
-    private function entityToDto(Translation $translation, $context = []): TranslationDto
+    /**
+     * @param Translation $translation
+     * @return TranslationDto
+     */
+    public function populateDto($translation)
     {
-        $output = new TranslationDto();
-        $output
+        $translationDto = new TranslationDto();
+        $translationDto
             ->setId($translation->getId())
             ->setWord($translation->getText())
             ->setDescription($translation->getDescription())
@@ -45,27 +43,42 @@ class TranslationDataTransformer
 
         /** @var Example $example */
         foreach ($translation->getExamples() as $example) {
-            $output->addExample($this->exampleDataTransformer->transform($example, ExampleDto::class));
+            $translationDto->addExample($this->exampleDataTransformer->populateDto($example));
         }
 
-        return $output;
+        return $translationDto;
     }
 
-    private function dtoToEntity(TranslationDto $translation, $context = []): Translation
+    /**
+     * @param TranslationDto $translationDto
+     * @param Translation $translation
+     * @param array $context
+     * @return Translation
+     */
+    public function populateEntity($translationDto, $translation = null, $context = [])
     {
-        $output = new Translation();
-        $output
-            ->setId($translation->getId())
-            ->setText($translation->getWord())
-            ->setDescription($translation->getDescription())
-            ->setLanguage($translation->getLanguage())
-        ;
+        if (empty($translation)) {
+            $translation = new Translation();
 
-        /** @var ExampleDto $example */
-        foreach ($translation->getExamples() as $example) {
-            $output->addExample($this->exampleDataTransformer->transform($example, Example::class, array_merge($context, ['toLanguage' => $output->getLanguage()])));
         }
 
-        return $output;
+        $translation
+            ->setText($translationDto->getWord())
+            ->setDescription($translationDto->getDescription())
+            ->setLanguage($translationDto->getLanguage())
+        ;
+
+
+        $updatedExamples = [];
+
+        /** @var ExampleDto $exampleDto */
+        foreach ($translationDto->getExamples() as $exampleDto) {
+            $example = ($translationDto->getId() ? $translation->getExampleById($translationDto->getId()) : null);
+            $updatedExamples[] = $this->exampleDataTransformer->populateEntity($exampleDto, $example, array_merge($context, ['toLanguage' => $translation->getLanguage()]));
+        }
+
+        $translation->setExamples($updatedExamples);
+
+        return $translation;
     }
 }

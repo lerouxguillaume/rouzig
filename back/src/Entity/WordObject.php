@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\EventSuscriber\WordWorkflow;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,18 +26,12 @@ use App\Dto\WordDto;
  *     "adverb" = "App\Entity\Word\Adverb",
  *     "conjuction" = "App\Entity\Word\Conjunction",
  *     "pronoun" = "App\Entity\Word\Pronoun",
- *     "preposition" = "App\Entity\Word\Preposition"
+ *     "preposition" = "App\Entity\Word\Preposition",
+ *     "other" = "App\Entity\Word\Other"
  * })
  */
 abstract class WordObject
 {
-    const STATUS_APPROVED = 'approved';
-    const STATUS_DELETED = 'deleted';
-    const STATUS_PENDING = 'pending';
-
-    const LANGUAGE_BR = 'br';
-    const LANGUAGE_FR = 'fr';
-
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
@@ -63,9 +58,9 @@ abstract class WordObject
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=48, nullable=false)
      */
-    private $status = WordObject::STATUS_PENDING;
+    private $status;
 
     /**
      * @var User
@@ -165,7 +160,18 @@ abstract class WordObject
         return $this->status;
     }
 
-    public function setStatus(?string $status): WordObject
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    public function getMarking(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setMarking($status, $context = [])
     {
         $this->status = $status;
         return $this;
@@ -214,4 +220,6 @@ abstract class WordObject
         $this->description = $description;
         return $this;
     }
+
+    public abstract function getType() : string;
 }

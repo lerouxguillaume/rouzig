@@ -6,7 +6,7 @@ modules:
         environment: test
         debug: true
     - REST:
-        url: http://apache-rouzig/api/
+        url: http://apache-rouzig/
         depends: PhpBrowser
         part: Json
     - DataFactory:

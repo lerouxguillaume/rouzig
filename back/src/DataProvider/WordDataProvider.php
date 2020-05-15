@@ -75,7 +75,7 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
         }
         $result = [];
         foreach ($queryResult as $word) {
-            $result[] = $this->wordDataTransformer->transform($word, WordDto::class);
+            $result[] = $this->wordDataTransformer->populateDto($word);
         }
 
         return new ArrayCollection($result);
@@ -84,7 +84,8 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
         $item = $this->wordService->findById($id);
-        return empty($item) ? null : $this->wordDataTransformer->transform($item, WordDto::class);
+
+        return empty($item) ? null : $this->wordDataTransformer->populateDto($item);
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool

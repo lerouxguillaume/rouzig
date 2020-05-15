@@ -7,15 +7,19 @@ framework:
                 property: 'status'
             supports:
                 - App\Entity\WordObject
-            initial_marking: pending
+            initial_marking: created
             places:
+                - created
                 - pending
                 - review
                 - accepted
                 - deleted
             transitions:
+                create:
+                    from: [created]
+                    to: created
                 update:
-                    from: [pending, review]
+                    from: [created, pending, review]
                     to: pending
                 wait_for_review:
                     from: pending
@@ -27,6 +31,6 @@ framework:
                     from: review
                     to: accepted
                 delete:
-                    from: [pending, review, accepted]
+                    from: [created, pending, review, accepted]
                     to: deleted
 
