@@ -7,17 +7,6 @@ use App\Entity\Example;
 
 class ExampleDataTransformer implements DataTransformerInterface
 {
-
-    private function entityToDto(Example $example, $context = []): ExampleDto
-    {
-
-    }
-
-    private function dtoToEntity(ExampleDto $example, $context = []): Example
-    {
-
-    }
-
     public function populateDto($example)
     {
         $exampleDto = new ExampleDto();

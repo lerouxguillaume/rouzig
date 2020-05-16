@@ -55,8 +55,12 @@ class UserSubscriber implements EventSubscriberInterface
 
         $user->setIsActive(true);
 
-        $password = $this->passwordEncoder->encodePassword($user, $user->getPassword());
-        $user->setPassword($password);
+        $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
+        $user
+            ->setPassword($password)
+            ->setPlainPassword(null)
+            ->setIsActive(false)
+        ;
 
         $user->setToken($this->generateToken());
 
@@ -72,9 +76,6 @@ class UserSubscriber implements EventSubscriberInterface
 
         $user->setIsActive(true);
         $user->setToken(null);
-
-        $this->em->persist($user);
-        $this->em->flush();
     }
 
     public function onUserDisable(UserEvent $event)
@@ -82,9 +83,6 @@ class UserSubscriber implements EventSubscriberInterface
         $user = $event->getUser();
 
         $user->setIsActive(false);
-
-        $this->em->persist($user);
-        $this->em->flush();
     }
 
     public function onUserDelete(UserEvent $event)
@@ -93,9 +91,6 @@ class UserSubscriber implements EventSubscriberInterface
 
         $user->setIsActive(false);
         $user->setDeletedAt(new \DateTime());
-
-        $this->em->persist($user);
-        $this->em->flush();
     }
 
     public function onUserResetPassword(UserEvent $event)
@@ -106,9 +101,6 @@ class UserSubscriber implements EventSubscriberInterface
             $user->setToken($this->generateToken());
         }
 
-        $this->em->persist($user);
-        $this->em->flush();
-
         $this->mailService->sendEmailResetPassword($event->getUser(), $this->redirectUrl);
     }
 
@@ -116,14 +108,12 @@ class UserSubscriber implements EventSubscriberInterface
     {
         $user = $event->getUser();
 
-        $password = $this->passwordEncoder->encodePassword($user, $user->getPassword());
+        $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
         $user
             ->setPassword($password)
             ->setToken(null)
+            ->setPlainPassword(null)
         ;
-
-        $this->em->persist($user);
-        $this->em->flush();
     }
 
     private function generateToken(): string

@@ -43,6 +43,11 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var string
+     */
+    private $plainPassword;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=254, unique=true)
      */
     private $email;
@@ -59,54 +64,54 @@ class User implements UserInterface, \Serializable
      */
     private $token;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername(): string
+    public function setId(?int $id): User
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     * @return User
-     */
-    public function setUsername(string $username): User
+    public function setUsername(?string $username): User
     {
         $this->username = $username;
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     * @return User
-     */
-    public function setPassword(string $password): User
+    public function setPassword(?string $password): User
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): User
+    {
+        $this->plainPassword = $plainPassword;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -115,49 +120,35 @@ class User implements UserInterface, \Serializable
      * @param string $email
      * @return User
      */
-    public function setEmail(string $email): User
+    public function setEmail(?string $email): User
     {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
-        return $this->isActive;
+        return $this->isActive ?? false;
     }
 
-    /**
-     * @param bool $isActive
-     * @return User
-     */
-    public function setIsActive(bool $isActive): User
+    public function setIsActive(?bool $isActive): User
     {
         $this->isActive = $isActive;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getToken(): ?string
     {
         return $this->token;
     }
 
-    /**
-     * @param string $token
-     * @return User
-     */
     public function setToken(?string $token): User
     {
         $this->token = $token;
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_USER'];
     }

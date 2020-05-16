@@ -1,16 +1,12 @@
 <?php
 
-
 namespace App\Handler;
 
-
-use ApiPlatform\Core\Exception\InvalidResourceException;
 use App\DataTransformer\WordDataTransformer;
 use App\Dto\WordDto;
 use App\EventSuscriber\WordWorkflow;
 use App\Service\WordServiceInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Workflow\Registry;
 
 class WordDtoHandler
@@ -57,7 +53,7 @@ class WordDtoHandler
 
     public function update(int $id, WordDto $wordDto)
     {
-        $word = $this->wordService->findById($wordDto->getId());
+        $word = $this->wordService->findById($id);
 
         $updatedWord = $this->wordDataTransformer->populateEntity($wordDto, $word);
 

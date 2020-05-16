@@ -62,7 +62,9 @@ class WordDto
      */
     private $wordType;
 
-    /** @var UserOutput */
+    /**
+     * @var UserDto
+     */
     private $author;
 
     /**
@@ -133,12 +135,12 @@ class WordDto
         return $this;
     }
 
-    public function getAuthor(): ?UserOutput
+    public function getAuthor(): ?UserDto
     {
         return $this->author;
     }
 
-    public function setAuthor(UserOutput $author): WordDto
+    public function setAuthor(UserDto $author): WordDto
     {
         $this->author = $author;
         return $this;

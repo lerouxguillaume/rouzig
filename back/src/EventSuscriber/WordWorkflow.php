@@ -3,7 +3,9 @@
 
 namespace App\EventSuscriber;
 
+use App\Entity\WordObject;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Workflow\Event\Event;
 
 class WordWorkflow implements EventSubscriberInterface
@@ -23,6 +25,18 @@ class WordWorkflow implements EventSubscriberInterface
     const TRANSITION_REJECT = 'request_change';
     const TRANSITION_DELETE = 'delete';
 
+    /** @var Security */
+    private $securtiy;
+
+    /**
+     * WordWorkflow constructor.
+     * @param Security $securtiy
+     */
+    public function __construct(Security $securtiy)
+    {
+        $this->securtiy = $securtiy;
+    }
+
     public static function getSubscribedEvents()
     {
         return [
@@ -37,7 +51,12 @@ class WordWorkflow implements EventSubscriberInterface
 
     public function onCreate(Event $event)
     {
-        dump($event);die();
+        /** @var WordObject $word */
+        $word = $event->getSubject();
+
+        if ($user = $this->securtiy->getUser()) {
+            $word->setAuthor($user);
+        }
     }
 
     public function onUpdate(Event $event)
