@@ -83,9 +83,6 @@ class UserDtoHandler
         $this->dispatcher->dispatch(new UserEvent($user), UserEvent::ACTIVATE);
 
         $this->userService->save($user);
-
-        //@HACK: how to return empty body with code 200???
-        throw new HttpException(200);
     }
 
     public function resetPassword(UserDto $userDto)
@@ -100,9 +97,6 @@ class UserDtoHandler
 
             $this->userService->save($user);
         }
-
-        //@HACK: how to return empty body with code 200???
-        throw new HttpException(200);
     }
 
     public function newPassword(UserDto $userDto)
@@ -121,8 +115,5 @@ class UserDtoHandler
         $this->dispatcher->dispatch(new UserEvent($user), UserEvent::NEW_PASSWORD);
 
         $this->userService->save($user);
-
-        //@HACK: how to return empty body with code 200???
-        throw new HttpException(200);
     }
 }

@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\UniqueUsername;
 use App\Validator\UniqueEmail;
+use App\Controller\WordController;
 
 /**
  * Class UserDto
@@ -21,22 +22,31 @@ use App\Validator\UniqueEmail;
  *              "POST" = {
  *                  "validation_groups"={"Default", "postValidation"}
  *              },
+ *          },
+ *          itemOperations={
+ *              "GET",
+ *              "DELETE"= {
+ *              },
  *              "POST_ACTIVATE" = {
  *                  "method"="POST",
  *                  "path"="/users/activate",
- *              },
+ *                  "read"=false,
+ *                  "controller"="App\Controller\WordController",
+ *                  "output"=false,
+  *              },
  *              "POST_RESET_PASSWORD" = {
  *                  "method"="POST",
  *                  "path"="/users/reset-password",
+ *                  "read"=false,
+ *                  "controller"="App\Controller\WordController",
+ *                  "output"=false,
  *              },
  *              "POST_NEW_PASSWORD" = {
  *                  "method"="POST",
  *                  "path"="/users/new-password",
+ *                  "read"=false,
+ *                  "controller"="App\Controller\WordController",
  *              },
- *          },
- *          itemOperations={
- *              "GET",
- *              "DELETE"
  *          },
  *      )
  * )
