@@ -2,20 +2,24 @@
 
 namespace App\Enum;
 
-use Doctrine\Common\Annotations\Annotation\Enum;
+use App\EventSuscriber\WordWorkflow;
 
 class WordStatus implements EnumInterface
 {
-    const APPROVED = 'approved';
-    const PENDING = 'pending';
-    const DELETED = 'deleted';
+    const CREATED = WordWorkflow::PLACE_CREATED;
+    const PENDING = WordWorkflow::PLACE_PENDING;
+    const REVIEW = WordWorkflow::PLACE_REVIEW;
+    const DELETED = WordWorkflow::PLACE_DELETED;
+    const APPROVED = WordWorkflow::PLACE_ACCEPTED;
 
     public static function getArray(): array
     {
         return [
+            self::CREATED,
             self::APPROVED,
             self::PENDING,
-            self::DELETED
+            self::REVIEW,
+            self::DELETED,
         ];
     }
 

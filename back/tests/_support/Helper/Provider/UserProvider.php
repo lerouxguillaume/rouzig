@@ -35,7 +35,7 @@ class UserProvider extends Base
 
     public function password(): string
     {
-        return $this->generator->password;
+        return 'password';
     }
 
     public function user($password = null) : User
@@ -47,6 +47,7 @@ class UserProvider extends Base
             ->setEmail($this->email())
             ->setIsActive(true)
         ;
+
         return $user;
     }
 }

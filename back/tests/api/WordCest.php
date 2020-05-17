@@ -6,6 +6,7 @@ use App\Entity\Example;
 use App\Entity\Translation;
 use App\Entity\Word\Verb;
 use App\Entity\WordObject;
+use App\Enum\WordStatus;
 use App\Tests\ApiTester;
 use App\Tests\Helper\Provider\ExampleProvider;
 use App\Tests\Helper\Provider\TranslationProvider;
@@ -132,7 +133,64 @@ class WordCest
         $I->refreshEntities($word);
 
         $I->assertTrue($word->isDeleted());
-        }
+    }
+
+    public function reviewWord(ApiTester $I)
+    {
+        /** @var WordObject $word */
+        $word = $this->getFaker()->verb();
+
+        $word->setStatus(WordStatus::PENDING);
+
+        $I->haveInRepository($word);
+
+        $I->haveHttpHeader('Accept', 'application/vnd.api+json');
+        $I->haveHttpHeader('Content-Type', 'application/ld+json');
+        $I->sendPOST('/api/words/' . $word->getId() . '/review');
+        $I->seeResponseCodeIs(201); // 204
+
+        $I->refreshEntities($word);
+
+        $I->assertEquals(WordStatus::REVIEW, $word->getStatus());
+    }
+
+    public function validateWord(ApiTester $I)
+    {
+        /** @var WordObject $word */
+        $word = $this->getFaker()->verb();
+
+        $word->setStatus(WordStatus::REVIEW);
+
+        $I->haveInRepository($word);
+
+        $I->haveHttpHeader('Accept', 'application/vnd.api+json');
+        $I->haveHttpHeader('Content-Type', 'application/ld+json');
+        $I->sendPOST('/api/words/' . $word->getId() . '/validate');
+        $I->seeResponseCodeIs(201); // 204
+
+        $I->refreshEntities($word);
+
+        $I->assertEquals(WordStatus::APPROVED, $word->getStatus());
+    }
+
+    public function rejectWord(ApiTester $I)
+    {
+        /** @var WordObject $word */
+        $word = $this->getFaker()->verb();
+
+        $word->setStatus(WordStatus::REVIEW);
+
+        $I->haveInRepository($word);
+
+        $I->haveHttpHeader('Accept', 'application/vnd.api+json');
+        $I->haveHttpHeader('Content-Type', 'application/ld+json');
+        $I->sendPOST('/api/words/' . $word->getId() . '/reject');
+        $I->seeResponseCodeIs(201); // 204
+
+        $I->refreshEntities($word);
+
+        $I->assertEquals(WordStatus::PENDING, $word->getStatus());
+    }
 
     private function wordToJson(WordObject $wordObject): string
     {
