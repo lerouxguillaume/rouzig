@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\WordsController;
 use App\Enum\WordTypeEnum;
 use DateTime;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Enum\ErrorCodes;
@@ -23,11 +24,21 @@ use App\Enum\ErrorCodes;
  *              "GET",
  *              "PATCH",
  *              "DELETE",
+ *              "post_review"={
+ *                  "method"="POST",
+ *                  "path"="words/{id}/review",
+ *                  "controller"=WordsController::class,
+ *              },
  *              "post_validate"={
  *                  "method"="POST",
  *                  "path"="words/{id}/validate",
  *                  "controller"=WordsController::class,
- *              }
+ *              },
+ *              "post_reject"={
+ *                  "method"="POST",
+ *                  "path"="words/{id}/reject",
+ *                  "controller"=WordsController::class,
+ *              },
  *          },
  *      )
  * )
@@ -89,7 +100,9 @@ class WordDto
      */
     private $status;
 
-    /** @var DateTime */
+    /**
+     * @var DateTime
+     */
     private $updatedAt;
 
     /**

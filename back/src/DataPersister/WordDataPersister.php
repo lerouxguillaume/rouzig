@@ -38,13 +38,21 @@ class WordDataPersister implements ContextAwareDataPersisterInterface
     {
          $operation = $context['item_operation_name'] ?? $context['collection_operation_name'] ?? null;
 
-        if ($operation === 'PATCH' && !empty($id = $this->request->get('id'))) {
-            $result = $this->wordDtoHandler->update($id, $data);
-        } else {
-            $result = $this->wordDtoHandler->create($data);
+        switch ($operation) {
+            case 'PATCH':
+                $id = $this->request->get('id');
+                return $this->wordDtoHandler->update($id, $data);
+            case 'POST':
+                return $this->wordDtoHandler->create($data);
+            case 'post_review':
+                return $this->wordDtoHandler->review($data);
+            case 'post_validate':
+                return $this->wordDtoHandler->validate($data);
+            case 'post_reject':
+                return $this->wordDtoHandler->reject($data);
         }
 
-        return $result;
+        return $data;
     }
 
 

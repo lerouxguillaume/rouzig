@@ -40,7 +40,7 @@ class WordWorkflow implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            'workflow.' . self::NAME . '.transition.' . self::TRANSITION_UPDATE => 'onCreate',
+            'workflow.' . self::NAME . '.transition.' . self::TRANSITION_CREATE => 'onCreate',
             'workflow.' . self::NAME . '.transition.' . self::TRANSITION_UPDATE => 'onUpdate',
             'workflow.' . self::NAME . '.transition.' . self::TRANSITION_REVIEW => 'onReview',
             'workflow.' . self::NAME . '.transition.' . self::TRANSITION_ACCEPT => 'onAccept',

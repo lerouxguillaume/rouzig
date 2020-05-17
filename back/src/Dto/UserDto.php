@@ -1,15 +1,14 @@
 <?php
 
-
 namespace App\Dto;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\UniqueUsername;
 use App\Validator\UniqueEmail;
-use App\Controller\WordController;
 
 /**
  * Class UserDto
@@ -24,28 +23,34 @@ use App\Controller\WordController;
  *              },
  *          },
  *          itemOperations={
- *              "GET",
- *              "DELETE"= {
- *              },
  *              "POST_ACTIVATE" = {
  *                  "method"="POST",
  *                  "path"="/users/activate",
  *                  "read"=false,
- *                  "controller"="App\Controller\WordController",
+ *                  "controller"="App\Controller\UserController",
  *                  "output"=false,
   *              },
  *              "POST_RESET_PASSWORD" = {
  *                  "method"="POST",
  *                  "path"="/users/reset-password",
  *                  "read"=false,
- *                  "controller"="App\Controller\WordController",
+ *                  "controller"="App\Controller\UserController",
  *                  "output"=false,
  *              },
  *              "POST_NEW_PASSWORD" = {
  *                  "method"="POST",
  *                  "path"="/users/new-password",
  *                  "read"=false,
- *                  "controller"="App\Controller\WordController",
+ *                  "controller"="App\Controller\UserController",
+ *              },
+ *              "GET_ME" = {
+ *                  "method"="GET",
+ *                  "path"="/users/me",
+ *                  "read"=false,
+ *                  "controller"="App\Controller\UserController::getMe",
+ *              },
+ *              "GET",
+ *              "DELETE"= {
  *              },
  *          },
  *      )
