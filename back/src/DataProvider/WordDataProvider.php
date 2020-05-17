@@ -22,9 +22,6 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
     /** @var SearchService */
     private $searchService;
 
-    /** @var WordDataTransformer */
-    private $wordDataTransformer;
-
     /** @var EntityManagerInterface */
     private $managerRegistry;
 
@@ -32,18 +29,15 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
      * WordDataProvider constructor.
      * @param WordServiceInterface $wordService
      * @param SearchService $searchService
-     * @param WordDataTransformer $wordDataTransformer
      * @param EntityManagerInterface $managerRegistry
      */
     public function __construct(
         WordServiceInterface $wordService,
         SearchService $searchService,
-        WordDataTransformer $wordDataTransformer,
         EntityManagerInterface $managerRegistry
     ) {
         $this->wordService = $wordService;
         $this->searchService = $searchService;
-        $this->wordDataTransformer = $wordDataTransformer;
         $this->managerRegistry = $managerRegistry;
     }
 
@@ -75,7 +69,7 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
         }
         $result = [];
         foreach ($queryResult as $word) {
-            $result[] = $this->wordDataTransformer->populateDto($word);
+            $result[] = $word->getDto();
         }
 
         return new ArrayCollection($result);
@@ -85,7 +79,7 @@ class WordDataProvider implements CollectionDataProviderInterface, ItemDataProvi
     {
         $item = $this->wordService->findById($id);
 
-        return empty($item) ? null : $this->wordDataTransformer->populateDto($item);
+        return empty($item) ? null : $item->getDto();
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool

@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Dto\ExampleDto;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
  */
-class Example
+class Example implements DtoProvider
 {
     /**
      * @var int
@@ -129,5 +130,30 @@ class Example
     {
         $this->toText = $toText;
         return $this;
+    }
+
+    public function populateFromDto($exampleDto, $context = [])
+    {
+        $this
+            ->setId($exampleDto->getId())
+            ->setFromText($exampleDto->getFromText())
+            ->setToText($exampleDto->getToText())
+            ->setFromLanguage($context['fromLanguage'] ?? null)
+            ->setToLanguage($context['toLanguage'] ?? null)
+        ;
+
+        return $this;
+    }
+
+    public function getDto()
+    {
+        $exampleDto = new ExampleDto();
+        $exampleDto
+            ->setId($this->getId())
+            ->setToText($this->getToText())
+            ->setFromText($this->getFromText())
+        ;
+
+        return $exampleDto;
     }
 }

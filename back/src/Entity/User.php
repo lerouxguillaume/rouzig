@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Dto\UserDto;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     itemOperations={"GET", "PATCH", "DELETE"},
  * )
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, \Serializable, DtoProvider
 {
     use SoftDeleteableEntity;
 
@@ -180,5 +181,29 @@ class User implements UserInterface, \Serializable
     public function getSalt()
     {
         return null;
+    }
+
+    public function populateFromDto($dto, $context = [])
+    {
+        $this
+            ->setId($dto->getId())
+            ->setEmail($dto->getEmail())
+            ->setUsername($dto->getUsername())
+            ->setPlainPassword($dto->getPassword())
+        ;
+
+        return $this;
+    }
+
+    public function getDto()
+    {
+        $userDto = new UserDto();
+        $userDto
+            ->setId($this->getId())
+            ->setUsername($this->getUsername())
+            ->setEmail($this->getEmail())
+        ;
+
+        return $userDto;
     }
 }

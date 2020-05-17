@@ -6,8 +6,10 @@ use App\Entity\Translation;
 use App\Entity\Word\Verb;
 use App\Enum\LanguagesEnum;
 use App\Enum\WordStatus;
+use App\EventSuscriber\WordWorkflow;
 use Faker\Generator;
 use Faker\Provider\Base;
+use Symfony\Component\Workflow\WorkflowEvents;
 
 class WordProvider extends Base
 {
@@ -59,6 +61,7 @@ class WordProvider extends Base
 
         $verb = new Verb();
         $verb
+            ->setStatus(WordWorkflow::PLACE_PENDING)
             ->setText($this->wordText())
             ->setLanguage($this->language())
             ->setTranslations($translations)

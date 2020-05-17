@@ -5,6 +5,7 @@ namespace App\Dto;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\WordsController;
+use App\Enum\WordTypeEnum;
 use DateTime;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -59,8 +60,24 @@ class WordDto
     /**
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     * @Assert\Choice(callback={WordTypeEnum::class, "getArray"})
      */
     private $wordType;
+
+    /**
+     * @var string
+     */
+    private $genre;
+
+    /**
+     * @var string
+     */
+    private $otherType;
+
+    /**
+     * @var string
+     */
+    private $plural;
 
     /**
      * @var UserDto
@@ -174,18 +191,44 @@ class WordDto
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?string $genre): WordDto
+    {
+        $this->genre = $genre;
+        return $this;
+    }
+
+    public function getOtherType(): ?string
+    {
+        return $this->otherType;
+    }
+
+    public function setOtherType(?string $otherType): WordDto
+    {
+        $this->otherType = $otherType;
+        return $this;
+    }
+
+    public function getPlural(): ?string
+    {
+        return $this->plural;
+    }
+
+    public function setPlural(?string $plural): WordDto
+    {
+        $this->plural = $plural;
+        return $this;
+    }
+
     public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    /**
-     * @param string $status
-     * @return WordDto
-     */
     public function setStatus(?string $status): WordDto
     {
         $this->status = $status;

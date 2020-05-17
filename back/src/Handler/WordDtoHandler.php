@@ -2,18 +2,15 @@
 
 namespace App\Handler;
 
-use App\DataTransformer\WordDataTransformer;
 use App\Dto\WordDto;
 use App\EventSuscriber\WordWorkflow;
+use App\Factory\WordFactory;
 use App\Service\WordServiceInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Workflow\Registry;
 
 class WordDtoHandler
 {
-    /** @var WordDataTransformer */
-    private $wordDataTransformer;
-
     /** @var WordServiceInterface */
     private $wordService;
 
@@ -22,21 +19,19 @@ class WordDtoHandler
 
     /**
      * WordDtoHandler constructor.
-     * @param WordDataTransformer $wordDataTransformer
      * @param WordServiceInterface $wordService
      * @param Registry $workflowRegistry
      */
-    public function __construct(WordDataTransformer $wordDataTransformer, WordServiceInterface $wordService, Registry $workflowRegistry)
+    public function __construct(WordServiceInterface $wordService, Registry $workflowRegistry)
     {
-        $this->wordDataTransformer = $wordDataTransformer;
         $this->wordService = $wordService;
         $this->workflowRegistry = $workflowRegistry;
     }
 
-
     public function create(WordDto $wordDto)
     {
-        $word = $this->wordDataTransformer->populateEntity($wordDto);
+        $word = WordFactory::create($wordDto->getWordType());
+        $word->populateFromDto($wordDto);
 
         $workflow = $this->workflowRegistry->get($word);
 
@@ -48,14 +43,14 @@ class WordDtoHandler
 
         $this->wordService->save($word);
 
-        return $this->wordDataTransformer->populateDto($word);
+        return $word->getDto();
     }
 
     public function update(int $id, WordDto $wordDto)
     {
         $word = $this->wordService->findById($id);
 
-        $updatedWord = $this->wordDataTransformer->populateEntity($wordDto, $word);
+        $updatedWord = $word->populateFromDto($wordDto);
 
         $workflow = $this->workflowRegistry->get($updatedWord);
 
@@ -67,7 +62,7 @@ class WordDtoHandler
 
         $this->wordService->save($updatedWord);
 
-        return $this->wordDataTransformer->populateDto($updatedWord);
+        return $updatedWord->getDto();
     }
 
     public function delete(WordDto $wordDto)
@@ -84,7 +79,7 @@ class WordDtoHandler
 
         $this->wordService->delete($word);
 
-        return $this->wordDataTransformer->populateDto($word);
+        return $word->getDto();
     }
 
     public function review(WordDto $wordDto)
@@ -101,7 +96,7 @@ class WordDtoHandler
 
         $this->wordService->save($word);
 
-        return $this->wordDataTransformer->populateDto($word);
+        return $word->getDto();
     }
 
     public function validate(WordDto $wordDto)
@@ -118,7 +113,7 @@ class WordDtoHandler
 
         $this->wordService->save($word);
 
-        return $this->wordDataTransformer->populateDto($word);
+        return $word->getDto();
     }
 
     public function reject(WordDto $wordDto)
@@ -135,6 +130,6 @@ class WordDtoHandler
 
         $this->wordService->save($word);
 
-        return $this->wordDataTransformer->populateDto($word);
+        return $word->getDto();
     }
 }

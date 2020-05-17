@@ -5,8 +5,8 @@ namespace App\DataProvider;
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DataTransformer\SearchDataTransformer;
 use App\Dto\SearchDto;
+use App\Entity\Search;
 use App\Repository\Paginator;
 use App\Service\SearchService;
 use Doctrine\Common\Collections\Criteria;
@@ -16,19 +16,13 @@ class SearchDataProvider implements CollectionDataProviderInterface, RestrictedD
     /** @var SearchService */
     private $searchService;
 
-    /** @var SearchDataTransformer */
-    private $searchDataTransformer;
-
     /**
      * @param SearchService $searchService
-     * @param SearchDataTransformer $searchDataTransformer
      */
     public function __construct(
-        SearchService $searchService,
-        SearchDataTransformer $searchDataTransformer
+        SearchService $searchService
     ) {
         $this->searchService = $searchService;
-        $this->searchDataTransformer = $searchDataTransformer;
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
@@ -54,15 +48,16 @@ class SearchDataProvider implements CollectionDataProviderInterface, RestrictedD
 
     private function getResults($queryResult): \Generator
     {
-        foreach ($queryResult as $word) {
-            yield $this->searchDataTransformer->transform($word, SearchDto::class);
+        /** @var Search $search */
+        foreach ($queryResult as $search) {
+            yield $search->getDto();
         }
     }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
         $item = $this->searchService->find($id);
-        return empty($item) ? null : $this->searchDataTransformer->transform($item, SearchDto::class);
+        return !empty($item) ? $item->getDto() : null;
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool

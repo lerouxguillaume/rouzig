@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Dto\ExampleDto;
+use App\Dto\TranslationDto;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +13,7 @@ use App\Enum\ErrorCodes;
 /**
  * @ORM\Entity()
  */
-class Translation
+class Translation implements DtoProvider
 {
     /**
      * @var int
@@ -137,5 +139,44 @@ class Translation
     {
         $this->description = $description;
         return $this;
+    }
+
+    public function populateFromDto($translationDto, $context = [])
+    {
+        $this
+            ->setText($translationDto->getWord())
+            ->setDescription($translationDto->getDescription())
+            ->setLanguage($translationDto->getLanguage())
+        ;
+
+        $updatedExamples = [];
+
+        /** @var ExampleDto $exampleDto */
+        foreach ($translationDto->getExamples() as $exampleDto) {
+            $example = ($translationDto->getId() ? $this->getExampleById($translationDto->getId()) : null) ?? new Example();
+            $updatedExamples[] = $example->populateFromDto($exampleDto, array_merge($context, ['toLanguage' => $this->getLanguage()]));
+        }
+
+        $this->setExamples($updatedExamples);
+
+        return $this;
+    }
+
+    public function getDto()
+    {
+        $translationDto = new TranslationDto();
+        $translationDto
+            ->setId($this->getId())
+            ->setWord($this->getText())
+            ->setDescription($this->getDescription())
+            ->setLanguage($this->getLanguage())
+        ;
+
+        /** @var Example $example */
+        foreach ($this->getExamples() as $example) {
+            $translationDto->addExample($example->getDto());
+        }
+
+        return $translationDto;
     }
 }

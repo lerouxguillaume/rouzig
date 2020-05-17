@@ -14,6 +14,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 final class Pronoun extends WordObject
 {
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $genre;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $plural;
+
     public function getType(): string
     {
         return WordTypeEnum::PRONOUN;

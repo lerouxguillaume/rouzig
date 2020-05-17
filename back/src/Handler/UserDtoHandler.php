@@ -2,21 +2,16 @@
 
 namespace App\Handler;
 
-use App\DataTransformer\UserDataTransformer;
 use App\Dto\UserDto;
 use App\Entity\User;
 use App\Event\UserEvent;
 use App\Service\UserService;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserDtoHandler
 {
-    /** @var UserDataTransformer */
-    private $userDataTransformer;
-
     /** @var UserService */
     private $userService;
 
@@ -25,37 +20,36 @@ class UserDtoHandler
 
     /**
      * UserDtoHandler constructor.
-     * @param UserDataTransformer $userDataTransformer
      * @param UserService $userService
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(UserDataTransformer $userDataTransformer, UserService $userService, EventDispatcherInterface $dispatcher)
+    public function __construct(UserService $userService, EventDispatcherInterface $dispatcher)
     {
-        $this->userDataTransformer = $userDataTransformer;
         $this->userService = $userService;
         $this->dispatcher = $dispatcher;
     }
 
     public function create(UserDto $userDto)
     {
-        $user = $this->userDataTransformer->populateEntity($userDto);
+        $user = new User();
+        $user->populateFromDto($userDto);
 
         $this->dispatcher->dispatch(new UserEvent($user), UserEvent::REGISTER);
 
         $this->userService->save($user);
 
-        return $this->userDataTransformer->populateDto($user);
+        return $user->getDto();
     }
 
     public function update(int $id, UserDto $userDto)
     {
         $user = $this->userService->findById($id);
 
-        $updatedUser = $this->userDataTransformer->populateEntity($userDto, $user);
+        $updatedUser = $user->populateFromDto($userDto);
 
         $this->userService->save($updatedUser);
 
-        return $this->userDataTransformer->populateDto($updatedUser);
+        return $updatedUser->getDto();
     }
 
     public function delete(UserDto $userDto)
@@ -66,7 +60,7 @@ class UserDtoHandler
 
         $this->userService->delete($user);
 
-        return $this->userDataTransformer->populateDto($user);
+        return $user->getDto();
     }
 
     public function validate(UserDto $userDto)

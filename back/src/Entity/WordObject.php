@@ -4,7 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Dto\TranslationDto;
 use App\EventSuscriber\WordWorkflow;
+use App\Factory\WordFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,7 +32,7 @@ use App\Dto\WordDto;
  *     "other" = "App\Entity\Word\Other"
  * })
  */
-abstract class WordObject
+abstract class WordObject implements DtoProvider
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -219,6 +221,55 @@ abstract class WordObject
     {
         $this->description = $description;
         return $this;
+    }
+
+
+    public function populateFromDto($wordDto, $context = [])
+    {
+        $this
+            ->setId($wordDto->getId())
+            ->setText($wordDto->getWord())
+            ->setDescription($wordDto->getDescription())
+            ->setLanguage($wordDto->getLanguage())
+        ;
+
+        $updatedTranslations = [];
+
+        /** @var TranslationDto $translationDto */
+        foreach ($wordDto->getTranslations() as $translationDto) {
+            $translation = ($translationDto->getId() ? $this->getTranslationById($translationDto->getId()) : null) ?? new Translation();
+            $updatedTranslations[] = $translation->populateFromDto($translationDto, ['fromLanguage' => $this->getLanguage()]);
+        }
+
+        $this->setTranslations($updatedTranslations);
+
+        return $this;
+    }
+
+    public function getDto()
+    {
+        $wordDto = new WordDto();
+
+        $wordDto
+            ->setId($this->getId())
+            ->setWord($this->getText())
+            ->setDescription($this->getDescription())
+            ->setUpdatedAt($this->getUpdatedAt())
+            ->setLanguage($this->getLanguage())
+            ->setStatus($this->getStatus())
+            ->setWordType($this->getType())
+        ;
+
+        if (!empty($this->getAuthor())) {
+            $wordDto->setAuthor($this->getAuthor()->getDto());
+        }
+
+        /** @var Translation $translation */
+        foreach ($this->getTranslations() as $translation) {
+            $wordDto->addTranslation($translation->getDto());
+        }
+
+        return $wordDto;
     }
 
     public abstract function getType() : string;

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Dto\SearchDto;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Exception\FeatureNotImplementedException;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
@@ -11,7 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * Class Search
  * @package App\Entity
  */
-class Search
+class Search implements DtoProvider
 {
     use TimestampableEntity;
 
@@ -116,5 +118,24 @@ class Search
     {
         $this->toLanguage = $toLanguage;
         return $this;
+    }
+
+    public function populateFromDto($dto, $context = [])
+    {
+        throw new FeatureNotImplementedException();
+    }
+
+    public function getDto()
+    {
+        $output = new SearchDto();
+        $output
+            ->setText($this->getText())
+            ->setToLanguage($this->getToLanguage())
+            ->setFromLanguage($this->getFromLanguage())
+            ->setCount($this->getCount())
+            ->setUpdatedAt($this->getUpdatedAt())
+        ;
+
+        return $output;
     }
 }
