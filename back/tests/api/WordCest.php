@@ -27,7 +27,7 @@ class WordCest
     public function searchWord(ApiTester $I)
     {
         /** @var WordObject $word */
-        $word = $this->getFaker()->verb();
+        $word = $this->getFaker()->Verb();
 
         $I->haveInRepository($word);
 
@@ -97,7 +97,7 @@ class WordCest
 
         /** @var Translation $translation */
         $translation = current($word->getTranslations());
-        $translation->setText($this->getFaker()->unique()->word);
+        $translation->getTranslation()->setText($this->getFaker()->unique()->word);
         /** @var Example $example */
         $example = current($translation->getExamples());
         $example->setToText($this->getFaker()->unique()->text);
@@ -110,7 +110,9 @@ class WordCest
         ]);
         $I->seeResponseContainsJson([
             'translations' => [
-                'word' => $translation->getText()
+                'word' => [
+                    'word' => $translation->getTranslation()->getText()
+                ]
             ]
         ]);
         $I->seeResponseContainsJson([
@@ -208,11 +210,16 @@ class WordCest
                 ];
             }
 
+            $currentTranslation = $translation->getTranslation();
             $translations[] = [
                 'id' => $translation->getId(),
-                'word' => $translation->getText(),
-                'language' => $translation->getLanguage(),
-                'description' => $translation->getDescription(),
+                'word' => [
+                    'id' => $currentTranslation->getId(),
+                    'word' => $currentTranslation->getText(),
+                    'language' => $currentTranslation->getLanguage(),
+                    'description' => $currentTranslation->getDescription(),
+                    'wordType' => $currentTranslation->getType(),
+                ],
                 'examples'=> $examples
             ];
         }
@@ -220,7 +227,7 @@ class WordCest
         return json_encode([
             'word' => $wordObject->getText(),
             'language' => $wordObject->getLanguage(),
-            'wordType' => 'verb',
+            'wordType' => $wordObject->getType(),
             'translations' => $translations
         ]);
     }
@@ -229,11 +236,7 @@ class WordCest
     {
         $faker = Factory::create();
         $faker->addProvider(new UserProvider($faker, $this->passwordEncoder));
-        $faker->addProvider(new WordProvider(
-                $faker,
-                new TranslationProvider($faker, new ExampleProvider($faker))
-            )
-        );
+        $faker->addProvider(new WordProvider($faker));
         return $faker;
     }
 }

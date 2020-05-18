@@ -107,6 +107,7 @@ class WordDto
 
     /**
      * @var TranslationDto[]
+     * @Assert\Valid()
      */
     private $translations = [];
 

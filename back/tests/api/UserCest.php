@@ -8,8 +8,11 @@ use App\Tests\Helper\Provider\ExampleProvider;
 use App\Tests\Helper\Provider\TranslationProvider;
 use App\Tests\Helper\Provider\UserProvider;
 use App\Tests\Helper\Provider\WordProvider;
+use Doctrine\Common\Collections\Criteria;
 use Faker\Factory;
 use Faker\Generator;
+use Trikoder\Bundle\OAuth2Bundle\Model\AccessToken;
+use Trikoder\Bundle\OAuth2Bundle\Model\Client;
 
 class UserCest
 {
@@ -122,6 +125,47 @@ class UserCest
         $I->assertFalse($user->isActive());
     }
 
+    public function login(ApiTester $I)
+    {
+        $plainPassword = 'password';
+        /** @var User $user */
+        $user = $this->getFaker()->user($plainPassword);
+
+        $user->setIsActive(true);
+
+        $I->haveInRepository($user);
+        /** @var Client $client */
+        $client = $I->grabEntityFromRepository(Client::class, [
+            Criteria::expr()->contains('grants', 'password'),
+        ]);
+        $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $I->amHttpAuthenticated(
+            $client->getIdentifier(),
+            $client->getSecret()
+        );
+        $I->sendPOST('/token', [
+            'grant_type' => 'password',
+            'username' => $user->getUsername(),
+            'password' => $plainPassword
+        ]);
+        $I->seeResponseCodeIs(200); // 200
+        $I->seeResponseIsJson();
+        $token = $I->grabDataFromResponseByJsonPath('$..access_token')[0];
+
+        $I->assertNotEmpty($token);
+        $I->seeInRepository(AccessToken::class, ['userIdentifier' => $user->getUsername()]);
+
+//        $I->haveHttpHeader('Authorization', '');
+//        $I->haveHttpHeader('Accept', 'application/vnd.api+json');
+//        $I->haveHttpHeader('Content-Type', 'application/ld+json');
+//        $I->sendGET('/api/users/me');
+//        $I->seeResponseCodeIs(200); // 200
+//        $I->seeResponseIsJson();
+//        $I->seeResponseContainsJson([
+//            'username' => $user->getUsername()
+//        ]);
+    }
+
     private function userToJson(User $user): string
     {
         return json_encode([
@@ -135,11 +179,6 @@ class UserCest
     {
         $faker = Factory::create();
         $faker->addProvider(new UserProvider($faker, $this->passwordEncoder));
-        $faker->addProvider(new WordProvider(
-                $faker,
-                new TranslationProvider($faker, new ExampleProvider($faker))
-            )
-        );
         return $faker;
     }
 }

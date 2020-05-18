@@ -2,15 +2,10 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Dto\TranslationDto;
-use App\EventSuscriber\WordWorkflow;
-use App\Factory\WordFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -168,17 +163,6 @@ abstract class WordObject implements DtoProvider
         return $this;
     }
 
-    public function getMarking(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setMarking($status, $context = [])
-    {
-        $this->status = $status;
-        return $this;
-    }
-
     public function getAuthor(): ?User
     {
         return $this->author;
@@ -240,8 +224,6 @@ abstract class WordObject implements DtoProvider
             $translation = ($translationDto->getId() ? $this->getTranslationById($translationDto->getId()) : null) ?? new Translation();
             $updatedTranslations[] = $translation->populateFromDto($translationDto, ['fromLanguage' => $this->getLanguage()]);
         }
-
-        $this->setTranslations($updatedTranslations);
 
         return $this;
     }

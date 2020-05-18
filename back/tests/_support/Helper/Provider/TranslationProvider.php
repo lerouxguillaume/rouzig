@@ -13,39 +13,23 @@ class TranslationProvider extends Base
 {
     /** @var ExampleProvider */
     private $exampleProvider;
+    /** @var WordProvider */
+    private $wordProvider;
 
     /**
      * TranslationProvider constructor.
      * @param Generator $generator
+     * @param WordProvider $wordProvider
      * @param ExampleProvider $exampleProvider
      */
-    public function __construct(Generator $generator, ExampleProvider $exampleProvider)
+    public function __construct(Generator $generator, WordProvider $wordProvider ,ExampleProvider $exampleProvider)
     {
         parent::__construct($generator);
+        $this->wordProvider = $wordProvider;
         $this->exampleProvider = $exampleProvider;
     }
 
-    public function translationText() : string
-    {
-        return $this->generator->word;
-    }
-
-    public function language(): string
-    {
-        return $this->generator->randomElement(LanguagesEnum::getArray());
-    }
-
-    public function description(): string
-    {
-        return $this->generator->text;
-    }
-
-    public function status(): string
-    {
-        return $this->generator->randomElement(WordStatus::getArray());
-    }
-
-    public function translation($random =false, $nbExample = 1): Translation
+    public function translation($language = null, $random =false, $nbExample = 1): Translation
     {
         if ($random) {
             $nbExample = rand(0,3);
@@ -59,9 +43,7 @@ class TranslationProvider extends Base
 
         $translation = new Translation();
         $translation
-            ->setText($this->translationText())
-            ->setLanguage($this->language())
-            ->setDescription($this->description())
+            ->setTranslation($this->wordProvider->Verb($language, false, 0))
             ->setExamples($examples)
         ;
 

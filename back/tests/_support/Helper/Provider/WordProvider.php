@@ -19,12 +19,11 @@ class WordProvider extends Base
     /**
      * WordProvider constructor.
      * @param Generator $generator
-     * @param TranslationProvider $translationProvider
      */
-    public function __construct(Generator $generator, TranslationProvider $translationProvider)
+    public function __construct(Generator $generator)
     {
         parent::__construct($generator);
-        $this->translationProvider = $translationProvider;
+        $this->translationProvider = new TranslationProvider($generator, $this, new ExampleProvider($generator));
     }
 
     public function wordText() : string
@@ -47,23 +46,26 @@ class WordProvider extends Base
         return $this->translation();
     }
 
-    public function Verb($random =false, $nbTranslation = 1) : Verb
+    public function Verb($language = null,  $random =false, $nbTranslation = 1) : Verb
     {
         if ($random) {
             $nbTranslation = rand(0,3);
         }
 
+        $fromLanguage = $language ?? $this->language();
+        $toLanguage = $language === LanguagesEnum::BR ?: LanguagesEnum::FR;
+
         $translations = [];
         for ($i = 0; $i < $nbTranslation; $i++)
         {
-            $translations[] = $this->translationProvider->translation();
+            $translations[] = $this->translationProvider->translation($toLanguage);
         }
 
         $verb = new Verb();
         $verb
             ->setStatus(WordWorkflow::PLACE_PENDING)
             ->setText($this->wordText())
-            ->setLanguage($this->language())
+            ->setLanguage($fromLanguage)
             ->setTranslations($translations)
         ;
 

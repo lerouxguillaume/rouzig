@@ -14,19 +14,17 @@ class TranslationDto
      */
     private $id;
 
-    /** @var string */
+    /**
+     * @var WordDto
+     * @Assert\Valid()
+     * @Assert\NotNull(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     */
     private $word;
 
-    /** @var string */
-    private $description;
-
-    /** @var string */
-    private $language;
-
-    /** @var string */
-    private $type;
-
-    /** @var ExampleDto[] */
+    /**
+     * @var ExampleDto[]
+     * @Assert\Valid()
+     */
     private $examples = [];
 
     /**
@@ -43,47 +41,21 @@ class TranslationDto
         return $this;
     }
 
-    public function getWord(): ?string
+    /**
+     * @return WordDto
+     */
+    public function getWord(): ?WordDto
     {
         return $this->word;
     }
 
-    public function setWord(?string $word): TranslationDto
+    /**
+     * @param WordDto $word
+     * @return TranslationDto
+     */
+    public function setWord(?WordDto $word): TranslationDto
     {
         $this->word = $word;
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): TranslationDto
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    public function getLanguage(): ?string
-    {
-        return $this->language;
-    }
-
-    public function setLanguage(?string $language): TranslationDto
-    {
-        $this->language = $language;
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): TranslationDto
-    {
-        $this->type = $type;
         return $this;
     }
 

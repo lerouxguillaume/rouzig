@@ -11,6 +11,7 @@ class WordStatus implements EnumInterface
     const REVIEW = WordWorkflow::PLACE_REVIEW;
     const DELETED = WordWorkflow::PLACE_DELETED;
     const APPROVED = WordWorkflow::PLACE_ACCEPTED;
+    const DEFINITION = 'definition';
 
     public static function getArray(): array
     {
