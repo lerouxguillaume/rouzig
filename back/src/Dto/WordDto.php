@@ -4,7 +4,6 @@ namespace App\Dto;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\WordsController;
 use App\Enum\WordTypeEnum;
 use DateTime;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -19,26 +18,9 @@ use App\Enum\ErrorCodes;
  * @ApiResource(
  *          denormalizationContext={AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT=true},
  *          shortName="Word",
- *          collectionOperations={"GET", "POST"},
+ *          collectionOperations={"GET"},
  *          itemOperations={
  *              "GET",
- *              "PATCH",
- *              "DELETE",
- *              "post_review"={
- *                  "method"="POST",
- *                  "path"="words/{id}/review",
- *                  "controller"=WordsController::class,
- *              },
- *              "post_validate"={
- *                  "method"="POST",
- *                  "path"="words/{id}/validate",
- *                  "controller"=WordsController::class,
- *              },
- *              "post_reject"={
- *                  "method"="POST",
- *                  "path"="words/{id}/reject",
- *                  "controller"=WordsController::class,
- *              },
  *          },
  *      )
  * )
@@ -48,23 +30,27 @@ class WordDto
     /**
      * @var int
      * @ApiProperty(identifier=true)
+     * @Groups({"write", "read"})
      */
     private $id;
 
     /**
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     * @Groups({"write", "read"})
      */
     private $word;
 
     /**
      * @var string
+     * @Groups({"write", "read"})
      */
     private $description;
 
     /**
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
+     * @Groups({"write", "read"})
      */
     private $language;
 
@@ -72,36 +58,37 @@ class WordDto
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      * @Assert\Choice(callback={WordTypeEnum::class, "getArray"})
+     * @Groups({"write", "read"})
      */
     private $wordType;
 
     /**
      * @var string
+     * @Groups({"write", "read"})
      */
     private $genre;
 
     /**
      * @var string
+     * @Groups({"write", "read"})
      */
     private $otherType;
 
     /**
      * @var string
+     * @Groups({"write", "read"})
      */
     private $plural;
 
     /**
      * @var UserDto
+     * @Groups({"read"})
      */
     private $author;
 
     /**
-     * @var string
-     */
-    private $status;
-
-    /**
      * @var DateTime
+     * @Groups({"read"})
      */
     private $updatedAt;
 
@@ -235,17 +222,6 @@ class WordDto
     public function setPlural(?string $plural): WordDto
     {
         $this->plural = $plural;
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?string $status): WordDto
-    {
-        $this->status = $status;
         return $this;
     }
 }

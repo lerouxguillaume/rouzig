@@ -13,9 +13,6 @@ use Symfony\Component\Workflow\WorkflowEvents;
 
 class WordProvider extends Base
 {
-    /** @var TranslationProvider */
-    private $translationProvider;
-
     /**
      * WordProvider constructor.
      * @param Generator $generator
@@ -23,7 +20,6 @@ class WordProvider extends Base
     public function __construct(Generator $generator)
     {
         parent::__construct($generator);
-        $this->translationProvider = new TranslationProvider($generator, $this, new ExampleProvider($generator));
     }
 
     public function wordText() : string
@@ -46,27 +42,12 @@ class WordProvider extends Base
         return $this->translation();
     }
 
-    public function Verb($language = null,  $random =false, $nbTranslation = 1) : Verb
+    public function Verb($language = null) : Verb
     {
-        if ($random) {
-            $nbTranslation = rand(0,3);
-        }
-
-        $fromLanguage = $language ?? $this->language();
-        $toLanguage = $language === LanguagesEnum::BR ?: LanguagesEnum::FR;
-
-        $translations = [];
-        for ($i = 0; $i < $nbTranslation; $i++)
-        {
-            $translations[] = $this->translationProvider->translation($toLanguage);
-        }
-
         $verb = new Verb();
         $verb
-            ->setStatus(WordWorkflow::PLACE_PENDING)
             ->setText($this->wordText())
-            ->setLanguage($fromLanguage)
-            ->setTranslations($translations)
+            ->setLanguage($this->language())
         ;
 
         return $verb;

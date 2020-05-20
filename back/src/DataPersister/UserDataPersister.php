@@ -9,7 +9,7 @@ use App\Dto\UserDto;
 use App\Entity\User;
 use App\Event\UserEvent;
 use App\Handler\UserDtoHandler;
-use App\Handler\WordDtoHandler;
+use App\Handler\TranslationDtoHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;

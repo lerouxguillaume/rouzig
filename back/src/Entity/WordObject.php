@@ -54,12 +54,6 @@ abstract class WordObject implements DtoProvider
     private $version = 1;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=48, nullable=false)
-     */
-    private $status;
-
-    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
      */
@@ -131,7 +125,12 @@ abstract class WordObject implements DtoProvider
 
     public function addTranslation(Translation $translation): WordObject
     {
-        $this->translations->add($translation);
+        if (!($this->translations->contains($translation))) {
+            $this->translations->add($translation);
+            if (empty($translation->getOriginalWord())) {
+                $translation->setOriginalWord($this);
+            }
+        }
         return $this;
     }
 
@@ -149,17 +148,6 @@ abstract class WordObject implements DtoProvider
     public function setVersion(int $version): WordObject
     {
         $this->version = $version;
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus($status)
-    {
-        $this->status = $status;
         return $this;
     }
 
@@ -217,14 +205,6 @@ abstract class WordObject implements DtoProvider
             ->setLanguage($wordDto->getLanguage())
         ;
 
-        $updatedTranslations = [];
-
-        /** @var TranslationDto $translationDto */
-        foreach ($wordDto->getTranslations() as $translationDto) {
-            $translation = ($translationDto->getId() ? $this->getTranslationById($translationDto->getId()) : null) ?? new Translation();
-            $updatedTranslations[] = $translation->populateFromDto($translationDto, ['fromLanguage' => $this->getLanguage()]);
-        }
-
         return $this;
     }
 
@@ -238,17 +218,11 @@ abstract class WordObject implements DtoProvider
             ->setDescription($this->getDescription())
             ->setUpdatedAt($this->getUpdatedAt())
             ->setLanguage($this->getLanguage())
-            ->setStatus($this->getStatus())
             ->setWordType($this->getType())
         ;
 
         if (!empty($this->getAuthor())) {
             $wordDto->setAuthor($this->getAuthor()->getDto());
-        }
-
-        /** @var Translation $translation */
-        foreach ($this->getTranslations() as $translation) {
-            $wordDto->addTranslation($translation->getDto());
         }
 
         return $wordDto;

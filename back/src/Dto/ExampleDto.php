@@ -4,15 +4,26 @@
 namespace App\Dto;
 
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 class ExampleDto
 {
-    /** @var int */
+    /**
+     * @var int
+     * @Groups({"write", "read"})
+     */
     private $id;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Groups({"write", "read"})
+     */
     private $fromText;
 
-    /** @var string */
+    /**
+     * @var string
+     * @Groups({"write", "read"})
+     */
     private $toText;
 
     public function getId(): ?int

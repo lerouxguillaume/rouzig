@@ -3,9 +3,10 @@
 namespace App\Service;
 
 use App\Entity\WordObject;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
-class WordService implements WordServiceInterface
+class WordService
 {
     /** @var EntityManagerInterface */
     private $entityManager;
@@ -25,27 +26,18 @@ class WordService implements WordServiceInterface
         $this->entityManager->flush();
     }
 
-    public function delete(WordObject $wordObject)
+    public function findByCriteria(Criteria $criteria): array
     {
-        $wordObject
-            ->setDeletedAt(new \DateTime())
-        ;
-        $this->entityManager->persist($wordObject);
-        $this->entityManager->flush();
+        return $this->entityManager->getRepository(WordObject::class)->findByCriteria($criteria);
     }
 
-    public function findById(int $id): ?WordObject
+    public function countByCriteria(Criteria $criteria): int
     {
-        return $this->entityManager->find(WordObject::class, $id);
+        return $this->entityManager->getRepository(WordObject::class)->countByCriteria($criteria);
     }
 
-    public function findByStatus(string $status): array
+    public function find(string $id): ?WordObject
     {
-        return $this->entityManager->getRepository(WordObject::class)->findByStatus($status);
-    }
-
-    public function search(string $search): array
-    {
-        return $this->entityManager->getRepository(WordObject::class)->findByText($search);
+        return $this->entityManager->getRepository(WordObject::class)->find($id);
     }
 }

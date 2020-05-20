@@ -5,33 +5,33 @@ namespace App\DataPersister;
 
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use App\Dto\WordDto;
-use App\Handler\WordDtoHandler;
+use App\Dto\TranslationDto;
+use App\Handler\TranslationDtoHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class WordDataPersister implements ContextAwareDataPersisterInterface
+class TranslationDataPersister implements ContextAwareDataPersisterInterface
 {
     /** @var Request */
     private $request;
 
-   /** @var WordDtoHandler */
-    private $wordDtoHandler;
+   /** @var TranslationDtoHandler */
+    private $translationDtoHandler;
 
     /**
      * WordDataDataPersister constructor.
      * @param RequestStack $request
-     * @param WordDtoHandler $wordDtoHandler
+     * @param TranslationDtoHandler $translationDtoHandler
      */
-    public function __construct(RequestStack $request, WordDtoHandler $wordDtoHandler)
+    public function __construct(RequestStack $request, TranslationDtoHandler $translationDtoHandler)
     {
         $this->request = $request->getCurrentRequest();
-        $this->wordDtoHandler = $wordDtoHandler;
+        $this->translationDtoHandler = $translationDtoHandler;
     }
 
     public function supports($data, array $context = []): bool
     {
-        return $data instanceof WordDto;
+        return $data instanceof TranslationDto;
     }
 
     public function persist($data, array $context = [])
@@ -41,15 +41,15 @@ class WordDataPersister implements ContextAwareDataPersisterInterface
         switch ($operation) {
             case 'PATCH':
                 $id = $this->request->get('id');
-                return $this->wordDtoHandler->update($id, $data);
+                return $this->translationDtoHandler->update($id, $data);
             case 'POST':
-                return $this->wordDtoHandler->create($data);
+                return $this->translationDtoHandler->create($data);
             case 'post_review':
-                return $this->wordDtoHandler->review($data);
+                return $this->translationDtoHandler->review($data);
             case 'post_validate':
-                return $this->wordDtoHandler->validate($data);
+                return $this->translationDtoHandler->validate($data);
             case 'post_reject':
-                return $this->wordDtoHandler->reject($data);
+                return $this->translationDtoHandler->reject($data);
         }
 
         return $data;
@@ -58,6 +58,6 @@ class WordDataPersister implements ContextAwareDataPersisterInterface
 
     public function remove($data, array $context = [])
     {
-        return $this->wordDtoHandler->delete($data);
+        return $this->translationDtoHandler->delete($data);
     }
 }

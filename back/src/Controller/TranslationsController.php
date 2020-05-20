@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Dto\WordDto;
+use App\Dto\TranslationDto;
 
 /**
  * Class WordsControllerRpc
  * @package App\Controller
  */
-class WordsController
+class TranslationsController
 {
-    public function __invoke(WordDto $data): WordDto
+    public function __invoke(TranslationDto $data): TranslationDto
     {
         return $data;
     }

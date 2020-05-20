@@ -5,85 +5,40 @@ namespace App\DataProvider;
 use ApiPlatform\Core\DataProvider\CollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use App\DataTransformer\WordDataTransformer;
-use App\Dto\WordDto;
+use App\Dto\TranslationDto;
 use App\Entity\Search;
 use App\Service\SearchService;
-use App\Service\WordServiceInterface;
+use App\Service\TranslationService;
+use App\Service\WordService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class WordDataProvider implements CollectionDataProviderInterface, ItemDataProviderInterface, RestrictedDataProviderInterface
+class WordDataProvider implements ItemDataProviderInterface
 {
-    /** @var WordServiceInterface */
+    /** @var WordService */
     private $wordService;
-
-    /** @var SearchService */
-    private $searchService;
-
-    /** @var EntityManagerInterface */
-    private $managerRegistry;
 
     /**
      * WordDataProvider constructor.
-     * @param WordServiceInterface $wordService
-     * @param SearchService $searchService
-     * @param EntityManagerInterface $managerRegistry
+     * @param WordService $wordService
      */
     public function __construct(
-        WordServiceInterface $wordService,
-        SearchService $searchService,
-        EntityManagerInterface $managerRegistry
+        WordService $wordService
     ) {
         $this->wordService = $wordService;
-        $this->searchService = $searchService;
-        $this->managerRegistry = $managerRegistry;
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
-    {
-        if (isset($context['filters'])) {
-            $filters = $context['filters'];
-            if (isset($filters['search'])) {
-                $queryResult= $this->wordService->search($filters['search']);
-            } elseif (isset($filters['status'])) {
-                $queryResult= $this->wordService->findByStatus($filters['status']);
-            } else {
-                throw new BadRequestHttpException('invalid filter');
-            }
-        } else {
-            throw new BadRequestHttpException('missing filter');
-        }
-
-        if (empty($queryResult) && isset($filters['search'])) {
-            if (!($search = $this->searchService->find($filters['search']))) {
-                $search = new Search();
-                $search
-                    ->setText($filters['search'])
-                ;
-            }
-
-            $search->countAdd();
-            $this->searchService->save($search);
-        }
-        $result = [];
-        foreach ($queryResult as $word) {
-            $result[] = $word->getDto();
-        }
-
-        return new ArrayCollection($result);
-    }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
-        $item = $this->wordService->findById($id);
+        $item = $this->wordService->find($id);
 
         return empty($item) ? null : $item->getDto();
     }
 
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return WordDto::class === $resourceClass;
+        return TranslationDto::class === $resourceClass;
     }
 }

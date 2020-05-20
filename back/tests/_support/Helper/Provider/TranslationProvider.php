@@ -6,6 +6,7 @@ namespace App\Tests\Helper\Provider;
 use App\Entity\Translation;
 use App\Enum\LanguagesEnum;
 use App\Enum\WordStatus;
+use App\EventSuscriber\WordWorkflow;
 use Faker\Generator;
 use Faker\Provider\Base;
 
@@ -19,14 +20,12 @@ class TranslationProvider extends Base
     /**
      * TranslationProvider constructor.
      * @param Generator $generator
-     * @param WordProvider $wordProvider
-     * @param ExampleProvider $exampleProvider
      */
-    public function __construct(Generator $generator, WordProvider $wordProvider ,ExampleProvider $exampleProvider)
+    public function __construct(Generator $generator)
     {
         parent::__construct($generator);
-        $this->wordProvider = $wordProvider;
-        $this->exampleProvider = $exampleProvider;
+        $this->wordProvider = new WordProvider($generator);
+        $this->exampleProvider = new ExampleProvider($generator);
     }
 
     public function translation($language = null, $random =false, $nbExample = 1): Translation
@@ -43,8 +42,10 @@ class TranslationProvider extends Base
 
         $translation = new Translation();
         $translation
-            ->setTranslation($this->wordProvider->Verb($language, false, 0))
+            ->setOriginalWord($this->wordProvider->Verb($language, false, 0))
+            ->setTranslatedWord($this->wordProvider->Verb($language, false, 0))
             ->setExamples($examples)
+            ->setStatus(WordWorkflow::PLACE_PENDING)
         ;
 
         return $translation;
