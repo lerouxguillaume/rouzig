@@ -47,7 +47,7 @@ class ImportLexiqCommand extends Command
     {
         $this
             // the short description shown while running "php bin/console list"
-            ->setDescription('Ie, mport the lexiq csv file')
+            ->setDescription('Import the lexiq csv file')
             ->addArgument('path', InputArgument::REQUIRED, 'path to the file')
         ;
     }

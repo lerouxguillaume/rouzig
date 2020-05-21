@@ -120,6 +120,8 @@
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/finder" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/flex" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/framework-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/http-client-contracts" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/http-foundation" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/http-kernel" />
       <excludeFolder url="file://$MODULE_DIR$/back/vendor/symfony/inflector" />
