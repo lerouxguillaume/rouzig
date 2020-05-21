@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\Command;
 
-
+use App\Entity\User;
 use App\Entity\Word\Adjective;
 use App\Entity\Word\Adverb;
 use App\Entity\Word\Noun;
@@ -13,9 +12,7 @@ use App\Entity\Word\Pronoun;
 use App\Entity\Word\Verb;
 use App\Entity\WordObject;
 use App\Enum\LanguagesEnum;
-use App\Factory\WordFactory;
 use App\Service\WordService;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use SplFileObject;
 use Symfony\Component\Console\Command\Command;
@@ -68,6 +65,21 @@ class ImportLexiqCommand extends Command
             '============',
             '',
         ]);
+
+        $lexiqUser = $this->em->getRepository(User::class)->findOneBy(['username' => 'Lexiq']);
+        if (empty($lexiqUser)) {
+            $lexiqUser = new User();
+            $lexiqUser
+                ->setUsername('Lexiq')
+                ->setIsActive(false)
+                ->setPassword('')
+                ->setEmail('Lexiq')
+            ;
+
+            $this->em->persist($lexiqUser);
+            $this->em->flush();
+        }
+
         $file = new SplFileObject($path, 'r');
         $file->seek(PHP_INT_MAX);
         $numberOfRow = $file->key();
@@ -98,9 +110,11 @@ class ImportLexiqCommand extends Command
             if (!$word) {
                 /** @var WordObject $word */
                 $word = new $wordType();
+
                 $word
                     ->setText($lemme)
                     ->setLanguage(LanguagesEnum::FR)
+                    ->setAuthor($lexiqUser)
                 ;
 
                 if ($word instanceof Other) {
@@ -118,8 +132,9 @@ class ImportLexiqCommand extends Command
                 $this->em->flush();
             }
 
-            if ($progressBar->getProgress() % 100 === 0) {
+            if ($progressBar->getProgress() % 500 === 0) {
                 $this->em->clear();
+                $lexiqUser = $this->em->getRepository(User::class)->findOneBy(['username' => 'Lexiq']);
             }
         }
 

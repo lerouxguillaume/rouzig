@@ -19,9 +19,9 @@ use App\Controller\TranslationsController;
  * @ApiResource(
  *          denormalizationContext={
  *                  AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT=true,
- *                  "groups"={"write"}
+ *                  "groups"={"write_translation"}
  *          },
- *          normalizationContext={"groups"={"read"}},
+ *          normalizationContext={"groups"={"read_translation"}},
  *          shortName="Translation",
  *          collectionOperations={"GET", "POST"},
  *          itemOperations={
@@ -53,7 +53,7 @@ class TranslationDto
      * @var string
      * @Assert\Type(type="integer", payload={"code"=ErrorCodes::INVALID_TYPE})
      * @ApiProperty(identifier=true)
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $id;
 
@@ -62,7 +62,7 @@ class TranslationDto
      * @Assert\Valid()
      * @Assert\NotNull(payload={"code"=ErrorCodes::EMPTY_VALUE})
      * @ApiSubresource
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $originalWord;
 
@@ -70,20 +70,20 @@ class TranslationDto
      * @var WordDto
      * @Assert\Valid()
      * @ApiSubresource
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $translatedWord;
 
     /**
      * @var ExampleDto[]
      * @Assert\Valid()
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $examples = [];
 
     /**
      * @var string
-     * @Groups({"read"})
+     * @Groups({"read_translation"})
      */
     private $status;
 

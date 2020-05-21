@@ -44,9 +44,7 @@ class TranslationDataProvider implements CollectionDataProviderInterface, ItemDa
     {
         if (isset($context['filters'])) {
             $filters = $context['filters'];
-            if (isset($filters['search'])) {
-                $queryResult= $this->translationService->search($filters['search']);
-            } elseif (isset($filters['status'])) {
+            if (isset($filters['status'])) {
                 $queryResult= $this->translationService->findByStatus($filters['status']);
             } else {
                 throw new BadRequestHttpException('invalid filter');
@@ -55,17 +53,6 @@ class TranslationDataProvider implements CollectionDataProviderInterface, ItemDa
             throw new BadRequestHttpException('missing filter');
         }
 
-        if (empty($queryResult) && isset($filters['search'])) {
-            if (!($search = $this->searchService->find($filters['search']))) {
-                $search = new Search();
-                $search
-                    ->setText($filters['search'])
-                ;
-            }
-
-            $search->countAdd();
-            $this->searchService->save($search);
-        }
         $result = [];
         foreach ($queryResult as $word) {
             $result[] = $word->getDto();

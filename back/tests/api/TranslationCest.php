@@ -22,36 +22,6 @@ class TranslationCest
         $this->passwordEncoder = $I->grabService('security.password_encoder');
     }
 
-    public function searchWord(ApiTester $I)
-    {
-        /** @var Translation $translation */
-        $translation = $this->getFaker()->translation();
-
-        $I->haveInRepository($translation);
-
-        $I->sendGet('/api/translations', [
-            'search' => $translation->getOriginalWord()->getText()
-        ]);
-        $I->seeResponseCodeIs(200); // 200
-        $I->seeResponseIsJson();
-        $I->seeResponseContainsJson([
-            'word' => $translation->getOriginalWord()->getText()
-        ]);
-
-        $wordNotExistent = 'AZERTYUIOP';
-
-        $I->dontSeeInRepository(Verb::class, ['text' => $wordNotExistent]);
-
-        $I->sendGet('/api/translations', [
-            'search' => $wordNotExistent
-        ]);
-        $I->seeResponseCodeIs(200); // 200
-        $I->seeResponseIsJson();
-        $I->seeResponseContainsJson([
-            'hydra:totalItems' => 0
-        ]);
-    }
-
     public function createWord(ApiTester $I)
     {
         /** @var Translation $translation */
@@ -65,7 +35,7 @@ class TranslationCest
             'word' => $translation->getOriginalWord()->getText()
         ]);
         $objectId = $I->grabDataFromResponseByJsonPath('$..id')[0];
-        $I->seeInRepository(Verb::class, ['id'=>$objectId]);
+        $I->seeInRepository(Translation::class, ['id'=>$objectId]);
     }
 
     public function patchWord(ApiTester $I)

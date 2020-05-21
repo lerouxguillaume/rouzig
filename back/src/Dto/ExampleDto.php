@@ -10,19 +10,19 @@ class ExampleDto
 {
     /**
      * @var int
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $id;
 
     /**
      * @var string
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $fromText;
 
     /**
      * @var string
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation"})
      */
     private $toText;
 

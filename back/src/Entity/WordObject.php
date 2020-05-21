@@ -42,7 +42,7 @@ abstract class WordObject implements DtoProvider
 
     /**
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="Translation", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="Translation", orphanRemoval=true)
      * @Assert\Valid()
      */
     private $translations;

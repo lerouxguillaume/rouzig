@@ -61,12 +61,14 @@ class UserDto
     /**
      * @var int
      * @ApiProperty(identifier=true)
+     * @Groups({"read_translation", "read_word"})
      */
     private $id;
 
     /**
      * @var string
      * @UniqueUsername(groups={"postValidation"})
+     * @Groups({"read_translation", "read_word"})
      */
     private $username;
 
@@ -74,6 +76,7 @@ class UserDto
      * @var string
      * @UniqueEmail(groups={"postValidation"})
      * @Assert\Email()
+     * @Groups({"read_translation", "read_word"})
      */
     private $email;
 

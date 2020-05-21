@@ -44,9 +44,4 @@ class TranslationService
     {
         return $this->entityManager->getRepository(Translation::class)->findByStatus($status);
     }
-
-    public function search(string $search): array
-    {
-        return $this->entityManager->getRepository(WordObject::class)->findByText($search);
-    }
 }

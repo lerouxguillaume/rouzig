@@ -16,7 +16,7 @@ use App\Enum\ErrorCodes;
  * @package App\Dto
  *
  * @ApiResource(
- *          denormalizationContext={AbstractObjectNormalizer::DISABLE_TYPE_ENFORCEMENT=true},
+ *          normalizationContext={"groups"={"read_word"}},
  *          shortName="Word",
  *          collectionOperations={"GET"},
  *          itemOperations={
@@ -30,27 +30,27 @@ class WordDto
     /**
      * @var int
      * @ApiProperty(identifier=true)
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $id;
 
     /**
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $word;
 
     /**
      * @var string
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $description;
 
     /**
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $language;
 
@@ -58,43 +58,44 @@ class WordDto
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
      * @Assert\Choice(callback={WordTypeEnum::class, "getArray"})
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $wordType;
 
     /**
      * @var string
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $genre;
 
     /**
      * @var string
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $otherType;
 
     /**
      * @var string
-     * @Groups({"write", "read"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $plural;
 
     /**
      * @var UserDto
-     * @Groups({"read"})
+     * @Groups({"read_translation", "read_word"})
      */
     private $author;
 
     /**
      * @var DateTime
-     * @Groups({"read"})
+     * @Groups({"read_translation", "read_word"})
      */
     private $updatedAt;
 
     /**
      * @var TranslationDto[]
      * @Assert\Valid()
+     * @Groups({"read_word"})
      */
     private $translations = [];
 

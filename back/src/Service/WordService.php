@@ -34,4 +34,9 @@ class WordService
     {
         return $this->entityManager->getRepository(WordObject::class)->find($id);
     }
+
+    public function search(string $search): array
+    {
+        return $this->entityManager->getRepository(WordObject::class)->findByText($search);
+    }
 }
