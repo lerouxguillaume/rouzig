@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\WordObject;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
 class WordService
@@ -26,14 +25,9 @@ class WordService
         $this->entityManager->flush();
     }
 
-    public function findByCriteria(Criteria $criteria): array
+    public function findByCriteria(string $text, string $type, $genre): array
     {
-        return $this->entityManager->getRepository(WordObject::class)->findByCriteria($criteria);
-    }
-
-    public function countByCriteria(Criteria $criteria): int
-    {
-        return $this->entityManager->getRepository(WordObject::class)->countByCriteria($criteria);
+        return $this->entityManager->getRepository(WordObject::class)->findByCriteria($text,$type, $genre);
     }
 
     public function find(string $id): ?WordObject
