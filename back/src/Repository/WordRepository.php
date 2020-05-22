@@ -45,4 +45,21 @@ class WordRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findWordsWithoutTranslation(string $language = null): array
+    {
+        $qb = $this->createQueryBuilder('w');
+        $qb
+            ->where('w.translations is empty')
+        ;
+
+        if (!empty($language)) {
+            $qb
+                ->andWhere($qb->expr()->eq('w.language', ':language'))
+                ->setParameter(':language', $language)
+            ;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

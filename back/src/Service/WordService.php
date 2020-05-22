@@ -30,6 +30,16 @@ class WordService
         return $this->entityManager->getRepository(WordObject::class)->findByCriteria($text,$type, $genre);
     }
 
+    public function findWordsWithoutTranslation(string $language = null): array
+    {
+        return $this->entityManager->getRepository(WordObject::class)->findWordsWithoutTranslation($language);
+    }
+
+    public function findBy(array $criteria): array
+    {
+        return $this->entityManager->getRepository(WordObject::class)->findBy($criteria);
+    }
+
     public function find(string $id): ?WordObject
     {
         return $this->entityManager->getRepository(WordObject::class)->find($id);

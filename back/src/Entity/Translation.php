@@ -36,13 +36,13 @@ class Translation implements DtoProvider
 
     /**
      * @var WordObject
-     * @ORM\OneToOne(targetEntity="WordObject", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="WordObject", cascade={"persist"})
      */
     private $originalWord;
 
     /**
      * @var WordObject
-     * @ORM\OneToOne(targetEntity="WordObject", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="WordObject", cascade={"persist"})
      */
     private $translatedWord;
 
