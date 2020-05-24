@@ -18,11 +18,11 @@
             </div>
             <div class="row flex-column">
                 <p>
-                    <RouterLink v-on:click.native="closeModal" :to="{name: 'ResetPassword'}">{{ $t('login.link.forgot_password') }}</RouterLink>
+                    <RouterLink v-on:click.native="closeModal" :to="{name: 'ResetPassword', params:{lang: $i18n.locale}}">{{ $t('login.link.forgot_password') }}</RouterLink>
                 </p>
                 <br>
                 <p>{{ $t('login.text.no_account') }}
-                    <RouterLink v-on:click.native="closeModal" :to="{name: 'Register'}">{{ $t('login.link.register') }}</RouterLink>
+                    <RouterLink v-on:click.native="closeModal" :to="{name: 'Register', params:{lang: $i18n.locale}}">{{ $t('login.link.register') }}</RouterLink>
                 </p>
             </div>
         </div>

@@ -107,6 +107,7 @@
     .register-container {
         max-width: 750px;
         flex-grow: 1;
+        height: max-content;
     }
     .register-form-container {
         margin-top: -10px;
@@ -117,7 +118,6 @@
         margin: 5px -15px;
     }
     .submit-container {
-        flex-grow: 1;
         margin-top: 10px;
     }
 </style>

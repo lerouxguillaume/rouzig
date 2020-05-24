@@ -1,0 +1,16 @@
+export default Object.freeze({
+    FR: 'fr',
+    BR: 'br',
+    PENDING: 'pending',
+    REVIEW: 'review',
+    DELETED: 'deleted',
+    ACCEPT: 'accept',
+    ADJECTIVE: 'adjective',
+    ADVERB: 'adverb',
+    CONJUNCTION: 'conjunction',
+    PREPOSITION: 'preposition',
+    PRONOUN: 'pronoun',
+    NOUN: 'noun',
+    VERB: 'verb',
+    OTHER: 'other',
+});

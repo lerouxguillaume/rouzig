@@ -86,6 +86,7 @@
 <style scoped>
     .new-password-container {
         max-width: 750px;
+        height: max-content;
     }
     .submit-container {
         margin-top: 10px;

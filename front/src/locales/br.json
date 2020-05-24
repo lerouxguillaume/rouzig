@@ -19,6 +19,9 @@
     "title": "Rouzig",
     "sub-title": "Geriadur Brezhoneg-Galleg"
   },
+  "footer": {
+    "contact": "Darempred"
+  },
   "search": {
     "search": "klask",
     "results" : "{nbResults} disoc'h kavet",
@@ -26,6 +29,10 @@
   },
   "table" : {
     "text-label" : "Ger",
+    "text-from-label" : "Ger troet",
+    "language-from-label" : "Yezh orin",
+    "text-to-label" : "Troidigezh",
+    "language-to-label" : "Yezh arru",
     "count-label" : "Klasket N gwech",
     "lastSearch-label" : "Klask diwezhañ",
     "status-label" : "Statud",
@@ -83,8 +90,14 @@
   },
   "word": {
     "type": {
+      "adjective": "Anv-gwan",
+      "adverb": "Adverb",
+      "conjunction": "Stagell",
+      "preposition": "Araogenn",
+      "pronoun": "Raganv",
+      "noun": "Anv",
       "verb": "Verb",
-      "noun": "Anv"
+      "other" : "All"
     }
   },
   "login": {
@@ -108,7 +121,6 @@
   "register": {
     "header": "Enskrivañ",
     "form": {
-      "success": "Votre compte a été créée, afin de l'activer veuillez cliquer sur le lien recu dans le mail recu à l'adresse indiqué",
       "success": "Ho kont a zo bet krouet, evit aktivañ annezhañ; trugarez de klikañ war al liamm er postel kaset d'ar chomlec'h merket",
       "username": {
         "label" : "Anaouder",
@@ -164,48 +176,56 @@
   "title": {
     "homepage": {
       "title": "Geriadur Brezhoneg-Galleg",
-      "name": "TODO",
-      "content": "TODO"
+      "name": "Ar rouzig, geriadur Brezhoneg Galleg",
+      "content": "Ar rouzig, geriadur Brezhoneg Galleg kenlabour"
     },
     "add_translation": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Ouzhpennañ un troidigezh",
+      "name": "Kinnig un troidigezh",
+      "content": "Kinnig un troidigezh da ouzhpennañ er geriadur"
     },
     "menu": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Lañser",
+      "name": "Lañser",
+      "content": "Lañser"
     },
     "review": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Gwiriekaadañ",
+      "name": "Gwiriekaadañ",
+      "content": "Gwiriekaadañ"
     },
     "register": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Enskrivañ",
+      "name": "Enskrivañ",
+      "content": "Enskrivañ"
     },
     "activate_account": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Gweredekaat ho post elektronek",
+      "name": "Gweredekaat ho post elektronek",
+      "content": "Gweredekaat ho post elektronek"
     },
     "reset_password": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Adderaouekaat ho ger tremen",
+      "name": "Adderaouekaat ho ger tremen",
+      "content": "Adderaouekaat ho ger tremen"
     },
     "new_password": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Ger tremen nevez",
+      "name": "Ger tremen nevez",
+      "content": "Ger tremen nevez"
     },
     "page_not_found": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Neant",
+      "name": "Neant",
+      "content": "Petra rit aze???"
+    }
+  },
+  "translation": {
+    "status": {
+      "pending": "En gortoz",
+      "review": "gwiriekaadur",
+      "approved": "gwiriekaet",
+      "deleted": " dilezet"
     }
   }
 }

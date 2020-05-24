@@ -29,7 +29,7 @@
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
-                ApiService.post(process.env.VUE_APP_API_URL + 'users/validate', {
+                ApiService.post(process.env.VUE_APP_API_URL + 'users/activate', {
                     token : token,
                 }, options)
                     .then(() => {
@@ -50,17 +50,6 @@
     .register-container {
         max-width: 750px;
         flex-grow: 1;
-    }
-    .register-form-container {
-        margin-top: -10px;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-    .row {
-        margin: 5px -15px;
-    }
-    .submit-container {
-        flex-grow: 1;
-        margin-top: 10px;
+        height: max-content;
     }
 </style>

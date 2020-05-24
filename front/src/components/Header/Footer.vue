@@ -2,7 +2,7 @@
     <footer class="footer">
         <div></div>
         <div class="contact">
-            {{$t('footer.contact')}}{{nbsp}}:{{nbsp}}<a href = "mailto: admin@rouzig.bzh">admin@rouzig.bzh</a>
+            {{$t('footer.contact') + ' : '}}<a href = "mailto: admin@rouzig.bzh">admin@rouzig.bzh</a>
         </div>
         <div class="copyright">
             &copy;Rouzig 2020

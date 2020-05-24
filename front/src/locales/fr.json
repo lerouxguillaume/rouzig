@@ -18,6 +18,9 @@
     "title": "Rouzig",
     "sub-title": "Dictionnaire Francais-Breton"
   },
+  "footer": {
+    "contact": "Contact"
+  },
   "search": {
     "search": "Chercher",
     "results" : "{nbResults} résultat trouvé |  {nbResults} résultats trouvés",
@@ -25,6 +28,10 @@
   },
   "table" : {
     "text-label" : "Mot",
+    "text-from-label" : "Mot traduit",
+    "language-from-label" : "Langue d'origine",
+    "text-to-label" : "Traduction",
+    "language-to-label" : "Langue d'arrivée",
     "count-label" : "Cherché N fois",
     "lastSearch-label" : "Dernière recherche",
     "status-label" : "Statut",
@@ -82,8 +89,14 @@
   },
   "word": {
     "type": {
+      "adjective": "Adjectif",
+      "adverb": "Adverbe",
+      "conjunction": "Conjonction",
+      "preposition": "Preposition",
+      "pronoun": "Pronom",
+      "noun": "Nom",
       "verb": "Verbe",
-      "noun": "Nom"
+      "other" : "Autre"
     }
   },
   "login": {
@@ -166,44 +179,52 @@
       "content": "Ar rouzig, le dictionnaire breton-francais collaboratif"
     },
     "add_translation": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Ajouter une traduction",
+      "name": "Proposer une nouvelle traduction",
+      "content": "Proposer une nouvelle traduction, à inclure dans le dictionnaire Rouzig"
     },
     "menu": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Menu",
+      "name": "Menu",
+      "content": "Visualisez les traductions proposés et les actions possibles"
     },
     "review": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Validation",
+      "name": "Validez le mot proposé",
+      "content": "Validez le mot proposé"
     },
     "register": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "S'inscrire",
+      "name": "Inscription",
+      "content": "Page d'inscription"
     },
     "activate_account": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Activation",
+      "name": "Activation de votre compte",
+      "content": "Activation de votre compte"
     },
     "reset_password": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Mot de passe oublié",
+      "name": "Mot de passe oublié",
+      "content": "Mot de passe oublié"
     },
     "new_password": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "Nouveau mot de passe",
+      "name": "Re-initialisez votre mot de passe",
+      "content": "Saisissez un nouveau mot de passe"
     },
     "page_not_found": {
-      "title": "TODO",
-      "name": "TODO",
-      "content": "TODO"
+      "title": "404 - Page non trouvé",
+      "name": "Mais que faites vous la???",
+      "content": "Perdu :)"
+    }
+  },
+  "translation": {
+    "status": {
+      "pending": "En attente",
+      "review": "Validation",
+      "approved": "Validé",
+      "deleted": "Abandonné"
     }
   }
 }

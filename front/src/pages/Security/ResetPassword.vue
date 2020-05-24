@@ -71,6 +71,7 @@
 <style scoped>
     .reset-container {
         max-width: 750px;
+        height: max-content;
     }
     .submit-container {
         margin-top: 10px;

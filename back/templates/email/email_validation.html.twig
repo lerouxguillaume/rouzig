@@ -1,7 +1,7 @@
 {%  extends 'email/email_template.html.twig' %}
 
 {% block content %}
-    {% set url = redirectUrl ~ '#activate?token=' ~ user.token %}
+    {% set url = redirectUrl ~ '#/br/activate?token=' ~ user.token %}
     <b>
         <h5>
             <center data-parsed="">

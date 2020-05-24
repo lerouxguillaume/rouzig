@@ -1,6 +1,7 @@
 import {Example} from "./Example";
 import {formatErrorCode} from "../utils/formatter";
 import {Word} from "./Word";
+import {Status} from "../utils/enum";
 
 export class Translation {
     constructor() {
@@ -10,6 +11,12 @@ export class Translation {
         this.status = null;
         this.examples = [];
         this.updatedAt = null;
+        Object.defineProperty(this, 'statusLabel', {
+            get () {
+                return Status().find(element => element.value === this.status).text;
+            },
+        });
+
     }
     load = function(object) {
         if (typeof object !== "undefined") {

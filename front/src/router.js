@@ -18,7 +18,7 @@ Vue.use(VueRouter);
 const router =  new VueRouter({
     routes: [
         {
-            path: '/:lang',
+            path: '/:lang?/',
             component: NestedRouterView,
             children: [
                 {
@@ -165,6 +165,7 @@ router.beforeEach((to, from, next) => {
     if (typeof lang === "undefined" || !Trans.isLangSupported(lang)) {
         lang = Trans.currentLanguage;
         to.params.lang = lang;
+        next(lang);
     } else {
         Trans.currentLanguage = lang;
     }

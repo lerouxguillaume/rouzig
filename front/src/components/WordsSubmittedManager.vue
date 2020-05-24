@@ -40,11 +40,11 @@
 
 <script>
     import ApiService from "../services/api.service";
-    import {Status} from "../utils/enum";
     import {RelativeDate} from "../utils/formatter";
     import LinkButton from "./Utils/LinkButton";
     import DataTable from "./Utils/DataTable";
     import {Translation} from "../entities/Translation";
+    import Constant from "../utils/const";
 
     export default {
         name: "WordsSubmittedManager",
@@ -61,11 +61,23 @@
             fields () {
                 return [
                     {
-                        key: 'translatedWord.text',
-                        label: this.$i18n.t('table.text-label')
+                        key: 'originalWord.languageLabel',
+                        label: this.$i18n.t('table.language-from-label')
                     },
                     {
-                        key: 'status',
+                        key: 'originalWord.text',
+                        label: this.$i18n.t('table.text-from-label')
+                    },
+                    {
+                        key: 'translatedWord.languageLabel',
+                        label: this.$i18n.t('table.language-to-label')
+                    },
+                    {
+                        key: 'translatedWord.text',
+                        label: this.$i18n.t('table.text-to-label')
+                    },
+                    {
+                        key: 'statusLabel',
                         label: this.$i18n.t('table.status-label')
                     },
                     {
@@ -83,11 +95,11 @@
         },
         methods: {
             itemsProvider(ctx, callback) {
-                let params = {  
+                let params = {
                     'params' : {
                         'page': ctx.currentPage,
                         'itemPerPage': ctx.perPage,
-                        'status': Status.review
+                        'status': Constant.REVIEW
                     }
                 };
 

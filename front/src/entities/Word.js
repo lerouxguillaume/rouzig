@@ -1,5 +1,6 @@
 import {parse} from "../utils/common";
 import {formatErrorCode} from "../utils/formatter";
+import {Languages} from "../utils/enum";
 
 export class Word {
     constructor() {
@@ -30,18 +31,23 @@ export class Word {
                 }
             }
         });
-        this._langueage = null;
+        this._language = null;
         this.languageError = null;
         Object.defineProperty(this, 'language', {
             get () {
-                return this._langueage;
+                return this._language;
             },
             set (value) {
-                this._langueage = value
+                this._language = value
                 if (this.languageError != null) {
                     this.languageError = null
                 }
             }
+        });
+        Object.defineProperty(this, 'languageLabel', {
+            get () {
+                return Languages().find(element => element.value === this._language).text;
+            },
         });
         this.version = null;
         this.createdAt = null;
