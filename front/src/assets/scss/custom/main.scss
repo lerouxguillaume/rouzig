@@ -21,3 +21,23 @@ div {
 .align-content-end {
   justify-content: flex-end;
 }
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  background-color: $primary;
+  padding: 5px;
+  text-align: center;
+  justify-content: space-between;
+
+  a, a:hover{
+    color: #212529;
+  }
+}
