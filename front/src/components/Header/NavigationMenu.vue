@@ -2,7 +2,7 @@
     <div class="menu-container">
         <b-button v-if="loggedIn" @click="logout">{{ $t('common.logout') }}</b-button>
         <b-button v-else v-b-modal="loginModalId">{{ $t('common.login') }}</b-button>
-        <LinkButton :to="{name: 'MenuPage'}" variant="primary">
+        <LinkButton :to="{name: 'MenuPage', params: {'lang': $i18n.locale}}" variant="primary">
             {{ $t('common.menu') }}
         </LinkButton>
         <div class="locale-changer">
@@ -58,6 +58,9 @@
             ]),
             selectLang: function (lang) {
                 this.$i18n.locale = lang
+                let params = this.$route.params
+                params['lang'] = lang
+                this.$router.push({ name: this.$route.name, params: params })
             },
 
         }

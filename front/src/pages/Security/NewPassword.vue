@@ -35,7 +35,7 @@
 
 <script>
 
-    import ApiService from "../../../services/api.service";
+    import ApiService from "../../services/api.service";
     import TextInput from "../../components/Form/TextInput";
 
     export default {

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-    import ApiService from "../../services/api.service";
+    import ApiService from "../services/api.service";
     import {Status} from "../utils/enum";
     import {Definition} from "../entities/Definition";
     import {RelativeDate} from "../utils/formatter";

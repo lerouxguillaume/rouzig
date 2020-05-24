@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import ApiService from "../../services/api.service";
+    import ApiService from "../services/api.service";
     import {RelativeDate} from "../utils/formatter";
     import LinkButton from "./Utils/LinkButton";
     import DataTable from "./Utils/DataTable";

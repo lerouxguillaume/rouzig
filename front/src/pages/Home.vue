@@ -15,7 +15,7 @@
 
 <script>
     import SearchBar from "../components/SearchEngine/SearchBar";
-    import ApiService from "../../services/api.service";
+    import ApiService from "../services/api.service";
     import {Definition as DefinitionObject} from "../entities/Definition";
     import Definition from "../components/SearchEngine/Definition";
 

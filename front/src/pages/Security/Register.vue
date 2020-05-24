@@ -55,7 +55,7 @@
 <script>
 
     import TextInput from "../../components/Form/TextInput";
-    import ApiService from "../../../services/api.service";
+    import ApiService from "../../services/api.service";
     export default {
         name: "Register",
         components: {TextInput},

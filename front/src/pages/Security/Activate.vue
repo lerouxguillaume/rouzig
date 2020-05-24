@@ -12,7 +12,7 @@
 
 <script>
 
-    import ApiService from "../../../services/api.service";
+    import ApiService from "../../services/api.service";
 
     export default {
         name: "Activate",

@@ -28,7 +28,7 @@
 <script>
     import TextInput from "../../components/Form/TextInput";
     import {ValidateEmail} from "../../utils/common";
-    import ApiService from "../../../services/api.service";
+    import ApiService from "../../services/api.service";
     export default {
         name: "ResetPassword",
         components: {TextInput},

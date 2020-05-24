@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import ApiService from "../../services/api.service";
+    import ApiService from "../services/api.service";
     import {Definition} from "../entities/Definition";
     import TranslationsForm from "../components/Form/TranslationsForm";
     import {Languages, WordTypes} from "../utils/enum";

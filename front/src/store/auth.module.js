@@ -1,5 +1,5 @@
-import { UserService, AuthenticationError } from '../../services/user.service'
-import { TokenService } from '../../services/storage.service'
+import { UserService, AuthenticationError } from '../services/user.service'
+import { TokenService } from '../services/storage.service'
 import router from '../router'
 
 
