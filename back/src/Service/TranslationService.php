@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Translation;
-use App\Entity\WordObject;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TranslationService
@@ -33,6 +33,16 @@ class TranslationService
         ;
         $this->entityManager->persist($translation);
         $this->entityManager->flush();
+    }
+
+    public function findByCriteria(Criteria $criteria): array
+    {
+        return $this->entityManager->getRepository(Translation::class)->findByCriteria($criteria);
+    }
+
+    public function countByCriteria(Criteria $criteria): int
+    {
+        return $this->entityManager->getRepository(Translation::class)->countByCriteria($criteria);
     }
 
     public function findById(int $id): ?Translation

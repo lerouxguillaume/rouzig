@@ -8,7 +8,6 @@ const ApiService = {
 
     init(baseURL) {
         axios.defaults.baseURL = baseURL;
-        axios.defaults.headers.common["Accept"] = 'application/vnd.api+json';
     },
 
     setHeader() {

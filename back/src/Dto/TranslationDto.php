@@ -88,6 +88,12 @@ class TranslationDto
     private $status;
 
     /**
+     * @var \DateTime
+     * @Groups({"read_translation"})
+     */
+    private $updatedAt;
+
+    /**
      * @return int
      */
     public function getId(): ?int
@@ -154,6 +160,17 @@ class TranslationDto
     public function setExamples(?array $examples): TranslationDto
     {
         $this->examples = $examples;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTime $updatedAt): TranslationDto
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

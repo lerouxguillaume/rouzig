@@ -16,8 +16,8 @@
 <script>
     import SearchBar from "../components/SearchEngine/SearchBar";
     import ApiService from "../services/api.service";
-    import {Definition as DefinitionObject} from "../entities/Definition";
     import Definition from "../components/SearchEngine/Definition";
+    import {Word} from "../entities/Word";
 
     export default {
         name: "Home",
@@ -30,11 +30,8 @@
         methods: {
             search(value) {
                 let params = {
-                    'headers' : {
-                        'Accept' : 'application/vnd.api+json'
-                    },
                     'params' : {
-                        'text': value
+                        'search': value
                     }
                 };
                 this.definitions = [];
@@ -43,7 +40,7 @@
                 ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
                     .then((response) => {
                         response.data.data.forEach(function (elem) {
-                            let newDefinition = new DefinitionObject();
+                            let newDefinition = new Word();
                             newDefinition.load(elem);
                             _this.definitions.push(newDefinition)
                         })

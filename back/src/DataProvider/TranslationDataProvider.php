@@ -7,9 +7,10 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Dto\TranslationDto;
 use App\Entity\Search;
+use App\Repository\Paginator;
 use App\Service\SearchService;
 use App\Service\TranslationService;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -42,10 +43,17 @@ class TranslationDataProvider implements CollectionDataProviderInterface, ItemDa
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
+        $criteria = new Criteria();
+
+        $itemsPerPage = $context['filters']['itemPerPage'] ?? 10;
+        $page = ($context['filters']['page'] ?? 1) - 1; // Starting with page 1
+
+        $firstResult = $page > 0 ? $itemsPerPage * $page : 0;
+
         if (isset($context['filters'])) {
             $filters = $context['filters'];
             if (isset($filters['status'])) {
-                $queryResult= $this->translationService->findByStatus($filters['status']);
+                $criteria->andWhere(Criteria::expr()->eq('status', $filters['status']));
             } else {
                 throw new BadRequestHttpException('invalid filter');
             }
@@ -53,12 +61,23 @@ class TranslationDataProvider implements CollectionDataProviderInterface, ItemDa
             throw new BadRequestHttpException('missing filter');
         }
 
-        $result = [];
-        foreach ($queryResult as $word) {
-            $result[] = $word->getDto();
-        }
+        $criteria
+            ->setFirstResult($firstResult)
+            ->setMaxResults($itemsPerPage)
+        ;
 
-        return new ArrayCollection($result);
+        $items = $this->translationService->findByCriteria($criteria);
+        $count= $this->translationService->countByCriteria($criteria);
+
+        return new Paginator($this->getResults($items), $firstResult, $itemsPerPage, $count);
+    }
+
+    private function getResults($queryResult): \Generator
+    {
+        /** @var Search $search */
+        foreach ($queryResult as $search) {
+            yield $search->getDto();
+        }
     }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])

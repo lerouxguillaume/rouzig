@@ -28,13 +28,13 @@
 </template>
 
 <script>
-    import {Definition} from "../../entities/Definition";
+    import {Word} from "../../entities/Word";
 
     export default {
         name: "Definition",
         props: {
             definition: {
-                type: Definition,
+                type: Word,
                 required: true
             }
         }

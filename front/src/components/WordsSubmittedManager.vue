@@ -14,6 +14,7 @@
                             :total-rows="totalRows"
                             :current-page="currentPage"
                             :show-empty="true"
+                            :row-per-page="rowPerPage"
                     >
                         <template v-slot:action="data">
                             <div class="align-content-end">
@@ -40,10 +41,10 @@
 <script>
     import ApiService from "../services/api.service";
     import {Status} from "../utils/enum";
-    import {Definition} from "../entities/Definition";
     import {RelativeDate} from "../utils/formatter";
     import LinkButton from "./Utils/LinkButton";
     import DataTable from "./Utils/DataTable";
+    import {Translation} from "../entities/Translation";
 
     export default {
         name: "WordsSubmittedManager",
@@ -60,7 +61,7 @@
             fields () {
                 return [
                     {
-                        key: 'text',
+                        key: 'translatedWord.text',
                         label: this.$i18n.t('table.text-label')
                     },
                     {
@@ -83,27 +84,24 @@
         methods: {
             itemsProvider(ctx, callback) {
                 let params = {
-                    'headers' : {
-                        'Accept' : 'application/vnd.api+json'
-                    },
                     'params' : {
                         'page': ctx.currentPage,
-                        'status': Status.pending
+                        'itemPerPage': ctx.perPage,
+                        'status': Status.review
                     }
                 };
 
-                ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
+                ApiService.get(process.env.VUE_APP_API_URL + 'translations', params)
                     .then((response) => {
                         let items = [];
-                        let meta = response.data.meta;
-                        let data = response.data.data;
-                        this.totalRows = meta.totalItems;
-                        this.rowPerPage = meta.itemsPerPage;
+                        let data = response.data['hydra:member'];
+                        this.totalRows = response.data['hydra:totalItems'];
                         data.forEach((datum) => {
                             if (typeof datum !== 'undefined') {
-                                let newDefinition = new Definition();
-                                newDefinition.load(datum);
-                                items.push(newDefinition)
+                                let newTranslation = new Translation();
+                                newTranslation.load(datum);
+                                items.push(newTranslation)
+                                console.log(newTranslation);
                             }
                         })
                         callback(items)

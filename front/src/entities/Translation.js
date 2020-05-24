@@ -1,74 +1,31 @@
 import {Example} from "./Example";
 import {formatErrorCode} from "../utils/formatter";
+import {Word} from "./Word";
 
 export class Translation {
-    constructor(language) {
-        this._word = null;
-        this.wordError = null;
-        Object.defineProperty(this, 'word', {
-            get() {
-                return this._word;
-            },
-            set(value) {
-                this._word = value
-                if (this.wordError != null) {
-                    this.wordError = null
-                }
-            }
-        });
-        this._wordType = null;
-        this.wordTypeError = null;
-        Object.defineProperty(this, 'wordType', {
-            get() {
-                return this._wordType;
-            },
-            set(value) {
-                this._wordType = value
-                if (this.wordTypeError != null) {
-                    this.wordTypeError = null
-                }
-            }
-        });
-        this._langueage = language;
-        this.languageError = null;
-        Object.defineProperty(this, 'language', {
-            get() {
-                return this._langueage;
-            },
-            set(value) {
-                this._langueage = value
-                if (this.languageError != null) {
-                    this.languageError = null
-                }
-            }
-        });
-        this._descriptions = null;
-        this.descriptionError = null;
-        Object.defineProperty(this, 'description', {
-            get() {
-                return this._description;
-            },
-            set(value) {
-                this._description = value
-                if (this.descriptionError != null) {
-                    this.descriptionError = null
-                }
-            }
-        });
+    constructor() {
+        this.id = null;
+        this.originalWord = new Word();
+        this.translatedWord = new Word();
+        this.status = null;
         this.examples = [];
+        this.updatedAt = null;
     }
     load = function(object) {
-        this.word = object.word;
-        this.language = object.language;
-        this.wordType = object.wordType;
-        this.description = object.description;
-
-        let _this = this;
-        object.examples.forEach(function (example) {
-            let newExample = new Example();
-            newExample.load(example);
-            _this.examples.push(newExample)
-        })
+        if (typeof object !== "undefined") {
+            this.id = object.id;
+            this.originalWord.load(object.originalWord);
+            this.translatedWord.load(object.translatedWord);
+            this.status = object.status;
+            this.updatedAt = object.updatedAt;
+            let _this = this;
+            object.examples.forEach(function (example) {
+                let newExample = new Example();
+                newExample.load(example);
+                _this.examples.push(newExample)
+            })
+        }
+        return this;
     }
     loadError = function (path, code) {
         let currentProperty = path[0]
@@ -101,10 +58,8 @@ export class Translation {
             examples.push(example.post())
         })
         return {
-            'word' : this.word,
-            'wordType' : this.wordType,
-            'language' : this.language,
-            'description' : this.description,
+            'originalWord' : this.originalWord,
+            'translatedWord' : this.translatedWord,
             'examples': examples
         }
     }
@@ -114,10 +69,9 @@ export class Translation {
             examples.push(example.patch())
         })
         return {
-            'word' : this.word,
-            'wordType' : this.wordType,
-            'language' : this.language,
-            'description' : this.description,
+            'id' : this.id,
+            'originalWord' : this.originalWord,
+            'translatedWord' : this.translatedWord,
             'examples': examples
         }
     }

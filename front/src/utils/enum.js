@@ -30,5 +30,6 @@ export const Translation = {
 export const Status = {
     'approved' : 'approved',
     'pending' : 'pending',
+    'review' : 'review',
     'deleted' : 'deleted'
 }

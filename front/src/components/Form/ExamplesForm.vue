@@ -7,11 +7,15 @@
                 :on-remove-example="removeExample"
                 :language="language"
         ></ExampleForm>
+        <div class="delete-button-container">
+            <b-button variant="success" type="button" class="add-exemple-button" @click="addExample">{{ $t('form.add-example') }}</b-button>
+        </div>
     </div>
 </template>
 
 <script>
     import ExampleForm from "./ExampleForm";
+    import {Example} from "../../entities/Example";
 
     export default {
         name: "ExemplesForm",
@@ -33,6 +37,9 @@
                     this.examples.splice(index,1);
                 }
             },
+            addExample() {
+                this.examples.push(new Example())
+            }
         }
     }
 </script>

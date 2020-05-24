@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Dto\ExampleDto;
 use App\Dto\TranslationDto;
-use App\Enum\WordStatus;
 use App\Factory\WordFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +12,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\TranslationRepository")
  */
 class Translation implements DtoProvider
 {
@@ -209,6 +208,8 @@ class Translation implements DtoProvider
             ->setId($this->getId())
             ->setOriginalWord($this->getOriginalWord()->getDto())
             ->setTranslatedWord($this->getTranslatedWord()->getDto())
+            ->setStatus($this->getStatus())
+            ->setUpdatedAt($this->getUpdatedAt())
         ;
 
         /** @var Example $example */

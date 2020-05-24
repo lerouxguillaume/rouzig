@@ -2,31 +2,9 @@
     <div class="word-manager-container form">
         <b-form>
             <b-overlay :show="busy" rounded="sm" no-wrap></b-overlay>
-            <div class="row">
-                <TextInput
-                        id="text-input"
-                        :label="$t('form.word-name.label')"
-                        v-model="word.word"
-                        :placeholder="$t('form.word-name.placeholder')"
-                        :error="$t(word.wordError)"
-                >
-                </TextInput>
-                <SelectInput
-                        id="option-input"
-                        :label="$t('form.word-type.label')"
-                        v-model="word.type"
-                        :options="typeOptions"
-                        :error="$t(word.typeError)"
-                ></SelectInput>
-                <SelectInput
-                        id="option-input"
-                        :label="$t('form.word-language.label')"
-                        v-model="word.language"
-                        :options="languageOptions"
-                        :error="$t(word.languageError)"
-                ></SelectInput>
-            </div>
-            <TranslationsForm :translations="word.translations" :language="word.language"></TranslationsForm>
+            <WordForm :word="translation.originalWord"></WordForm>
+            <WordForm :word="translation.translatedWord"></WordForm>
+            <ExamplesForm :examples="translation.examples"></ExamplesForm>
             <div class="submit-button-container">
                 <b-button variant="primary" type="submit" class="submit-button" @click="submit">{{ $t('form.submit') }}</b-button>
             </div>
@@ -36,19 +14,17 @@
 
 <script>
     import ApiService from "../services/api.service";
-    import {Definition} from "../entities/Definition";
-    import TranslationsForm from "../components/Form/TranslationsForm";
-    import {Languages, Types} from "../utils/enum";
-    import TextInput from "../components/Form/TextInput";
-    import SelectInput from "../components/Form/SelectInput";
+    import {Languages, WordTypes} from "../utils/enum";
     import {Translation} from "../entities/Translation";
+    import WordForm from "../components/Form/WordForm";
+    import ExamplesForm from "../components/Form/ExamplesForm";
 
     export default {
         name: "AddTranslation",
-        components: {SelectInput, TextInput, TranslationsForm},
+        components: {ExamplesForm, WordForm},
         data() {
             return {
-                'word' : new Definition(),
+                'translation' : new Translation(),
                 'busy': false
             }
         },
@@ -60,10 +36,14 @@
                 return Languages();
             },
             typeOptions() {
-                return Types();
+                return WordTypes();
             }
         },
         mounted() {
+            if (this.$route.params.word) {
+                this.word.word = this.$route.params.word;
+            }
+
             this.word.translations.push(new Translation())
         },
         methods: {

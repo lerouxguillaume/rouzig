@@ -1,37 +1,8 @@
 <template>
     <div class="word-manager-container form">
-        <div class="row">
-            <div class="input" role="group">
-                <label for="word-input">{{ $t('form.word-name.label') }}:</label>
-                <b-input
-                        id="word-input"
-                        v-model="translation.word"
-                        :placeholder="$t('form.word-name.placeholder')"
-                        :disabled="true"
-                        :error="$t(translation.wordError)"
-                ></b-input>
-            </div>
-            <div class="input">
-                <label for="option-input">{{ $t('form.word-type.label') }}</label>
-                <b-form-select
-                        id="option-input"
-                        v-model="translation.wordType"
-                        :options="typeOptions"
-                        :error="$t(translation.wordTypeError)"
-                >
-                </b-form-select>
-            </div>
-            <div class="input">
-                <label for="language-input">{{ $t('form.word-language.label') }} : </label>
-                <b-form-select
-                        id="language-input"
-                        v-model="translation.language"
-                        :options="languageOptions"
-                        :error="$t(translation.languageError)"
-                ></b-form-select>
-            </div>
-        </div>
-        <TranslationsForm :translations="translation.translations" :language="translation.language"></TranslationsForm>
+        <WordForm :word="translation.originalWord"></WordForm>
+        <WordForm :word="translation.translatedWord"></WordForm>
+        <ExamplesForm :examples="translation.examples"></ExamplesForm>
         <div class="submit-button-container">
             <b-button variant="danger" type="submit" class="submit-button" @click="deleteTranslation">{{ $t('review.delete') }}</b-button>
             <b-button variant="primary" type="submit" class="submit-button" @click="updateTranslation">{{ $t('review.update') }}</b-button>
@@ -42,28 +13,22 @@
 
 <script>
     import ApiService from "../services/api.service";
-    import {Definition} from "../entities/Definition";
-    import TranslationsForm from "../components/Form/TranslationsForm";
-    import {Languages, WordTypes} from "../utils/enum";
+    import {Translation} from "../entities/Translation";
+    import ExamplesForm from "../components/Form/ExamplesForm";
+    import WordForm from "../components/Form/WordForm";
 
     export default {
         name: "ReviewWord",
-        components: {TranslationsForm},
+        components: {WordForm, ExamplesForm},
         data() {
             return {
-                'translation' : new Definition(),
+                'translation' : new Translation(),
             }
         },
         mounted() {
-            let params = {
-                'headers' : {
-                    'Accept' : 'application/vnd.api+json'
-                },
-            };
-
-            ApiService.get(process.env.VUE_APP_API_URL + 'words/'+this.$route.params.id, params)
+            ApiService.get(process.env.VUE_APP_API_URL + 'translations/'+this.$route.params.id)
                 .then((response) => {
-                    let data = response.data.data;
+                    let data = response.data;
                     if (typeof data !== 'undefined') {
                         this.translation.load(data);
                     }
@@ -72,22 +37,11 @@
                     console.error(error);
                 })
         },
-        computed : {
-            languageOptions() {
-                return Languages();
-            },
-            typeOptions() {
-                return WordTypes();
-            }
-        },
         methods: {
             updateTranslation() {
-                let options = {
-                    headers: { 'Content-Type': 'application/merge-patch+json' },
-                };
-                ApiService.patch(process.env.VUE_APP_API_URL + 'words/'+this.$route.params.id , JSON.stringify(this.translation.patch(), (key, value) => {
+                ApiService.patch(process.env.VUE_APP_API_URL + 'translations/'+this.$route.params.id , JSON.stringify(this.translation.patch(), (key, value) => {
                     if (value !== null) return value
-                }) ,options)
+                }))
                     .then((response) => {
                         console.log(response);
                     })
@@ -97,10 +51,7 @@
 
             },
             deleteTranslation() {
-                let options = {
-                    headers: { 'Content-Type': 'application/json' },
-                };
-                ApiService.delete(process.env.VUE_APP_API_URL + 'words/'+this.$route.params.id ,options)
+                ApiService.delete(process.env.VUE_APP_API_URL + 'translations/'+this.$route.params.id)
                     .then((response) => {
                         console.log(response);
                     })
@@ -113,7 +64,7 @@
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
-                ApiService.post(process.env.VUE_APP_API_URL + 'words/validate/'+this.$route.params.id ,options)
+                ApiService.post(process.env.VUE_APP_API_URL + 'translations/'+this.$route.params.id + '/validate', options)
                     .then(() => {
                         this.$router.push({ name:'MenuPage' })
                     })
