@@ -5,7 +5,7 @@
                  :fields="fields"
                  :items="items"
                  :per-page="rowPerPage"
-                 :current-page="currentPage"
+                 :current-page="currentPageData"
                  :show-empty="showEmpty"
         >
             <template v-slot:cell(action)="data">
@@ -18,7 +18,7 @@
         <b-pagination
                 v-show="!isEmpty"
                 align="center"
-                v-model="currentPage"
+                v-model="currentPageData"
                 :total-rows="totalRows"
                 :per-page="rowPerPage"
                 aria-controls="my-table"
@@ -56,7 +56,20 @@
             isEmpty() {
                 return false;
             }
-        }
+        },
+        data () {
+            return {
+                currentPageData: this.currentPage
+            }
+        },
+        watch: {
+            currentPage: {
+                immediate: true,
+                handler(val) {
+                    this.currentPageData = val;
+                }
+            }
+        },
     }
 </script>
 
