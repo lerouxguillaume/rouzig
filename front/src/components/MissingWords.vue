@@ -74,31 +74,23 @@
         methods: {
             itemsProvider(ctx, callback) {
                 let params = {
-                    'headers' : {
-                        'Accept' : 'application/vnd.api+json'
-                    },
                     'params' : {
-                        'page': ctx.currentPage
+                        'page': ctx.currentPage,
+                        'itemPerPage': ctx.perPage,
                     }
                 };
 
                 ApiService.get(process.env.VUE_APP_API_URL + 'searches', params)
                     .then((response) => {
                         let items = [];
-                        let meta = response.data.meta;
-                        let data = response.data.data;
-                        this.totalRows = meta.totalItems;
-                        this.rowPerPage = meta.itemsPerPage;
+                        let data = response.data['hydra:member'];
+                        this.totalRows = response.data['hydra:totalItems'];
                         data.forEach((datum) => {
-                            if (typeof datum !== 'undefined') {
-                                let attributes = datum.attributes;
-                                items.push({
-                                    'id': attributes._id,
-                                    'text': attributes.text,
-                                    'count': attributes.count,
-                                    'lastSearch': attributes.updatedAt
-                                })
-                            }
+                            items.push({
+                                'text': datum.text,
+                                'count': datum.count,
+                                'lastSearch': datum.updatedAt
+                            })
                         })
                         callback(items)
                     })

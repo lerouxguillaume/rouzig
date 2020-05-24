@@ -221,6 +221,11 @@ abstract class WordObject implements DtoProvider
             ->setWordType($this->getType())
         ;
 
+        /** @var Translation $translation */
+        foreach ($this->getTranslations() as $translation)  {
+            $wordDto->addTranslation($translation->getDto(false));
+        }
+
         if (!empty($this->getAuthor())) {
             $wordDto->setAuthor($this->getAuthor()->getDto());
         }

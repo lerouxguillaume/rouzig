@@ -30,7 +30,7 @@
         },
         computed : {
             text() {
-                return this.word.word;
+                return this.translation.originalWord.word;
             },
             languageOptions() {
                 return Languages();
@@ -41,10 +41,8 @@
         },
         mounted() {
             if (this.$route.params.word) {
-                this.word.word = this.$route.params.word;
+                this.translation.originalWord.text = this.$route.params.word;
             }
-
-            this.word.translations.push(new Translation())
         },
         methods: {
             submit() {
@@ -52,7 +50,7 @@
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
-                ApiService.post(process.env.VUE_APP_API_URL + 'words', JSON.stringify(this.word.post(), (key, value) => {
+                ApiService.post(process.env.VUE_APP_API_URL + 'words', JSON.stringify(this.translation.post(), (key, value) => {
                     if (value !== null) return value
                 }) ,options)
                     .then(() => {

@@ -1,7 +1,7 @@
 <template>
     <div class="definition-container">
         <div>
-            <b>{{ definition.text }} : </b>
+            <b>{{ definition.word.text }} : </b>
         </div>
         <div class="definitions-translations">
             <ol>
@@ -9,7 +9,7 @@
                         v-for="(translation, index) in definition.translations"
                         :key="index"
                 >
-                    {{ translation.text }} ({{ translation.type }}) - {{ translation.description }}
+                    {{ translation.translatedWord.text }} ({{ translation.translatedWord.wordType }}) - {{ translation.translatedWord.description }}
                     <div class="definition-example">
                         <span class="examples-header">{{ $tc('search.examples', translation.examples.length) }} :</span>
                         <ul
@@ -28,15 +28,17 @@
 </template>
 
 <script>
-    import {Word} from "../../entities/Word";
+    import {Definition} from "../../entities/Definition";
 
     export default {
         name: "Definition",
         props: {
             definition: {
-                type: Word,
+                type: Definition,
                 required: true
             }
+        }, mounted() {
+            console.log(this.definition)
         }
     }
 </script>

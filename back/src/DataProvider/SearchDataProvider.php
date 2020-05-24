@@ -29,7 +29,7 @@ class SearchDataProvider implements CollectionDataProviderInterface, RestrictedD
     {
         $criteria = new Criteria();
 
-        $itemsPerPage = $context['filters']['itemPerpage'] ?? 2;
+        $itemsPerPage = $context['filters']['itemPerPage'] ?? 10;
         $page = ($context['filters']['page'] ?? 1) - 1; // Starting with page 1
 
         $firstResult = $page > 0 ? $itemsPerPage * $page : 0;

@@ -53,7 +53,7 @@ class TranslationDto
      * @var string
      * @Assert\Type(type="integer", payload={"code"=ErrorCodes::INVALID_TYPE})
      * @ApiProperty(identifier=true)
-     * @Groups({"write_translation", "read_translation"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $id;
 
@@ -70,26 +70,26 @@ class TranslationDto
      * @var WordDto
      * @Assert\Valid()
      * @ApiSubresource
-     * @Groups({"write_translation", "read_translation"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $translatedWord;
 
     /**
      * @var ExampleDto[]
      * @Assert\Valid()
-     * @Groups({"write_translation", "read_translation"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $examples = [];
 
     /**
      * @var string
-     * @Groups({"read_translation"})
+     * @Groups({"read_translation", "read_word"})
      */
     private $status;
 
     /**
      * @var \DateTime
-     * @Groups({"read_translation"})
+     * @Groups({"read_translation", "read_word"})
      */
     private $updatedAt;
 

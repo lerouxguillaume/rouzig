@@ -37,7 +37,7 @@ class WordDto
     /**
      * @var string
      * @Assert\NotBlank(payload={"code"=ErrorCodes::EMPTY_VALUE})
-     * @Groups({"write_translation", "read_translation"})
+     * @Groups({"write_translation", "read_translation", "read_word"})
      */
     private $word;
 

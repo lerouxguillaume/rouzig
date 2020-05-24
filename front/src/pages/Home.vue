@@ -16,8 +16,8 @@
 <script>
     import SearchBar from "../components/SearchEngine/SearchBar";
     import ApiService from "../services/api.service";
+    import {Definition as DefinitionEntity} from "../entities/Definition";
     import Definition from "../components/SearchEngine/Definition";
-    import {Word} from "../entities/Word";
 
     export default {
         name: "Home",
@@ -39,8 +39,9 @@
 
                 ApiService.get(process.env.VUE_APP_API_URL + 'words', params)
                     .then((response) => {
-                        response.data.data.forEach(function (elem) {
-                            let newDefinition = new Word();
+                        let results = response.data['hydra:member']
+                        results.forEach(function (elem) {
+                            let newDefinition = new DefinitionEntity();
                             newDefinition.load(elem);
                             _this.definitions.push(newDefinition)
                         })

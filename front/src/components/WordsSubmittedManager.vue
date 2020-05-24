@@ -83,7 +83,7 @@
         },
         methods: {
             itemsProvider(ctx, callback) {
-                let params = {
+                let params = {  
                     'params' : {
                         'page': ctx.currentPage,
                         'itemPerPage': ctx.perPage,
@@ -101,7 +101,6 @@
                                 let newTranslation = new Translation();
                                 newTranslation.load(datum);
                                 items.push(newTranslation)
-                                console.log(newTranslation);
                             }
                         })
                         callback(items)

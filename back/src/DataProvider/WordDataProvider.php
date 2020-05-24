@@ -46,7 +46,7 @@ class WordDataProvider implements ItemDataProviderInterface, CollectionDataProvi
             throw new BadRequestHttpException('missing filter');
         }
 
-        if (empty($queryResult) && isset($filters['search'])) {
+        if (empty($queryResult) && isset($filters['search']) &&  !empty($filters['search'])) {
             if (!($search = $this->searchService->find($filters['search']))) {
                 $search = new Search();
                 $search

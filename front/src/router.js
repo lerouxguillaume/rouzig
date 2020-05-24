@@ -37,7 +37,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/add-translation/:word?',
+                    path: 'add-translation/:word?',
                     name: 'AddTranslation',
                     component: AddTranslation,
                     meta: {
@@ -52,7 +52,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/menu-page',
+                    path: 'menu-page',
                     name: 'MenuPage',
                     component: MenuPage,
                     meta: {
@@ -67,7 +67,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/review-word/:id',
+                    path: 'review-word/:id',
                     name: 'ReviewWord',
                     component: ReviewWord,
                     meta: {
@@ -82,7 +82,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/register',
+                    path: 'register',
                     name: 'Register',
                     component: Register,
                     meta: {
@@ -97,7 +97,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/activate',
+                    path: 'activate',
                     name: 'Activate',
                     component: Activate,
                     meta: {
@@ -112,7 +112,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/reset-password',
+                    path: 'reset-password',
                     name: 'ResetPassword',
                     component: ResetPassword,
                     meta: {
@@ -127,7 +127,7 @@ const router =  new VueRouter({
                     }
                 },
                 {
-                    path: '/new-password',
+                    path: 'new-password',
                     name: 'NewPassword',
                     component: NewPassword,
                     meta: {

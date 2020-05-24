@@ -49,9 +49,7 @@ export class Word {
     }
 
     load = function(object) {
-        if (typeof object !== "undefined") {
-            console.log(object.word)
-
+        if (typeof object !== "undefined" && object !== null) {
             this.id = object.id;
             this.text = object.word;
             this.language = object.language;
@@ -63,6 +61,7 @@ export class Word {
 
         return this;
     };
+
     loadErrors = function (errors) {
         let violations = errors.violations;
         let _this = this;
