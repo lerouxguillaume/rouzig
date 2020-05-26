@@ -9,6 +9,7 @@
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
                 <b-card-body>
                     <DataTable
+                            reference="table_word_submitted"
                             :fields="fields"
                             :items="items"
                             :total-rows="totalRows"
@@ -18,7 +19,7 @@
                     >
                         <template v-slot:action="data">
                             <div class="align-content-end">
-                                <LinkButton classes="text-center" :to="{name: 'ReviewWord', params: {id : data.item.id}}">
+                                <LinkButton classes="text-center" :to="{name: 'ReviewWord', params: {id : data.item.id, lang: $i18n.locale}}">
                                     {{ $t('common.review') }}
                                 </LinkButton>
                             </div>
@@ -26,7 +27,7 @@
                         <template v-slot:empty>
                             <div class="center">
                                 <p>{{ $t('table.review-word.empty') }}</p>
-                                <LinkButton :to="{name: 'AddTranslation'}">
+                                <LinkButton :to="{name: 'AddTranslation', params: {lang: $i18n.locale}}">
                                     {{ $t('common.create') }}
                                 </LinkButton>
                             </div>
@@ -39,12 +40,12 @@
 </template>
 
 <script>
-    import ApiService from "../services/api.service";
-    import {RelativeDate} from "../utils/formatter";
-    import LinkButton from "./Utils/LinkButton";
-    import DataTable from "./Utils/DataTable";
-    import {Translation} from "../entities/Translation";
-    import Constant from "../utils/const";
+    import ApiService from "../../services/api.service";
+    import {RelativeDate} from "../../utils/formatter";
+    import LinkButton from "../Utils/LinkButton";
+    import DataTable from "../Utils/DataTable";
+    import {Translation} from "../../entities/Translation";
+    import Constant from "../../utils/const";
 
     export default {
         name: "WordsSubmittedManager",

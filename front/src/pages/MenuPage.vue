@@ -9,8 +9,8 @@
 </template>
 
 <script>
-    import WordsSubmittedManager from "../components/WordsSubmittedManager";
-    import MissingWords from "../components/MissingWords";
+    import WordsSubmittedManager from "../components/Tables/WordsSubmittedManager";
+    import MissingWords from "../components/Tables/MissingWords";
     import LinkButton from "../components/Utils/LinkButton";
 
     export default {

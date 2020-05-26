@@ -40,4 +40,12 @@ class SearchService
     {
         return $this->entityManager->getRepository(Search::class)->find($id);
     }
+
+    public function delete(string $id)
+    {
+        if (!empty($search = $this->find($id))) {
+            $this->entityManager->remove($search);
+            $this->entityManager->flush();
+        }
+    }
 }

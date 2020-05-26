@@ -1,7 +1,7 @@
 <template>
     <div class="table-container">
         <b-table striped hover
-                 ref="table_word_not_found"
+                 :ref="reference"
                  :fields="fields"
                  :items="items"
                  :per-page="rowPerPage"
@@ -50,6 +50,10 @@
                 type: Boolean,
                 required: false,
                 default: false
+            },
+            reference: {
+                type: String,
+                required: true,
             }
         },
         computed: {
@@ -68,8 +72,13 @@
                 handler(val) {
                     this.currentPageData = val;
                 }
-            }
+            },
         },
+        methods: {
+            refresh() {
+                this.$refs[this.reference].refresh();
+            }
+        }
     }
 </script>
 

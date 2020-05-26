@@ -32,16 +32,19 @@ use App\Controller\TranslationsController;
  *                  "method"="POST",
  *                  "path"="translations/{id}/review",
  *                  "controller"=TranslationsController::class,
+ *                   "validate"=false
  *              },
  *              "post_validate"={
  *                  "method"="POST",
  *                  "path"="translations/{id}/validate",
  *                  "controller"=TranslationsController::class,
+ *                   "validate"=false
  *              },
  *              "post_reject"={
  *                  "method"="POST",
  *                  "path"="translations/{id}/reject",
  *                  "controller"=TranslationsController::class,
+ *                  "validate"=false
  *              },
  *          },
  *      )

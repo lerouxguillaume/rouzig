@@ -9,6 +9,7 @@
                 trim
                 :state="this.errorMessage.length > 0 ? false : null"
                 @input="handleInput"
+                :readonly="readonly"
         >
         </b-input>
         <b-form-invalid-feedback>
@@ -44,6 +45,10 @@
             },
             className: {
                 type: String
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         data () {

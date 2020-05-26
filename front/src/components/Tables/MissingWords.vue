@@ -9,6 +9,8 @@
             <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
                 <b-card-body>
                     <DataTable
+                            ref="table"
+                            reference="table_word_not_found"
                             :fields="fields"
                             :items="items"
                             :total-rows="totalRows"
@@ -16,7 +18,7 @@
                     >
                         <template v-slot:action="data">
                             <div class="align-content-end">
-                                <LinkButton :to="{name: 'AddTranslation', params: {word : data.item.text}}">
+                                <LinkButton :to="{name: 'AddTranslation', params: {word : data.item.text, lang: $i18n.locale}}">
                                     {{ $t('common.add-translation') }}
                                 </LinkButton>
                                 <b-button variant="danger" @click="deleteWord(data.item)">{{ $t('common.delete') }}</b-button>
@@ -30,14 +32,13 @@
 </template>
 
 <script>
-    import ApiService from "../services/api.service";
-    import {RelativeDate} from "../utils/formatter";
-    import LinkButton from "./Utils/LinkButton";
-    import DataTable from "./Utils/DataTable";
+    import ApiService from "../../services/api.service";
+    import {RelativeDate} from "../../utils/formatter";
+    import LinkButton from "../Utils/LinkButton";
+    import DataTable from "../Utils/DataTable";
 
     export default {
         name: "MissingWords",
-        // eslint-disable-next-line vue/no-unused-components
         components: {DataTable, LinkButton},
         data() {
             return {
@@ -79,7 +80,6 @@
                         'itemPerPage': ctx.perPage,
                     }
                 };
-
                 ApiService.get(process.env.VUE_APP_API_URL + 'searches', params)
                     .then((response) => {
                         let items = [];
@@ -96,7 +96,6 @@
                     })
                     .catch(function (error) {
                         console.error(error);
-                        this.busy = false;
                         callback([]);
                     })
             },
@@ -104,10 +103,9 @@
                 let options = {
                     headers: { 'Content-Type': 'application/json' },
                 };
-                this.busy = true;
-                ApiService.delete(process.env.VUE_APP_API_URL + 'searches/'+ word.id ,options)
+                ApiService.delete(process.env.VUE_APP_API_URL + 'searches/'+ word.text ,options)
                     .then(() => {
-                        this.$refs.table_word_not_found.refresh()
+                        this.$refs.table.refresh()
                     })
                     .catch(function (error) {
                         console.error(error);

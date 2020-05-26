@@ -11,7 +11,7 @@ import ResetPassword from "./pages/Security/ResetPassword";
 import NewPassword from "./pages/Security/NewPassword";
 import i18n from "./i18n";
 import {Trans} from "./plugin/Trans";
-import NestedRouterView from "./components/NestedRouterView";
+import NestedRouterView from "./components/Utils/NestedRouterView";
 
 Vue.use(VueRouter);
 

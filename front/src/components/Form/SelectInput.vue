@@ -8,6 +8,7 @@
                 :state="this.error.length > 0 ? false : null"
                 @input="handleInput"
                 :options="options"
+                :disabled="readonly"
         >
         </b-select>
         <b-form-invalid-feedback>
@@ -37,6 +38,10 @@
             },
             error: {
                 type: String,
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
