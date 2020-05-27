@@ -1,3 +1,5 @@
+import {Languages} from "./enum";
+
 export const ValidateEmail =  function (mail)
 {
     return (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(mail));
@@ -62,4 +64,8 @@ export const parse = function(str){
         }
     }
     return parts;
+}
+
+export const getLanguageLabel = function (value) {
+        return Languages().find(elem => elem.value === value).text;
 }

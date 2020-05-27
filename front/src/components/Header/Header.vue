@@ -3,7 +3,6 @@
         <NavigationMenu></NavigationMenu>
         <div class="title-container">
             <router-link class="flex-shrink-1" :to="{name: 'homepage', params: {'lang': $i18n.locale}}"><img :src="logo"></router-link>
-            <h2>{{ $t('header.sub-title') }}</h2>
         </div>
     </div>
 </template>
