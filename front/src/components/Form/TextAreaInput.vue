@@ -5,9 +5,11 @@
                 :id="id"
                 v-model="content"
                 :placeholder="placeholder"
-                trim
                 :state="this.errorMessage.length > 0 ? false : null"
                 @input="handleInput"
+                :readonly="readonly"
+                rows="4"
+                trim
         >
         </b-textarea>
         <b-form-invalid-feedback>
@@ -36,6 +38,10 @@
             },
             error: {
                 type: String,
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -65,5 +71,8 @@
 </script>
 
 <style scoped>
-
+    .input {
+        flex-direction: column;
+        flex-grow: 1;
+    }
 </style>

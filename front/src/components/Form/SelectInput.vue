@@ -71,5 +71,8 @@
 </script>
 
 <style scoped>
-
+    .input {
+        flex-direction: column;
+        flex-grow: 1;
+    }
 </style>

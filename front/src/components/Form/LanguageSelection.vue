@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button block @click="handleChange" variant="outline-primary" class="selection-button">
+        <b-button block @click="handleChange" variant="outline-primary" class="selection-button" :disabled="readonly">
             {{ originLabel }} <b-icon-arrow-left-right></b-icon-arrow-left-right> {{ destinationLabel }}
         </b-button>
     </div>
@@ -66,6 +66,5 @@
     }
     .selection-button {
         height: calc(1.5em + 0.75rem + 2px);
-        align-self: flex-end;
     }
 </style>

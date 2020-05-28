@@ -1,9 +1,6 @@
 <template>
     <div class="header-container">
         <NavigationMenu></NavigationMenu>
-        <div class="title-container">
-            <router-link class="flex-shrink-1" :to="{name: 'homepage', params: {'lang': $i18n.locale}}"><img :src="logo"></router-link>
-        </div>
     </div>
 </template>
 
@@ -12,11 +9,6 @@
     export default {
         name: "Header",
         components: {NavigationMenu},
-        data: () => {
-            return {
-                logo: require('../../assets/logo.png')
-            }
-        }
     }
 </script>
 

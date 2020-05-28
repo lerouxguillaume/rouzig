@@ -1,35 +1,50 @@
 <template>
-    <div class="menu-container">
-        <b-button v-if="loggedIn" @click="logout">{{ $t('common.logout') }}</b-button>
-        <b-button v-else v-b-modal="loginModalId">{{ $t('common.login') }}</b-button>
-        <LinkButton :to="{name: 'MenuPage', params: {'lang': $i18n.locale}}" variant="primary">
-            {{ $t('common.menu') }}
-        </LinkButton>
-        <div class="locale-changer">
-            <b-dropdown>
-                <template v-slot:button-content="" v-bind:selectedLanguage="selectedLanguage">
-                    <img :src="selectedLanguage.image">
-                    {{ selectedLanguage.label }}
-                </template>
-                <b-dropdown-item n v-for="(lang, key) in langs" :key="key" @click="selectLang(key)"><img :src="lang.image">{{ lang.label }}</b-dropdown-item>
-            </b-dropdown>
-        </div>
-        <login
-            :id="loginModalId"
-        ></login>
+    <div>
+        <b-navbar toggleable="lg" variant="primary" class="navbar">
+            <b-navbar-brand :to="{name: 'homepage', params: {'lang': $i18n.locale}}">
+                <img class="logo" :src="logo">
+            </b-navbar-brand>
+
+            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+            <b-collapse id="nav-collapse" is-nav>
+                <b-navbar-nav>
+                    <b-nav-item :to="{name: 'MenuPage', params: {'lang': $i18n.locale}}">{{ $t('common.menu') }}</b-nav-item>
+                </b-navbar-nav>
+
+                <!-- Right aligned nav items -->
+                <b-navbar-nav class="ml-auto">
+                    <b-nav-item-dropdown right>
+                        <template v-slot:button-content="" v-bind:selectedLanguage="selectedLanguage">
+                            <img :src="selectedLanguage.image">
+                            {{ selectedLanguage.label }}
+                        </template>
+                        <b-dropdown-item n v-for="(lang, key) in langs" :key="key" @click="selectLang(key)"><img :src="lang.image">{{ lang.label }}</b-dropdown-item>
+                    </b-nav-item-dropdown>
+
+                    <b-button v-if="loggedIn" @click="logout" variant="primary">{{ $t('common.logout') }}</b-button>
+                    <b-button v-else v-b-modal="loginModalId" variant="primary">{{ $t('common.login') }}</b-button>
+
+                    <login
+                            :id="loginModalId"
+                    ></login>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
     </div>
+
 </template>
 
 <script>
-    import LinkButton from "../Utils/LinkButton";
     import {mapActions, mapGetters} from "vuex";
     import Login from "../Security/Login";
     export default {
         name: 'NavigationMenu',
-        components: {Login, LinkButton},
+        components: {Login},
         data: () => {
             return {
-                loginModalId : 'login-modal-id'
+                loginModalId : 'login-modal-id',
+                logo: require('../../assets/logo-white.png')
             }
         },
         computed: {
@@ -68,9 +83,8 @@
 </script>
 
 <style scoped>
-    .menu-container {
-        display: flex;
-        justify-content: flex-end;
+    .navbar {
+        flex-grow: 1;
     }
     .locale-changer {
         display: flex;
