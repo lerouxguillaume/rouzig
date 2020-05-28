@@ -1,9 +1,13 @@
 <template>
-    <div class="translation-form-container">
-        <b-form>
+    <b-form>
+        <div class="row">
+            <PanelHeader v-model="page"></PanelHeader>
+        </div>
+        <div class="translation-form-container"  v-show="page === 1">
             <div class="row">
                 <TextInput
                         id="word-original-input"
+                        class-name="col-4"
                         :label="$t('form.word-name.label')"
                         v-model="translation.originalWord.text"
                         :placeholder="$t('form.word-name.placeholder')"
@@ -21,6 +25,7 @@
                 ></LanguageSelection>
                 <TextInput
                         id="word-translated-input"
+                        class-name="col-4"
                         :label="$t('form.word-name.label')"
                         v-model="translation.translatedWord.text"
                         :placehTextAreaInputolder="$t('form.word-name.placeholder')"
@@ -32,6 +37,7 @@
             <div class="row">
                 <TextAreaInput
                         id="translation-description"
+                        class-name="col-12"
                         :label="$t('form.word-name.label')"
                         :value="translation.translatedWord.description"
                         :readonly="readonly"
@@ -42,6 +48,7 @@
             <div class="row">
                 <SelectInput
                         id="option-input"
+                        class-name="col-12"
                         :label="$t('form.word-type.label')"
                         v-model="translation.originalWord.wordType"
                         :options="typeOptions"
@@ -60,13 +67,14 @@
             <!--            ></SelectInput>-->
             <!--        <WordForm :word="translation.originalWord"></WordForm>-->
             <!--        <WordForm :word="translation.translatedWord"></WordForm>-->
-            <!--        <ExamplesForm :examples="translation.examples" :readonly="readonly"></ExamplesForm>-->
             <slot name="submit"></slot>
-
-        </b-form>
-    </div>
+        </div>
+        <div v-show="page === 2">
+            <ExamplesForm :examples="translation.examples" :readonly="readonly"></ExamplesForm>
+        </div>
+    </b-form>
 </template>
-
+(
 <script>
     import ExamplesForm from "./ExamplesForm";
     import {Translation} from "../../entities/Translation";
@@ -75,10 +83,11 @@
     import {Languages, WordTypes} from "../../utils/enum";
     import LanguageSelection from "./LanguageSelection";
     import TextAreaInput from "./TextAreaInput";
+    import PanelHeader from "../Utils/PanelHeader";
     export default {
         name: "TranslationForm",
         // eslint-disable-next-line vue/no-unused-components
-        components: {TextAreaInput, LanguageSelection, SelectInput, TextInput, ExamplesForm},
+        components: {PanelHeader, TextAreaInput, LanguageSelection, SelectInput, TextInput, ExamplesForm},
         props: {
             translation: {
                 required: true,
@@ -89,6 +98,11 @@
                 default: false
             }
         },
+        data: () => {
+            return {
+                page: 1,
+            }
+        },
         computed : {
             languageOptions() {
                 return Languages();
@@ -96,9 +110,6 @@
             typeOptions() {
                 return WordTypes();
             }
-        },
-        methods: {
-
         }
     }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class="input" role="group">
+    <div :class="'input '+ className" role="group">
         <label :for="id">{{label}}:</label>
         <b-textarea
                 :id="id"
@@ -38,6 +38,9 @@
             },
             error: {
                 type: String,
+            },
+            className: {
+                type: String
             },
             readonly: {
                 type: Boolean,

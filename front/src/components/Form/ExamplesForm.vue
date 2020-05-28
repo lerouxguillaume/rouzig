@@ -29,6 +29,9 @@
                 type: String
             }
         },
+        mounted() {
+            this.addExample();
+        },
         methods: {
             removeExample(element) {
                 let index = this.examples.indexOf(element);
