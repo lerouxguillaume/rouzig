@@ -7,13 +7,13 @@
                 v-model="content"
                 :placeholder="placeholder"
                 trim
-                :state="this.errorMessage.length > 0 ? false : null"
+                :state="this.error.length > 0 ? false : null"
                 @input="handleInput"
                 :readonly="readonly"
         >
         </b-input>
         <b-form-invalid-feedback>
-            {{ errorMessage }}
+            {{ $t(errorMessage) }}
         </b-form-invalid-feedback>
     </div>
 </template>
@@ -62,15 +62,17 @@
                 handler(val) {
                     this.content = val;
                 }
-            }
+            },
         },
         computed: {
             errorMessage() {
+                console.log(this.error)
                 return (typeof this.error === 'string' && this.error.length > 0) ?  this.error : '';
             }
         },
         methods: {
             handleInput () {
+                console.log(this.error)
                 this.$emit('input', this.content)
             }
         }

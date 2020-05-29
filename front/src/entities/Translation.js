@@ -1,7 +1,9 @@
 import {Example} from "./Example";
+// eslint-disable-next-line no-unused-vars
 import {formatErrorCode} from "../utils/formatter";
 import {Word} from "./Word";
 import {Status} from "../utils/enum";
+import {parse} from "../utils/common";
 
 export class Translation {
     constructor() {
@@ -34,30 +36,33 @@ export class Translation {
         }
         return this;
     }
-    loadError = function (path, code) {
-        let currentProperty = path[0]
-        switch (currentProperty) {
-            case 'word' :
-                this.wordError = formatErrorCode(code);
-                break;
-            case 'wordType' :
-                this.wordTypeError = formatErrorCode(code);
-                break;
-            case 'language' :
-                this.languageError = formatErrorCode(code);
-                break;
-            case 'description' :
-                this.description = formatErrorCode(code);
-                break;
-            case 'examples':
-                // eslint-disable-next-line no-case-declarations
-                let exampleId = path[1];
-                path.splice(0,2);
-                this.examples[exampleId].loadError(path, code)
-                break;
-            default:
-                console.error('unrecognized property : '+ currentProperty);
-        }
+    loadErrors = function (errors) {
+        let violations = errors.violations;
+        let _this = this;
+        violations.forEach(function (violation) {
+            let parsedPropertyPath = parse(violation.propertyPath);
+            let currentProperty = parsedPropertyPath[0]
+            switch (currentProperty) {
+                case 'originalWord':
+                    parsedPropertyPath.splice(0,1);
+                    _this.originalWord.loadError(parsedPropertyPath, violation.payload.code);
+                    break;
+                case 'translatedWord' :
+                    parsedPropertyPath.splice(0,1);
+                    _this.translatedWord.loadError(parsedPropertyPath, violation.payload.code);
+                    break;
+                case 'examples':
+                    console.log(parsedPropertyPath);
+                    // eslint-disable-next-line no-case-declarations
+                    let exampleId = parsedPropertyPath[1];
+                    parsedPropertyPath.splice(0,2);
+                    this.examples[exampleId].loadError(parsedPropertyPath, currentProperty)
+                    break;
+                default:
+                    console.error('unrecognized property : '+ currentProperty);
+            }
+        });
+        return this;
     }
     post = function () {
         let examples = [];

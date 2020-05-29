@@ -19,7 +19,6 @@
     import WordForm from "./WordForm";
     export default {
         name: "TranslationForm",
-        // eslint-disable-next-line vue/no-unused-components
         components: {WordForm, PanelHeader, ExamplesForm},
         props: {
             translation: {

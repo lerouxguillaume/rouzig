@@ -1,11 +1,11 @@
 <template>
     <div class="navigation-form ">
         <div  @click="changePage(1)" class="col-6 box">
-            <span class="text-center">Translation</span>
+            <span class="text-center">{{ $t('panel.translation') }}</span>
             <div :class="(page === 1 ? 'active' : 'inactive')"></div>
         </div>
         <div  @click="changePage(2)" class="col-6 box">
-            <span class="text-center">Examples</span>
+            <span class="text-center"> {{ $t('panel.examples') }} </span>
             <div :class="(page === 2 ? 'active' : 'inactive')"></div>
         </div>
     </div>

@@ -1,4 +1,3 @@
-import {parse} from "../utils/common";
 import {formatErrorCode} from "../utils/formatter";
 import {Languages} from "../utils/enum";
 
@@ -68,32 +67,22 @@ export class Word {
         return this;
     };
 
-    loadErrors = function (errors) {
-        let violations = errors.violations;
-        let _this = this;
-        violations.forEach(function (violation) {
-            let parsedPropertyPath = parse(violation.propertyPath);
-            let currentProperty = parsedPropertyPath[0]
-            switch (currentProperty) {
-                case 'word' :
-                    _this.wordError = formatErrorCode(violation.payload.code);
-                    break;
-                case 'wordType' :
-                    _this.wordTypeError = formatErrorCode(violation.payload.code);
-                    break;
-                case 'language' :
-                    _this.languageError = formatErrorCode(violation.payload.code);
-                    break;
-                case 'translations':
-                    // eslint-disable-next-line no-case-declarations
-                    let translationId = parsedPropertyPath[1];
-                    parsedPropertyPath.splice(0,2);
-                    _this.translations[translationId].loadError(parsedPropertyPath, violation.payload.code)
-                    break;
-                default:
-                    console.error('unrecognized property : '+ currentProperty);
-            }
-        })
+    loadError = function (path, code) {
+        switch (path[0]) {
+            case 'word' :
+                this.textError = formatErrorCode(code);
+                break;
+            case 'wordType' :
+                this.wordTypeError = formatErrorCode(code);
+                break;
+            case 'language' :
+                this.languageError = formatErrorCode(code);
+                break;
+            default:
+                console.error('unrecognized property : '+ path);
+        }
+
+        return this;
     }
     post = function () {
         return {

@@ -12,6 +12,7 @@
                         v-model="example.fromText"
                         :placeholder="$t('form.example-from.placeholder')"
                         :error="$t(example.fromTextError)"
+                        :readonly="readonly"
                 ></TextAreaInput>
             </div>
             <div class="row">
@@ -21,10 +22,19 @@
                         v-model="example.toText"
                         :placeholder="$t('form.example-to.placeholder')"
                         :error="$t(example.toTextError)"
+                        :readonly="readonly"
                 ></TextAreaInput>
             </div>
             <div class="row">
-                <b-button type="button" variant="danger" @click="onRemoveExample(example)" block>{{ $t('form.delete-example') }}</b-button>
+                <b-button
+                        :disabled="readonly"
+                        type="button"
+                        variant="danger"
+                        @click="onRemoveExample(example)"
+                        block
+                >
+                    {{ $t('form.delete-example') }}
+                </b-button>
             </div>
         </div>
     </b-card>
@@ -49,6 +59,10 @@
             },
             language: {
                 type: String
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         watch: {

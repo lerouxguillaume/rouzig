@@ -6,9 +6,10 @@
                 :example="example"
                 :on-remove-example="removeExample"
                 :language="language"
+                :readonly="readonly"
         ></ExampleForm>
-        <div class="delete-button-container">
-            <b-button variant="success" type="button" class="add-exemple-button" @click="addExample">{{ $t('form.add-example') }}</b-button>
+        <div class="add-example-button-container">
+            <b-button :disabled="readonly" variant="success" type="button" class="add-exemple-button" @click="addExample">{{ $t('form.add-example') }}</b-button>
         </div>
     </div>
 </template>
@@ -27,10 +28,16 @@
             },
             language: {
                 type: String
+            },
+            readonly: {
+                type: Boolean,
+                default: false
             }
         },
         mounted() {
-            this.addExample();
+            if (this.examples.length === 0 && !this.readonly) {
+                this.addExample();
+            }
         },
         methods: {
             removeExample(element) {

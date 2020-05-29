@@ -4,10 +4,10 @@
             <TextInput
                     id="word-original-input"
                     class-name="col-4"
-                    :label="$t('form.word-name.label')"
+                    :label="$t('form.original-word.word.label')"
                     v-model="translation.originalWord.text"
-                    :placeholder="$t('form.word-name.placeholder')"
-                    :error="$t(translation.originalWord.wordError)"
+                    :placeholder="$t('form.original-word.word.placeholder')"
+                    :error="$t(translation.originalWord.textError)"
                     :readonly="readonly"
             >
             </TextInput>
@@ -22,10 +22,10 @@
             <TextInput
                     id="word-translated-input"
                     class-name="col-4"
-                    :label="$t('form.word-name.label')"
+                    :label="$t('form.translated-word.word.label')"
                     v-model="translation.translatedWord.text"
-                    :placehTextAreaInputolder="$t('form.word-name.placeholder')"
-                    :error="$t(translation.originalWord.wordError)"
+                    :placeholder="$t('form.translated-word.word.placeholder')"
+                    :error="$t(translation.originalWord.textError)"
                     :readonly="readonly"
             >
             </TextInput>
@@ -34,7 +34,7 @@
             <TextAreaInput
                     id="translation-description"
                     class-name="col-12"
-                    :label="$t('form.word-name.label')"
+                    :label="$t('form.translated-word.description.label')"
                     :value="translation.translatedWord.description"
                     :readonly="readonly"
             >
@@ -45,7 +45,7 @@
             <SelectInput
                     id="option-input"
                     class-name="col-12"
-                    :label="$t('form.word-type.label')"
+                    :label="$t('form.original-word.type.label')"
                     v-model="translation.originalWord.wordType"
                     :options="typeOptions"
                     :error="$t(translation.originalWord.typeError)"
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-    import {Languages, WordTypes} from "../../utils/enum";
+    import {WordTypes} from "../../utils/enum";
     import SelectInput from "./SelectInput";
     import TextInput from "./TextInput";
     import {Translation} from "../../entities/Translation";
@@ -82,9 +82,6 @@
             }
         },
         computed : {
-            languageOptions() {
-                return Languages();
-            },
             typeOptions() {
                 return WordTypes();
             }

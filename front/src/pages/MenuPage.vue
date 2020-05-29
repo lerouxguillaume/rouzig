@@ -1,6 +1,6 @@
 <template>
     <div class="menu-page-container">
-        <LinkButton :to="{name: 'AddTranslation'}" class="button-create-translation-container" block>
+        <LinkButton :to="{name: 'AddTranslation', params: {lang: $i18n.locale}}" class="button-create-translation-container" block>
             {{ $t('common.create-translation') }}
         </LinkButton>
         <WordsSubmittedManager></WordsSubmittedManager>

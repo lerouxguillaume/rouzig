@@ -23,8 +23,8 @@
         components: {TranslationForm},
         data() {
             return {
-                'translation' : new Translation(),
-                'busy': false
+                translation : new Translation(),
+                busy: false
             }
         },
         mounted() {
@@ -47,7 +47,8 @@
                     .catch((error) => {
                         let response = error.response;
                         if (response.status === 400) {
-                            this.word.loadErrors(response.data)
+                            console.log(this.translation.loadErrors(response.data))
+                            this.translation = this.translation.loadErrors(response.data)
                         }
                         this.busy = false;
                     })
