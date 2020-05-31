@@ -5,6 +5,9 @@ import router from '../router'
 
 const state =  {
     authenticating: false,
+    userInfo: TokenService.getUserInfo(),
+    userInfoError: '',
+    userInfoErrorCode: 0,
     accessToken: TokenService.getToken(),
     authenticationErrorCode: 0,
     authenticationError: ''
@@ -21,6 +24,18 @@ const getters = {
 
     authenticationError: (state) => {
         return state.authenticationError
+    },
+
+    userInfo: (state) => {
+        return state.userInfo;
+    },
+
+    userInfoErrorCode: (state) => {
+        return state.userInfoErrorCode
+    },
+
+    userInfoError: (state) => {
+        return state.userInfoError
     },
 
     authenticating: (state) => {
@@ -53,7 +68,7 @@ const actions = {
         // If this is the first time the refreshToken has been called, make a request
         // otherwise return the same promise to the caller
         if(!state.refreshTokenPromise) {
-            const p = UserService.refreshToken()
+            let p = UserService.refreshToken()
             commit('refreshTokenPromise', p)
             // Wait for the UserService.refreshToken() to resolve. On success set the token and clear promise
             // Clear the promise on error as well.
@@ -70,6 +85,25 @@ const actions = {
         return state.refreshTokenPromise
     },
 
+    async userInfo({ commit, state }) {
+        if(state.accessToken) {
+            commit('userInfoRequest')
+            try {
+                let userInfo = await UserService.userInfo();
+                commit('userInfoSuccess', userInfo)
+
+                return userInfo
+            } catch (e) {
+                if (e instanceof AuthenticationError) {
+                    commit('userInfoError', {errorCode: e.errorCode, errorMessage: e.message})
+                }
+
+                return null
+            }
+        }
+        return null;
+    },
+
     logout({ commit }) {
         UserService.logout()
         commit('logoutSuccess')
@@ -78,6 +112,19 @@ const actions = {
 };
 
 const mutations = {
+    userInfoRequest(state) {
+        state.userInfo = null;
+    },
+
+    userInfoSuccess(state, userInfo) {
+        state.userInfo = userInfo;
+    },
+
+    userInfoError(state, {errorCode, errorMessage}) {
+        state.userInfoErrorCode = errorCode;
+        state.userInfoError = errorMessage
+    },
+
     loginRequest(state) {
         state.authenticating = true;
         state.authenticationError = '';

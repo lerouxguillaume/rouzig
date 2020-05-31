@@ -1,25 +1,25 @@
 <template>
     <div class="word-manager-container form">
-        <WordForm :word="translation.originalWord"></WordForm>
-        <WordForm :word="translation.translatedWord"></WordForm>
-        <ExamplesForm :examples="translation.examples"></ExamplesForm>
-        <div class="submit-button-container">
-            <b-button variant="danger" type="submit" class="submit-button" @click="deleteTranslation">{{ $t('review.delete') }}</b-button>
-            <b-button variant="primary" type="submit" class="submit-button" @click="updateTranslation">{{ $t('review.update') }}</b-button>
-            <b-button variant="success" type="submit" class="submit-button" @click="validateTranslation">{{ $t('review.valid') }}</b-button>
-        </div>
+        <TranslationForm :translation="translation">
+            <template v-slot:submit>
+                <div class="submit-button-container">
+                    <b-button variant="danger" type="submit" class="submit-button" @click="deleteTranslation">{{ $t('review.delete') }}</b-button>
+                    <b-button variant="primary" type="submit" class="submit-button" @click="updateTranslation">{{ $t('review.update') }}</b-button>
+                    <b-button variant="success" type="submit" class="submit-button" @click="validateTranslation">{{ $t('review.valid') }}</b-button>
+                </div>
+            </template>
+        </TranslationForm>
     </div>
 </template>
 
 <script>
     import ApiService from "../services/api.service";
     import {Translation} from "../entities/Translation";
-    import ExamplesForm from "../components/Form/ExamplesForm";
-    import WordForm from "../components/Form/WordForm";
+    import TranslationForm from "../components/Form/TranslationForm";
 
     export default {
         name: "ReviewWord",
-        components: {WordForm, ExamplesForm},
+        components: {TranslationForm},
         data() {
             return {
                 'translation' : new Translation(),

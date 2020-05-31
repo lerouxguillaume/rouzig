@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { TokenService } from '../services/storage.service'
+import { TokenService } from './storage.service'
 import store from '../store'
 
 const ApiService = {
@@ -16,7 +16,6 @@ const ApiService = {
 
     removeHeader() {
         axios.defaults.headers.common = {}
-        axios.defaults.headers.common["Accept"] = 'application/vnd.api+json';
     },
 
     get(resource, params) {

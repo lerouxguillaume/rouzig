@@ -29,6 +29,7 @@ export const Translation = {
 };
 
 export const Status = () => [
+    { value: Constant.CREATED, text: i18n.t('translation.status.created') },
     { value: Constant.ACCEPT, text: i18n.t('translation.status.approved') },
     { value: Constant.PENDING, text: i18n.t('translation.status.pending') },
     { value: Constant.REVIEW, text: i18n.t('translation.status.review') },

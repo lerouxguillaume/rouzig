@@ -73,7 +73,8 @@
         },
         methods: {
             ...mapActions('auth', [
-                'login'
+                'login',
+                'userInfo'
             ]),
             handleSubmit() {
                 // Perform a simple validation that email and password have been typed in
@@ -82,7 +83,8 @@
                     this.login({email: this.email, password: this.password})
                         .then((success) => {
                             if (success) {
-                                this.closeModal()
+                                this.userInfo();
+                                this.closeModal();
                             }  else {
                                 this.loginError = 'login.invalid'
                             }

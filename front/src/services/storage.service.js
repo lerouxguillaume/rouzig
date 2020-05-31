@@ -1,5 +1,8 @@
+import {User} from "../entities/User";
+
 const TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
+const USER_INFO = 'user_info';
 
 /**
  * Manage the how Access Tokens are being stored and retreived from storage.
@@ -30,6 +33,19 @@ const TokenService = {
 
     removeRefreshToken() {
         localStorage.removeItem(REFRESH_TOKEN_KEY)
+    },
+
+    getUserInfo() {
+        let user = new User()
+        return user.decode(localStorage.getItem(USER_INFO));
+    },
+
+    saveUserInfo(user) {
+        localStorage.setItem(USER_INFO, user.jsonEncode())
+    },
+
+    removeUserInfo() {
+        localStorage.removeItem(USER_INFO)
     }
 
 };

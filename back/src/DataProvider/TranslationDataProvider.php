@@ -7,6 +7,7 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\Dto\TranslationDto;
 use App\Entity\Search;
+use App\Entity\User;
 use App\Repository\Paginator;
 use App\Service\SearchService;
 use App\Service\TranslationService;
@@ -54,13 +55,14 @@ class TranslationDataProvider implements CollectionDataProviderInterface, ItemDa
             $filters = $context['filters'];
             if (isset($filters['status'])) {
                 $criteria->andWhere(Criteria::expr()->eq('status', $filters['status']));
-            } else {
-                throw new BadRequestHttpException('invalid filter');
+            }
+            if (isset($filters['user'])) {
+                $user = $this->managerRegistry->getRepository(User::class)->find($filters['user']) ?? $filters['user'];
+                $criteria->andWhere(Criteria::expr()->eq('author', $user));
             }
         } else {
             throw new BadRequestHttpException('missing filter');
         }
-
         $criteria
             ->setFirstResult($firstResult)
             ->setMaxResults($itemsPerPage)

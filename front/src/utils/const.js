@@ -4,6 +4,7 @@ export default Object.freeze({
     PENDING: 'pending',
     REVIEW: 'review',
     DELETED: 'deleted',
+    CREATED: 'created',
     ACCEPT: 'accept',
     ADJECTIVE: 'adjective',
     ADVERB: 'adverb',

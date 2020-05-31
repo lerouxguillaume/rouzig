@@ -64,7 +64,8 @@
                 return this.langs[this.$i18n.locale]
             },
             ...mapGetters('auth', [
-                'loggedIn'
+                'loggedIn',
+                'userInfo'
             ])
         },
         methods: {

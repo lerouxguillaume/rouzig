@@ -5,6 +5,7 @@
         </LinkButton>
         <WordsSubmittedManager></WordsSubmittedManager>
         <MissingWords></MissingWords>
+        <UserTranslations v-if="loggedIn"></UserTranslations>
     </div>
 </template>
 
@@ -12,14 +13,21 @@
     import WordsSubmittedManager from "../components/Tables/WordsSubmittedManager";
     import MissingWords from "../components/Tables/MissingWords";
     import LinkButton from "../components/Utils/LinkButton";
+    import {mapGetters} from "vuex";
+    import UserTranslations from "../components/Tables/UserTranslations";
 
     export default {
         name: "MenuPage",
-        components: {LinkButton, MissingWords, WordsSubmittedManager},
+        components: {UserTranslations, LinkButton, MissingWords, WordsSubmittedManager},
         data() {
             return {
             }
         },
+        computed: {
+            ...mapGetters('auth', [
+                'loggedIn'
+            ])
+        }
     }
 </script>
 

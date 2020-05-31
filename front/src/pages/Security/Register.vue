@@ -1,54 +1,48 @@
 <template>
     <div class="register-container">
-        <b-card
-                header-bg-variant="primary"
-                border-variant="primary"
-                :header="$t('register.header')"
-        >
-            <div v-if="!registerSuccess" class="register-form-container">
-                <div class="row">
-                    <TextInput
-                            class-name="col-6"
-                            id="username-register"
-                            :label="$t('register.form.username.label')"
-                            :placeholder="$t('register.form.username.placeholder')"
-                            v-model="username"
-                    >
-                    </TextInput>
-                     <TextInput
-                             class-name="col-6"
-                             id="email-register"
-                             :label="$t('register.form.email.label')"
-                             :placeholder="$t('register.form.email.placeholder')"
-                             v-model="email"
-                    >
-                    </TextInput>
-                </div>
-                <div class="row">
-                    <TextInput
-                            class-name="col-6"
-                            id="password-register"
-                            :label="$t('register.form.password.label')"
-                            v-model="password"
-                            type="password"
-                            :error="passwordError.length > 0 ? $t(passwordError) : null"
-                    >
-                    </TextInput>
-                    <TextInput
-                            class-name="col-6"
-                            id="password-confirm-register"
-                            :label="$t('register.form.password_confirm.label')"
-                            v-model="password_confirmation"
-                            type="password"
-                    >
-                    </TextInput>
-                </div>
-                <div class="submit-container">
-                    <b-button variant="success" type="submit" @click="handleSubmit" block>{{ $t('form.submit') }}</b-button>
-                </div>
+        <div v-if="!registerSuccess" class="register-form-container">
+            <div class="row">
+                <TextInput
+                        class-name="col-6"
+                        id="username-register"
+                        :label="$t('register.form.username.label')"
+                        :placeholder="$t('register.form.username.placeholder')"
+                        v-model="username"
+                >
+                </TextInput>
+                <TextInput
+                        class-name="col-6"
+                        id="email-register"
+                        :label="$t('register.form.email.label')"
+                        :placeholder="$t('register.form.email.placeholder')"
+                        v-model="email"
+                >
+                </TextInput>
             </div>
-            <div v-else class="alert-success">{{$t('register.form.success')}}</div>
-        </b-card>
+            <div class="row">
+                <TextInput
+                        class-name="col-6"
+                        id="password-register"
+                        :label="$t('register.form.password.label')"
+                        v-model="password"
+                        type="password"
+                        :error="passwordError.length > 0 ? $t(passwordError) : null"
+                >
+                </TextInput>
+                <TextInput
+                        class-name="col-6"
+                        id="password-confirm-register"
+                        :label="$t('register.form.password_confirm.label')"
+                        v-model="password_confirmation"
+                        type="password"
+                >
+                </TextInput>
+            </div>
+            <div class="submit-container">
+                <b-button variant="success" type="submit" @click="handleSubmit" block>{{ $t('form.submit') }}</b-button>
+            </div>
+        </div>
+        <div v-else class="alert-success">{{$t('register.form.success')}}</div>
     </div>
 </template>
 

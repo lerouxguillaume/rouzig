@@ -58,6 +58,14 @@
             props() {
                 return this.components[this.page - 1].props;
             },
+            wordType() {
+                return this.translation.originalWord.wordType;
+            }
+        },
+        watch: {
+            wordType(newVal) {
+                this.translation.translatedWord.wordType = newVal;
+            }
         }
     }
 </script>

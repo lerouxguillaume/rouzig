@@ -1,9 +1,10 @@
 import ApiService from './api.service'
 import { TokenService } from './storage.service'
+import {User} from "../entities/User";
 
 const clientId = process.env.VUE_APP_CLIENT_ID;
 const clientSecret = process.env.VUE_APP_CLIENT_SECRET;
-const tokenEndPoint = '/token';
+const tokenEndPoint = process.env.VUE_APP_API_TOKEN_ENDPOINT;
 class AuthenticationError extends Error {
     constructor(errorCode, message) {
         super();
@@ -43,6 +44,8 @@ const UserService = {
             ApiService.setHeader();
 
             ApiService.mount401Interceptor();
+
+            await this.userInfo();
 
             return response.data.access_token
         } catch (error) {
@@ -85,6 +88,24 @@ const UserService = {
 
     },
 
+    userInfo: async function() {
+        try {
+            let params = {
+                header: {
+                    'accept' : 'application/hal+json'
+                }
+            }
+            const response = await ApiService.get(process.env.VUE_APP_API_URL+'users/me', params);
+            let user = new User();
+            TokenService.saveUserInfo(user.load(response.data));
+
+            return user;
+        } catch (error) {
+            // eslint-disable-next-line no-console
+            throw new AuthenticationError(error.response.status, error.response.data.detail)
+        }
+    },
+
     /**
      * Logout the current user by removing the token from storage.
      *
@@ -94,6 +115,7 @@ const UserService = {
         // Remove the token and remove Authorization header from Api Service as well
         TokenService.removeToken();
         TokenService.removeRefreshToken();
+        TokenService.removeUserInfo();
         ApiService.removeHeader();
 
         // NOTE: Again, we'll cover the 401 Interceptor a bit later.

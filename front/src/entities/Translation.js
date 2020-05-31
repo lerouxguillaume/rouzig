@@ -1,6 +1,4 @@
 import {Example} from "./Example";
-// eslint-disable-next-line no-unused-vars
-import {formatErrorCode} from "../utils/formatter";
 import {Word} from "./Word";
 import {Status} from "../utils/enum";
 import {parse} from "../utils/common";
@@ -15,7 +13,8 @@ export class Translation {
         this.updatedAt = null;
         Object.defineProperty(this, 'statusLabel', {
             get () {
-                return Status().find(element => element.value === this.status).text;
+                let status = Status().find(element => element.value === this.status);
+                return typeof status === 'undefined' ? null : status.text;
             },
         });
 
@@ -70,8 +69,8 @@ export class Translation {
             examples.push(example.post())
         })
         return {
-            'originalWord' : this.originalWord,
-            'translatedWord' : this.translatedWord,
+            'originalWord' : this.originalWord.post(),
+            'translatedWord' : this.translatedWord.post(),
             'examples': examples
         }
     }

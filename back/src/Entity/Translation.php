@@ -206,7 +206,7 @@ class Translation implements DtoProvider
         $translationDto = new TranslationDto();
         $translationDto
             ->setId($this->getId())
-            ->setOriginalWord($nestedObject ? $this->getOriginalWord()->getDto() : null)
+            ->setOriginalWord($nestedObject && !empty($this->getOriginalWord()) ? $this->getOriginalWord()->getDto() : null)
             ->setTranslatedWord($this->getTranslatedWord()->getDto())
             ->setStatus($this->getStatus())
             ->setUpdatedAt($this->getUpdatedAt())
