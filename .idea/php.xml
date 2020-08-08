@@ -162,7 +162,7 @@
   </component>
   <component name="PhpProjectServersManager">
     <servers>
-      <server host="localhost" id="13df7e64-f141-4301-a3f1-a00a334056f3" name="symfony" port="8080" use_path_mappings="true">
+      <server host="localhost" id="13df7e64-f141-4301-a3f1-a00a334056f3" name="rouzig" use_path_mappings="true">
         <path_mappings>
           <mapping local-root="$PROJECT_DIR$/back" remote-root="/www" />
         </path_mappings>

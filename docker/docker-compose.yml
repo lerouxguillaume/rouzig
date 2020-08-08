@@ -16,7 +16,7 @@ services:
         build: php
         container_name: php_rouzig
         environment:
-            - PHP_IDE_CONFIG=serverName=symfony
+            - PHP_IDE_CONFIG=serverName=rouzig
         volumes:
             - ../back:/www
         links:
