@@ -5,3 +5,15 @@ controllers:
 
 oauth2:
   resource: '@TrikoderOAuth2Bundle/Resources/config/routes.xml'
+
+# config/routes.yaml
+app.swagger_ui:
+  path: /OpenApi
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+# config/routes.yaml
+app.swagger:
+  path: /OpenApi.json
+  methods: GET
+  defaults: { _controller: nelmio_api_doc.controller.swagger }

@@ -13,7 +13,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * Class Search
  * @package App\Entity
  */
-class Search implements DtoProvider
+class Search
 {
     use TimestampableEntity;
 
@@ -118,24 +118,5 @@ class Search implements DtoProvider
     {
         $this->toLanguage = $toLanguage;
         return $this;
-    }
-
-    public function populateFromDto($dto, $context = [])
-    {
-        throw new FeatureNotImplementedException();
-    }
-
-    public function getDto()
-    {
-        $output = new SearchDto();
-        $output
-            ->setText($this->getText())
-            ->setToLanguage($this->getToLanguage())
-            ->setFromLanguage($this->getFromLanguage())
-            ->setCount($this->getCount())
-            ->setUpdatedAt($this->getUpdatedAt())
-        ;
-
-        return $output;
     }
 }

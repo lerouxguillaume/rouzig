@@ -14,7 +14,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TranslationRepository")
  */
-class Translation implements DtoProvider
+class Translation
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -162,61 +162,5 @@ class Translation implements DtoProvider
     {
         $this->status = $status;
         return $this;
-    }
-
-    /**
-     * @param TranslationDto $translationDto
-     * @param array $context
-     * @return $this
-     */
-    public function populateFromDto($translationDto, $context = [])
-    {
-        $translationLanguage = null;
-
-        if (!empty($translationDto->getOriginalWord())) {
-            $original = $this->getOriginalWord() ?? WordFactory::create($translationDto->getOriginalWord()->getWordType());
-
-            $this->setOriginalWord($original->populateFromDto($translationDto->getOriginalWord()));
-        }
-
-        if (!empty($translationDto->getTranslatedWord())) {
-            $translation = $this->getTranslatedWord() ?? WordFactory::create($translationDto->getTranslatedWord()->getWordType());
-
-            $this->setTranslatedWord($translation->populateFromDto($translationDto->getTranslatedWord()));
-        }
-
-        $updatedExamples = [];
-
-        /** @var ExampleDto $exampleDto */
-        foreach ($translationDto->getExamples() as $exampleDto) {
-            $example = ($translationDto->getId() ? $this->getExampleById($exampleDto->getId()) : null) ?? new Example();
-            $updatedExamples[] = $example->populateFromDto($exampleDto, [
-                'fromLanguage' => $this->getOriginalWord()->getLanguage(),
-                'toLanguage' => $this->getTranslatedWord()->getLanguage()
-            ]);
-        }
-
-        $this->setExamples($updatedExamples);
-
-        return $this;
-    }
-
-    public function getDto($nestedObject = true)
-    {
-        $translationDto = new TranslationDto();
-        $translationDto
-            ->setId($this->getId())
-            ->setOriginalWord($nestedObject && !empty($this->getOriginalWord()) ? $this->getOriginalWord()->getDto() : null)
-            ->setTranslatedWord($this->getTranslatedWord()->getDto())
-            ->setStatus($this->getStatus())
-            ->setUpdatedAt($this->getUpdatedAt())
-        ;
-
-        /** @var Example $example */
-        foreach ($this->getExamples() as $example) {
-            $translationDto->addExample($example->getDto());
-        }
-
-        return $translationDto;
     }
 }

@@ -3,15 +3,11 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/back/vendor/symfony/property-info" />
-      <path value="$PROJECT_DIR$/back/vendor/symfony/serializer" />
-      <path value="$PROJECT_DIR$/back/vendor/symfony/web-link" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/validator" />
-      <path value="$PROJECT_DIR$/back/vendor/symfony/inflector" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/security-bundle" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/orm-pack" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/stopwatch" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/doctrine-bridge" />
-      <path value="$PROJECT_DIR$/back/vendor/psr/link" />
       <path value="$PROJECT_DIR$/back/vendor/composer" />
       <path value="$PROJECT_DIR$/back/vendor/psr/event-dispatcher" />
       <path value="$PROJECT_DIR$/back/vendor/phpdocumentor/reflection-common" />
@@ -20,18 +16,13 @@
       <path value="$PROJECT_DIR$/back/vendor/psr/log" />
       <path value="$PROJECT_DIR$/back/vendor/phpdocumentor/reflection-docblock" />
       <path value="$PROJECT_DIR$/back/vendor/psr/cache" />
-      <path value="$PROJECT_DIR$/back/vendor/willdurand/negotiation" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/config" />
-      <path value="$PROJECT_DIR$/back/vendor/api-platform/api-pack" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/filesystem" />
-      <path value="$PROJECT_DIR$/back/vendor/api-platform/core" />
       <path value="$PROJECT_DIR$/back/vendor/nelmio/cors-bundle" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/http-kernel" />
-      <path value="$PROJECT_DIR$/back/vendor/ocramius/package-versions" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/back/vendor/ocramius/proxy-manager" />
       <path value="$PROJECT_DIR$/back/vendor/webmozart/assert" />
-      <path value="$PROJECT_DIR$/back/vendor/fig/link-util" />
       <path value="$PROJECT_DIR$/back/vendor/laminas/laminas-eventmanager" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/back/vendor/twig/twig" />
@@ -129,7 +120,6 @@
       <path value="$PROJECT_DIR$/back/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/back/vendor/phpunit/php-file-iterator" />
       <path value="$PROJECT_DIR$/back/vendor/phpunit/php-text-template" />
-      <path value="$PROJECT_DIR$/back/vendor/phpunit/php-token-stream" />
       <path value="$PROJECT_DIR$/back/vendor/phpunit/php-code-coverage" />
       <path value="$PROJECT_DIR$/back/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/back/vendor/phar-io/version" />
@@ -158,6 +148,24 @@
       <path value="$PROJECT_DIR$/back/vendor/symfony/monolog-bridge" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/http-client-contracts" />
       <path value="$PROJECT_DIR$/back/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/back/vendor/doctrine/sql-formatter" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/polyfill-intl-grapheme" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/string" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/serializer-pack" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/serializer" />
+      <path value="$PROJECT_DIR$/back/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/back/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/back/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/back/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/back/vendor/willdurand/jsonp-callback-validator" />
+      <path value="$PROJECT_DIR$/back/vendor/willdurand/negotiation" />
+      <path value="$PROJECT_DIR$/back/vendor/friendsofsymfony/rest-bundle" />
+      <path value="$PROJECT_DIR$/back/vendor/zircote/swagger-php" />
+      <path value="$PROJECT_DIR$/back/vendor/nelmio/api-doc-bundle" />
+      <path value="$PROJECT_DIR$/back/vendor/symfony/options-resolver" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">
@@ -169,5 +177,5 @@
       </server>
     </servers>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
 </project>

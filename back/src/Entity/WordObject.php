@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Dto\TranslationDto;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\RestBundle\Context\Context;
+use FOS\RestBundle\Serializer\Serializer;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Enum\ErrorCodes;
-use App\Dto\WordDto;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\WordRepository")
@@ -27,7 +27,7 @@ use App\Dto\WordDto;
  *     "other" = "App\Entity\Word\Other"
  * })
  */
-abstract class WordObject implements DtoProvider
+abstract class WordObject implements Serializer
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
@@ -195,43 +195,19 @@ abstract class WordObject implements DtoProvider
         return $this;
     }
 
-
-    public function populateFromDto($wordDto, $context = [])
-    {
-        $this
-            ->setId($wordDto->getId())
-            ->setText($wordDto->getWord())
-            ->setDescription($wordDto->getDescription())
-            ->setLanguage($wordDto->getLanguage())
-        ;
-
-        return $this;
-    }
-
-    public function getDto()
-    {
-        $wordDto = new WordDto();
-
-        $wordDto
-            ->setId($this->getId())
-            ->setWord($this->getText())
-            ->setDescription($this->getDescription())
-            ->setUpdatedAt($this->getUpdatedAt())
-            ->setLanguage($this->getLanguage())
-            ->setWordType($this->getType())
-        ;
-
-        /** @var Translation $translation */
-        foreach ($this->getTranslations() as $translation)  {
-            $wordDto->addTranslation($translation->getDto(false));
-        }
-
-        if (!empty($this->getAuthor())) {
-            $wordDto->setAuthor($this->getAuthor()->getDto());
-        }
-
-        return $wordDto;
-    }
-
     public abstract function getType() : string;
+
+    public function serialize($data, string $format, Context $context)
+    {
+        die();
+        // TODO: Implement serialize() method.
+    }
+
+    public function deserialize(string $data, string $type, string $format, Context $context)
+    {
+        die();
+        // TODO: Implement deserialize() method.
+    }
+
+
 }
